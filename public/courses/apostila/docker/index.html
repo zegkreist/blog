@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Navarro Rosa">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
+Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="../../../courses/apostila/docker/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="../../../css/academic.min.dd629241ea9333c62c071f4a25f829ff.css">
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="manifest" href="../../../index.webmanifest">
+  <link rel="icon" type="image/png" href="../../../img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../../img/icon-192.png">
+
+  <link rel="canonical" href="../../../courses/apostila/docker/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@zegkreist">
+  <meta property="twitter:creator" content="@zegkreist">
+  
+  <meta property="og:site_name" content="Vugudum">
+  <meta property="og:url" content="/courses/apostila/docker/">
+  <meta property="og:title" content="Docker | Vugudum">
+  <meta property="og:description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
+Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-08-01T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-08-01T00:00:00&#43;00:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>Docker | Vugudum</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="../../../">Vugudum</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="../../../courses/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../courses/apostila/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../courses/apostila/docker/">Tutorial Docker</a>
+    <ul class="nav docs-sidenav">
+      
+      <li class="active">
+        <a href="../../../courses/apostila/docker/">Docker</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#instalação-docker">Instalação docker</a></li>
+<li><a href="#instalação-docker-compose">Instalação docker-compose</a></li>
+<li><a href="#exemplos-docker">Exemplos: Docker</a>
+<ul>
+<li><a href="#comandos-run">Comandos: run</a></li>
+<li><a href="#comandos-container">Comandos: container</a></li>
+<li><a href="#comandos-image">Comandos: image</a></li>
+<li><a href="#comandos-prune">Comandos: prune</a></li>
+<li><a href="#comandos-build">Comandos: build</a></li>
+</ul></li>
+<li><a href="#docker-compose">Docker-compose</a>
+<ul>
+<li><a href="#exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</a></li>
+<li><a href="#exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</a></li>
+<li><a href="#exemplo-3-montar-volumes">Exemplo 3: Montar volumes</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        <div class="docs-article-container">
+          <h1 itemprop="name">Docker</h1>
+
+          <div class="article-style" itemprop="articleBody">
+            
+
+<hr />
+
+<h2 id="docker">Docker</h2>
+
+<hr />
+
+<p>A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).</p>
+
+<hr />
+
+<h2 id="instalação-docker">Instalação docker</h2>
+
+<hr />
+
+<p>Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada <strong>Amazon linux 2</strong>, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas &ldquo;facilidades&rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de <strong>CentoOS 7</strong> que serão compatíveis com a instância na Amazon.</p>
+
+<p>Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.</p>
+
+<p>Para evitar problemas, vamos primeiro garantir que não haja nada de docker instalado na máquina.</p>
+
+<pre><code class="language-sh">sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+</code></pre>
+
+<p>Este comando tem o seguinte significado:</p>
+
+<ul>
+<li><p><code>sudo</code>: Tem o significado de &ldquo;faça&rdquo; (<code>do</code>) como &ldquo;super usuário&rdquo; (<code>su</code>). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar todo o sistema, não haverá qualquer pergunta, a execução será direta). Outra opção ao <code>sudo</code> seria logar como <em>SU</em> e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando <code>sudo</code>).</p></li>
+
+<li><p><code>yum</code>: Este é um programa que gerencia os pacotes instalados do CentOS. Caso fosse uma distribuição baseada em Debian como Ubuntu seria <code>apt</code>ou <code>apt-get</code>. Se fosse baseado em Arch seria <code>pacman</code>.</p></li>
+
+<li><p><code>remove</code>: Este é um argumento para o programa <code>yum</code>. Este argumento informa que qualquer pacote descrito a frente deve ser removido.</p></li>
+
+<li><p><code>\</code>: Esta barra invertida é apenas uma quebra de linha para facilitar a visualização. Normalmente o comando existe em apenas uma única linha.</p></li>
+</ul>
+
+<p>Vamos instalar o Docker via repositório. O repositório é um &ldquo;espaço&rdquo; em que seu OS &ldquo;confia&rdquo; para buscar pacotes e instalá-los na máquina. Normalmente o OS linux quando instalado já possui uma lista de repositórios confiáveis e oficiais em que pode contar, cada distribuição possui sua própria coleção de repositórios padrão. Aqui vamos adicionar um repositório nesta lista, o do docker-ce. Para isso, inicialmente será instalado alguns programas auxiliares ao <code>yum</code>, para podermos adicionar o novo repositório.</p>
+
+<pre><code class="language-sh">sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+</code></pre>
+
+<p>Agora adicionando o repositório:</p>
+
+<pre><code class="language-sh">sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+</code></pre>
+
+<p>Utilizando o programa auxiliar <code>yum-config-manager</code> adicionamos o repositório na lista do <code>yum</code>. O argumento <code>--add-repo</code> é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.</p>
+
+<p>Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):</p>
+
+<pre><code class="language-sh">sudo yum install docker-ce docker-ce-cli containerd.io
+</code></pre>
+
+<p>O docker foi instalado, porém não iniciado, para isso:</p>
+
+<pre><code class="language-sh">sudo systemctl start docker
+</code></pre>
+
+<ul>
+<li><p><code>sudo</code>: Faça como super usuário</p></li>
+
+<li><p><code>systemctl</code>: É o programa que organiza os processos do sistema</p></li>
+
+<li><p><code>start</code>: É um argumento para o programa <code>systemctl</code>, dizendo para iniciar o programa de nome a frente.</p></li>
+</ul>
+
+<p>Neste passo o Docker está iniciado. Mas há <strong>2 poréns</strong>, o primeiro é que sempre que a máquina reiniciar o processo ficará parado, o segundo é que apenas o super usuário possui permissão de executar o docker.</p>
+
+<p>Resolvendo o primeiro porém:</p>
+
+<pre><code class="language-sh">sudo systemctl enable docker
+</code></pre>
+
+<p>Resolvendo o Segundo porém:</p>
+
+<ul>
+<li><p>Uma forma é sempre usar <code>sudo</code> para executar comandos docker</p></li>
+
+<li><p>A segunda é dar permissão ao seu usuário para executar comandos docker</p>
+
+<pre><code class="language-sh">sudo usermod -aG docker $USER
+</code></pre></li>
+</ul>
+
+<p>Normalmente já existe um grupo chamado &ldquo;docker&rdquo; criado na hora da instalação. O que fazemos nesse comando é adicionar o nosso usuário <code>$USER</code> no grupo docker. Eu prefiro utilizar sempre o comando <code>sudo</code> para executar os comandos docker.</p>
+
+<p>Vamos testar o docker:</p>
+
+<pre><code class="language-sh">sudo docker run hello-world
+</code></pre>
+
+<p>Este comando executa uma imagem chamada <code>hello-world</code> (caso ela não exista no seu PC, o docker faz o download dela no repositório oficial do docker, o docker hub (não confundir com repositório de pacotes do sistema)).</p>
+
+<hr />
+
+<h2 id="instalação-docker-compose">Instalação docker-compose</h2>
+
+<hr />
+
+<p>O docker-compose ajuda na orquestração de uma imagem docker. Para executar uma imagem docker há vários parâmetros a serem setados para um comando só (como veremos adiante). Com o docker-compose é possível reescrever todos esses comandos em um único arquivo que pode ser versionado. Em um único arquivo, também é possível &lsquo;levantar&rsquo; várias imagens diferentes, com seus próprios argumentos e configuração de como essas imagens irão conversar.</p>
+
+<p>A instalação do docker-compose é diferente das demais. Ainda não há um pacote fechado para ele, o que fazemos nada mais é do que fazer o download de seus binários para um local do sistema e dar permissões a esses arquivos.</p>
+
+<pre><code class="language-sh">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
+</code></pre>
+
+<ul>
+<li><code>curl</code>: O curl é basicamente um navegador web para a linha de comando. Ele baixa o arquivo e o coloca no caminho especificado no output</li>
+<li><code>$(uname -s)</code> e <code>$(uname -m)</code>: São variáveis do sistema, o primeiro retorna &ldquo;Linux&rdquo; o segundo  a arquitetura &ldquo;x86_64&rdquo;.</li>
+</ul>
+
+<p>Agora é necessário dar permissão de execução para o arquivo:</p>
+
+<pre><code class="language-sh">sudo chmod +x /usr/local/bin/docker-compose
+</code></pre>
+
+<ul>
+<li><code>chmod</code>: Este comando altera permissões</li>
+<li><code>+x</code>: Este é um argumento para o <code>chmod</code> o <code>x</code> significa &lsquo;executável&rsquo;.</li>
+</ul>
+
+<p>Testando a instalação:</p>
+
+<pre><code class="language-sh">docker-compose --version
+</code></pre>
+
+<p>AEWW!!! Docker e Docker-compose instalados, agora vamos a exemplos:</p>
+
+<hr />
+
+<h2 id="exemplos-docker">Exemplos: Docker</h2>
+
+<hr />
+
+<p>Vamos iniciar por exemplos simples, ver alguns comandos, subir algumas imagens simples e pequenas, subir alguma imagem de alguma aplicação visual (algo mais tátil), construir algum Dockerfile.</p>
+
+<p><br><br></p>
+
+<hr />
+
+<h3 id="comandos-run">Comandos: run</h3>
+
+<hr />
+
+<p>O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.</p>
+
+<p>Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) a imagem será executada no plano de fundo.</p>
+
+<p>Vamos subir uma imagem que seja um OS ubuntu em foreground:</p>
+
+<pre><code class="language-sh">sudo docker run -it ubuntu bash
+</code></pre>
+
+<ul>
+<li><code>run</code>: Comando que executa uma imagem</li>
+<li><code>-it</code>: Argumentos para o comando run, <code>i</code> significa interativo, <code>t</code> ativa um tipo de buffer para entradas de texto</li>
+<li><code>ubuntu</code>: O nome da imagem que será executado</li>
+<li><code>bash</code>: O programa q será executado dentro da imagem, neste caso iniciaremos o console.</li>
+</ul>
+
+<p>Note que, agora você está num ambiente ubuntu, dentro da imagem. Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar a imagem ela virá no mesmo formato de antes). <strong>Faça alguns testes aqui a seu prazer</strong>.</p>
+
+<p>Para sair de dentro da imagem execute <code>exit</code>.</p>
+
+<p>Vamos agora subir uma imagem mais &ldquo;visual&rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.</p>
+
+<pre><code class="language-sh">sudo docker run -p 8787:3000 metabase/metabase 
+</code></pre>
+
+<ul>
+<li><p><code>-p</code>: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do container e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa <a href="http://127.0.0.1:8787/setup" target="_blank">http://127.0.0.1:8787/setup</a> você está acessando na verdade o container na porta 3000. Caso você esteja em alguma instância o endereço seria <a href="http://ip-da-instancia:8787/setup" target="_blank">http://ip-da-instancia:8787/setup</a>. (porta do host à esquerda e do container à direita)</p></li>
+
+<li><p><code>metabase/metabase</code>: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório</p></li>
+</ul>
+
+<p>Observe seu terminal, veja que ele está preso à aplicação, caso seu terminal morra a aplicação também irá sofrer o mesmo destino. Vamos subir a aplicação no modo detached.</p>
+
+<pre><code class="language-sh">sudo docker run -d -p 8787:3000 metabase/metabase 
+</code></pre>
+
+<p>Observe agora que o terminal está livre e a aplicação continua rodando. E agora que a imagem já está no PC, observe a velocidade que a aplicação entra em operação.</p>
+
+<p>Podemos ainda fazer:</p>
+
+<pre><code class="language-sh">sudo docker run  --rm -d -p 8787:3000 metabase/metabase 
+</code></pre>
+
+<ul>
+<li><code>--rm</code>: Este argumento diz que, quando o container morrer ou set parado, ele deve ser removido.</li>
+</ul>
+
+<p>O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o container, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.</p>
+
+<p><br><br></p>
+
+<hr />
+
+<h3 id="comandos-container">Comandos: container</h3>
+
+<hr />
+
+<p>O comando container nos permite verificar informações referentes aos contêineres. O container é a aplicação/imagem que foi executada ou está em execução.</p>
+
+<p>Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.</p>
+
+<pre><code class="language-sh">sudo docker container ls
+</code></pre>
+
+<ul>
+<li><code>ls</code>: O argumento ls significa listar:</li>
+</ul>
+
+<p>Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste container. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo.</p>
+
+<p>Ao fazer:</p>
+
+<pre><code class="language-sh">sudo docker container ls -a
+</code></pre>
+
+<ul>
+<li><code>-a</code>: Este argumento representa &ldquo;all&rdquo;</li>
+</ul>
+
+<p>É possível ver todos os contêineres que já foram executados.</p>
+
+<p>Vamos então matar esse container ativo que não mais necessitamos. Ao executar <code>sudo docker container ls</code> podemos ver os ativos, observe que, cada container possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:</p>
+
+<pre><code class="language-sh">sudo docker container kill CONTAINER_ID
+</code></pre>
+
+<p>No meu caso o comando foi <code>sudo docker container kill 816e65266526</code>, observe com <code>sudo docker container ls</code> que o container não está mais de pé.</p>
+
+<p>Há outros argumentos que podem ser utilizados junto com <code>container</code>, entre eles estão <code>exec</code>, <code>restart</code>, <code>pause</code>, <code>inspec</code>, <code>start</code>, <code>stop</code>, <code>unpause</code>, <code>logs</code>, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de container, pois eles irão nascer e morrer a todo momento.</p>
+
+<p><br><br></p>
+
+<hr />
+
+<h3 id="comandos-image">Comandos: image</h3>
+
+<hr />
+
+<p>Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório. Posteriormente até este processo será automático, nosso trabalho será somente versionar os scripts.</p>
+
+<p>Vamos listar todas as imagens que estão salvas.</p>
+
+<pre><code class="language-sh">sudo image ls -a
+</code></pre>
+
+<p>Observe os tamanhos de cada imagem, todas essas imagens estão salvas no HD. A medida que são utilizadas o espaço do HD vai diminuindo. Vamos deletar a imagem do ubuntu</p>
+
+<pre><code class="language-sh">sudo docker rmi ubuntu
+</code></pre>
+
+<p>Caso tenha algum log de um container que a esteja utilizando podemos forçar a remoção</p>
+
+<pre><code class="language-sh">sudo docker rmi -f ubuntu
+</code></pre>
+
+<p>Vamos baixá-la novamente.</p>
+
+<pre><code class="language-sh">sudo docker image pull ubuntu
+</code></pre>
+
+<p>Falarei de como subir imagens somente após a construção da nossa primeira imagem.</p>
+
+<p><br><br></p>
+
+<hr />
+
+<h3 id="comandos-prune">Comandos: prune</h3>
+
+<hr />
+
+<p>Este é um comando muito útil. Porém não iremos utilizá-lo em produção, apenas no nosso ambiente de Dev. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados <code>sudo docker container ls -a</code>, e imagens que não mais utilizamos, ou que foram atualizadas continuam a existir. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.</p>
+
+<p><strong>Container:</strong></p>
+
+<p>Veja quantos container temos que estão parados:</p>
+
+<pre><code class="language-sh">sudo docker container ls -a
+</code></pre>
+
+<p>Podemos remover todos os contêineres parados com:</p>
+
+<pre><code class="language-sh">sudo docker container prune
+</code></pre>
+
+<p>Podemos ainda filtrar, aqui removemos todos os contêineres criados parados que possuem mais de 24 horas.</p>
+
+<pre><code class="language-sh">sudo docker container prune --filter=&quot;until24h&quot;
+</code></pre>
+
+<p><strong>Images:</strong></p>
+
+<p>Podemos remover imagens que são &ldquo;zumbis&rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum container.</p>
+
+<pre><code class="language-sh">sudo docker image prune
+</code></pre>
+
+<p>Podemos remover todas as imagens que não estejam associadas a um container:</p>
+
+<pre><code class="language-sh">sudo docker image prune -a
+</code></pre>
+
+<p>E assim como no exemplo dos contêineres podemos utilizar filtros</p>
+
+<pre><code class="language-sh">sudo docker image prune --filter=&quot;until24h&quot;
+</code></pre>
+
+<p><strong>Tudo:</strong></p>
+
+<p>Podemos fazer um prune de tudo ao mesmo tempo incluindo <strong>Networks (Não abordei networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)</strong></p>
+
+<pre><code class="language-sh">sudo docker system prune
+</code></pre>
+
+<p>Execute esse comando e depois observe quantos contêineres você possui e quantas imagens salvas.</p>
+
+<p><br><br></p>
+
+<hr />
+
+<h3 id="comandos-build">Comandos: build</h3>
+
+<hr />
+
+<p><strong>VAMOS CONSTRUIR!!!!!</strong></p>
+
+<p>Vamos construir nosso primeiro Dockerfile. O Dockerfile é uma receita de bolo, dizendo como será a imagem. Essa receita de bolo consiste em empilhar comandos do próprio Linux num arquivo interpretável. Existe um procedimento de como deixar as imagens menores e mais eficientes, mas isso não é importante no momento, apenas construa a seu prazer para testar as possibilidades.</p>
+
+<p>O Dockerfile se baseia nos seguintes comandos:</p>
+
+<ul>
+<li><code>FROM</code>: A imagem inicial que sua imagem irá se basear (normalmente algo pequeno, para um ambiente de DEV costuma ser um OS e para produção um OS mais capado possível)</li>
+<li><code>RUN</code>: Aqui dizemos os comandos que serão executados antes da imagem estar pronta (instalar pacotes por exemplo)</li>
+<li><code>MAINTAINER</code>: O autor do arquivo</li>
+<li><code>COPY</code>: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)</li>
+<li><code>USER</code>: Define qual será o usuário padrão para a imagem</li>
+<li><code>ENTRYPOINT</code>: Define qual a aplicação do container. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).</li>
+<li><code>CMD</code>: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser &ldquo;ofuscado&rdquo; por algum outro comando na hora de executar a imagem, exemplo <code>sudo docker run --rm -it ubuntu /bin/bash</code>, aqui estamos executando a imagem ubuntu com o CMD <code>/bin/bash</code> que substitui qualquer outro CMD dentro da imagem.</li>
+</ul>
+
+<p>Vamos preparar o terreno. Primeiro precisamos de uma área de trabalho para essa imagem que vamos criar. Então vamos criar um caminho de pastas para nosso Dockerfile ficar isolado e entrar nessas pasta.</p>
+
+<pre><code class="language-sh">mkdir teste_docker
+cd teste_docker
+</code></pre>
+
+<ul>
+<li><code>mkdir</code>: Significa &ldquo;make a directory&rdquo;, estamos criando uma pasta chamada teste_docker</li>
+<li><code>cd</code>: Significa &ldquo;change directory&rdquo;, vamos entrar na pasta teste_docker.</li>
+</ul>
+
+<p>Estamos dentro da pasta de trabalho, agora iremos criar um arquivo de texto e começar a construir nossa imagem. Vamos utilizar o programa <code>nano</code>, caso não tenha instale:</p>
+
+<p>Para CentOS</p>
+
+<pre><code class="language-sh">sudo yum install nano
+</code></pre>
+
+<p>Para ubuntu/debian</p>
+
+<pre><code class="language-sh">sudo apt-get install nano
+</code></pre>
+
+<p>Vamos criar um executável para passar para dentro da imagem.Observe que, após executar esse comando agora temos uma página em branco para ser preenchida. Para salvar o arquivo após algo escrito aperte CTRL+ O, para sair do editor nano e retornar ao terminal CTRL+X. Vamos preencher o documento.</p>
+
+<pre><code class="language-sh">nano text_print.sh
+</code></pre>
+
+<p>Coloque o seguinte texto:</p>
+
+<pre><code class="language-sh">
+#!/usr/bin/env bash
+
+echo &quot;ESTAMOS IMPRIMIIINDOO&quot;
+</code></pre>
+
+<p>Vamos criar um arquivo chamado Dockerfile:</p>
+
+<pre><code class="language-sh">nano Dockerfile
+</code></pre>
+
+<p>Vamos colocar o seguinte texto:</p>
+
+<pre><code class="language-sh">FROM ubuntu # da imagem ubuntu
+
+MAINTAINER eu_mesmo # autor
+
+RUN apt-get update \
+    &amp;&amp; apt-get install -y mariadb-client \
+    libmariadbclient-dev \
+    libmariadb-client-lgpl-dev \
+    &amp;&amp; apt-get clean \
+    &amp;&amp; rm -rf /var/lib/apt/* \
+    &amp;&amp; rm -rf /tmp/*
+
+COPY text_print.sh /text_print.sh
+
+RUN chmod 755 /text_print.sh
+
+ENTRYPOINT /text_print.sh
+</code></pre>
+
+<p>A seguir CTRL+O para salvar e CTRL+X para sair.</p>
+
+<p>Acima temos:</p>
+
+<ul>
+<li>FROM: imagem ubuntu</li>
+<li>MAINTAINER: autor</li>
+<li>RUN: Executo uma série de comandos, primeiro dou update nos repositórios do apt-get (instalador de pacotes do ubuntu). Depois instalo 3 pacotes, cliente e bibliotecas do MariaDB. Após isso eu limpo o cache de instalação e deleto qualquer arquivo intermediário que possa ter ficado das instalações.</li>
+<li>COPY: Copio o arquivo que criamos anteriormente e coloco na raiz</li>
+<li>RUN: Dou permissão para esse arquivo ser executado
+-ENTRYPOINT: Aponto o que será executado quando a subirmos o container.</li>
+</ul>
+
+<p>Agora que temos a receita vamos construir a imagem &ldquo;buildar&rdquo;. A pasta deve conter apenas dois arquivos, verifique:</p>
+
+<pre><code class="language-sh">ls
+</code></pre>
+
+<p>Deve retornar isso:</p>
+
+<pre><code class="language-sh">Dockerfile  text_print.sh
+</code></pre>
+
+<p>Então vamos buildar a imagem:</p>
+
+<pre><code class="language-sh">sudo docker build -t imagem_teste .
+</code></pre>
+
+<ul>
+<li><code>build</code>: é o comando para construir a imagem</li>
+<li><code>-t</code>: é o argumento dizendo que vamos nomear a nossa imagem</li>
+<li><code>imagem_teste</code>: O nome da nossa imagem</li>
+<li><code>.</code>: O comando build precisa que você referencie a pasta onde está o Dockerfile e os arquivos necessários para a construção. O <code>.</code> referencia a pasta que você está no presente momento com o console.</li>
+</ul>
+
+<p>Aguarde a imagem terminar de buildar e verifique:</p>
+
+<pre><code class="language-sh">sudo docker image ls
+</code></pre>
+
+<p>Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado (teremos um FUNCIONAL) você pode fazer o seguinte para subir a imagem para tal.</p>
+
+<pre><code class="language-sh">sudo docker tag imagem_teste seu_nome_usuario_repo/imagem_teste
+sudo docker push seu_nome_usuario_repo/imagem_teste
+</code></pre>
+
+<p>Primeiro renomeia a imagem, colocando seu usuário como prefixo. Depois usar o push, para o upload da imagem, irá pedir um login e senha do repositório e irá iniciar o upload.</p>
+
+<p>Vamos testar a imagem!!</p>
+
+<pre><code class="language-sh">sudo docker run imagem_teste
+</code></pre>
+
+<p>Imprimiu o que queríamos?</p>
+
+<p>Vamos sair desta pasta que criamos e voltar para onde estávamos</p>
+
+<pre><code class="language-sh">cd ..
+</code></pre>
+
+<ul>
+<li><code>..</code>: Este símbolo significa subir uma pasta</li>
+</ul>
+
+<p><br><br></p>
+
+<hr />
+
+<h2 id="docker-compose">Docker-compose</h2>
+
+<hr />
+
+<p>O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do <code>docker run</code>. Vamos fazer exemplos e compará-los.</p>
+
+<hr />
+
+<h3 id="exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</h3>
+
+<hr />
+
+<p>Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando <code>run</code>.</p>
+
+<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+
+<p>Vamos derrubar o serviço utilizando o nome do container.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Agora vamos criar um arquivo docker-compose e utilizar seu sistema para levantar a aplicação.</p>
+
+<p>Primeiro, vamos criar uma pasta de trabalho:</p>
+
+<pre><code class="language-sh">mkdir docker_compose_rstudio_server
+</code></pre>
+
+<p>Vamos entrar na pasta:</p>
+
+<pre><code class="language-sh">cd docker_compose_rstudio_server
+</code></pre>
+
+<p>Agora vamos criar um arquivo docker-compose.yml e preencher seu conteúdo.</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Estamos dentro do editor de texto nano, coloque o seguinte conteúdo:</p>
+
+<pre><code class="language-sh">version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    ports:
+    - &quot;8787:8787&quot;
+</code></pre>
+
+<ul>
+<li><code>version</code>: A versão do docker-compose que iremos utilizar, cada uma possui seus features.</li>
+<li><code>services</code>: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste</li>
+<li><code>r-dl-cpu_teste</code>: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.</li>
+<li><code>image</code>: Estamos informando qual a imagem que será utilizado pelo serviço</li>
+<li><code>container_name</code>: O nome que o container receberá</li>
+<li><code>restart</code>: A política de restart do serviço, neste caso <code>always</code> significa que, caso o serviço morra ele será levantado novamente de imediato</li>
+<li><code>ports</code>: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.</li>
+</ul>
+
+<p>Pressione CTRL+O para salvar e CTRL+X para sair. Agora vamos subir o serviço</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+
+<p>Vamos matar o serviço, para isso basta apenas:</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<hr />
+
+<h3 id="exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</h3>
+
+<hr />
+
+<p>É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.</p>
+
+<p>Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.</p>
+
+<p>Vamos subir esta imagem utilizando o comando <code>run</code>, veja que, o comando já fica desagradável aos olhos (e não pode ser versionado).</p>
+
+<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123' zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>Vamos interromper o serviço.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Agora, iremos editar novamente o arquivo <code>docker-compose.yml</code>.</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Substitua seu conteúdo pelo seguinte texto:</p>
+
+<pre><code class="language-sh">version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+    - &quot;8787:8787&quot;
+</code></pre>
+
+<p>CTRL+O para salvar e CTRL+X para sair.</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>Baixe a aplicação</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<hr />
+
+<h3 id="exemplo-3-montar-volumes">Exemplo 3: Montar volumes</h3>
+
+<hr />
+
+<p>A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.</p>
+
+<p>Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário</p>
+
+<pre><code class="language-sh">mkdir /home/${USER}/teste
+</code></pre>
+
+<ul>
+<li><code>${USER}</code>: Isto acessa a variável de ambiente <code>USER</code> que é o nome do seu usuário</li>
+</ul>
+
+<p>Vamos escrever algum arquivo nesta paste</p>
+
+<pre><code class="language-sh">echo &quot;nothing to see here&quot; &gt; /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p>Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando <code>run</code></p>
+
+<pre><code class="language-sh">sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123'\
+                  -v /home/${USER}/teste:/home/teste/pasta_montada  zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
+
+<p>Agora, vamos derrubar o container.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Vamos ver como está o arquivo que foi modificado dentro do container.</p>
+
+<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p>E ai? Legal? tudo certo?</p>
+
+<p>Vamos agora para o docker-compose, onde podemos ter tudo isso de forma versionada se usarmos um git (&lsquo;se&rsquo; do verbo &lsquo;vamos&rsquo;).</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Coloque o seguinte conteúdo:</p>
+
+<pre><code class="language-sh">
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+     - &quot;8787:8787&quot;
+    volumes:
+     - /home/${USER}/teste:/home/teste/pasta_montada:rw  
+</code></pre>
+
+<p>Vamos levantar:</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
+
+<p>Baixe a aplicação</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<p>Vamos verificar como está o arquivo modificado</p>
+
+<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p><br><br></p>
+
+<hr />
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Next</div>
+    <a href="../../../courses/apostila/docker/" rel="prev">Docker</a>
+  </div>
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Aug 1, 2019</p>
+
+          
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="../../../js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

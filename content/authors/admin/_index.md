@@ -65,7 +65,7 @@ user_groups:
 ---
 
 Navarro Rosa is a young Statistician that love to solve problems and answer questions with data. 
-Has worked on receipt-generated data from over one million people. Making models to categorize the text in each line for the appropriate product type. Performed market and basket analyzes. Designed and applied A | B to verify the effect of the marketing campaign.
+Has worked on receipt-generated data from over one million people. Making models to categorize the text in each line for the appropriate product type. Performed market and basket analyzes. Designed and applied A | B tests to verify the effect of the marketing campaign.
 
 Today work with health care data. 
 Making predictive models for diseases, bringing doctor's attention to the most serious patients. Performing tests of effectiveness of medical programs in the population.

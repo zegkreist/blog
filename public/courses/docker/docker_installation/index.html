@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Navarro Rosa">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
+Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/courses/docker/docker_installation/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.dd629241ea9333c62c071f4a25f829ff.css">
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/courses/docker/docker_installation/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@zegkreist">
+  <meta property="twitter:creator" content="@zegkreist">
+  
+  <meta property="og:site_name" content="Vugudum">
+  <meta property="og:url" content="/courses/docker/docker_installation/">
+  <meta property="og:title" content="Docker Installation | Vugudum">
+  <meta property="og:description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
+Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-08-01T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-08-01T00:00:00&#43;00:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>Docker Installation | Vugudum</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Vugudum</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/courses/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/courses/docker/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/courses/docker/docker_installation/">Tutorial Docker</a>
+    <ul class="nav docs-sidenav">
+      
+      <li class="active">
+        <a href="/courses/docker/docker_installation/">Docker Installation</a>
+      </li>
+      
+      <li >
+        <a href="/courses/docker/docker_commandos/">Docker Commands</a>
+      </li>
+      
+      <li >
+        <a href="/courses/docker/docker_compose/">Docker Compose</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#instalação-docker">Instalação docker</a></li>
+<li><a href="#instalação-docker-compose">Instalação docker-compose</a></li>
+<li><a href="#exemplos-docker">Exemplos: Docker</a></li>
+</ul></li>
+</ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        <div class="docs-article-container">
+          <h1 itemprop="name">Docker Installation</h1>
+
+          <div class="article-style" itemprop="articleBody">
+            
+
+<hr />
+
+<h2 id="docker">Docker</h2>
+
+<hr />
+
+<p>A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).</p>
+
+<hr />
+
+<h2 id="instalação-docker">Instalação docker</h2>
+
+<hr />
+
+<p>Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada <strong>Amazon linux 2</strong>, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas &ldquo;facilidades&rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de <strong>CentoOS 7</strong> que serão compatíveis com a instância na Amazon.</p>
+
+<p>Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.</p>
+
+<p>Para evitar problemas, vamos primeiro garantir que não haja nada de docker instalado na máquina.</p>
+
+<pre><code class="language-sh">sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+</code></pre>
+
+<p>Este comando tem o seguinte significado:</p>
+
+<ul>
+<li><p><code>sudo</code>: Tem o significado de &ldquo;faça&rdquo; (<code>do</code>) como &ldquo;super usuário&rdquo; (<code>su</code>). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar todo o sistema, não haverá qualquer pergunta, a execução será direta). Outra opção ao <code>sudo</code> seria logar como <em>SU</em> e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando <code>sudo</code>).</p></li>
+
+<li><p><code>yum</code>: Este é um programa que gerencia os pacotes instalados do CentOS. Caso fosse uma distribuição baseada em Debian como Ubuntu seria <code>apt</code>ou <code>apt-get</code>. Se fosse baseado em Arch seria <code>pacman</code>.</p></li>
+
+<li><p><code>remove</code>: Este é um argumento para o programa <code>yum</code>. Este argumento informa que qualquer pacote descrito a frente deve ser removido.</p></li>
+
+<li><p><code>\</code>: Esta barra invertida é apenas uma quebra de linha para facilitar a visualização. Normalmente o comando existe em apenas uma única linha.</p></li>
+</ul>
+
+<p>Vamos instalar o Docker via repositório. O repositório é um &ldquo;espaço&rdquo; em que seu OS &ldquo;confia&rdquo; para buscar pacotes e instalá-los na máquina. Normalmente o OS linux quando instalado já possui uma lista de repositórios confiáveis e oficiais em que pode contar, cada distribuição possui sua própria coleção de repositórios padrão. Aqui vamos adicionar um repositório nesta lista, o do docker-ce. Para isso, inicialmente será instalado alguns programas auxiliares ao <code>yum</code>, para podermos adicionar o novo repositório.</p>
+
+<pre><code class="language-sh">sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+</code></pre>
+
+<p>Agora adicionando o repositório:</p>
+
+<pre><code class="language-sh">sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+</code></pre>
+
+<p>Utilizando o programa auxiliar <code>yum-config-manager</code> adicionamos o repositório na lista do <code>yum</code>. O argumento <code>--add-repo</code> é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.</p>
+
+<p>Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):</p>
+
+<pre><code class="language-sh">sudo yum install docker-ce docker-ce-cli containerd.io
+</code></pre>
+
+<p>O docker foi instalado, porém não iniciado, para isso:</p>
+
+<pre><code class="language-sh">sudo systemctl start docker
+</code></pre>
+
+<ul>
+<li><p><code>sudo</code>: Faça como super usuário</p></li>
+
+<li><p><code>systemctl</code>: É o programa que organiza os processos do sistema</p></li>
+
+<li><p><code>start</code>: É um argumento para o programa <code>systemctl</code>, dizendo para iniciar o programa de nome a frente.</p></li>
+</ul>
+
+<p>Neste passo o Docker está iniciado. Mas há <strong>2 poréns</strong>, o primeiro é que sempre que a máquina reiniciar o processo ficará parado, o segundo é que apenas o super usuário possui permissão de executar o docker.</p>
+
+<p>Resolvendo o primeiro porém:</p>
+
+<pre><code class="language-sh">sudo systemctl enable docker
+</code></pre>
+
+<p>Resolvendo o Segundo porém:</p>
+
+<ul>
+<li><p>Uma forma é sempre usar <code>sudo</code> para executar comandos docker</p></li>
+
+<li><p>A segunda é dar permissão ao seu usuário para executar comandos docker</p>
+
+<pre><code class="language-sh">sudo usermod -aG docker $USER
+</code></pre></li>
+</ul>
+
+<p>Normalmente já existe um grupo chamado &ldquo;docker&rdquo; criado na hora da instalação. O que fazemos nesse comando é adicionar o nosso usuário <code>$USER</code> no grupo docker. Eu prefiro utilizar sempre o comando <code>sudo</code> para executar os comandos docker.</p>
+
+<p>Vamos testar o docker:</p>
+
+<pre><code class="language-sh">sudo docker run hello-world
+</code></pre>
+
+<p>Este comando executa uma imagem chamada <code>hello-world</code> (caso ela não exista no seu PC, o docker faz o download dela no repositório oficial do docker, o docker hub (não confundir com repositório de pacotes do sistema)).</p>
+
+<hr />
+
+<h2 id="instalação-docker-compose">Instalação docker-compose</h2>
+
+<hr />
+
+<p>O docker-compose ajuda na orquestração de uma imagem docker. Para executar uma imagem docker há vários parâmetros a serem setados para um comando só (como veremos adiante). Com o docker-compose é possível reescrever todos esses comandos em um único arquivo que pode ser versionado. Em um único arquivo, também é possível &lsquo;levantar&rsquo; várias imagens diferentes, com seus próprios argumentos e configuração de como essas imagens irão conversar.</p>
+
+<p>A instalação do docker-compose é diferente das demais. Ainda não há um pacote fechado para ele, o que fazemos nada mais é do que fazer o download de seus binários para um local do sistema e dar permissões a esses arquivos.</p>
+
+<pre><code class="language-sh">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
+</code></pre>
+
+<ul>
+<li><code>curl</code>: O curl é basicamente um navegador web para a linha de comando. Ele baixa o arquivo e o coloca no caminho especificado no output</li>
+<li><code>$(uname -s)</code> e <code>$(uname -m)</code>: São variáveis do sistema, o primeiro retorna &ldquo;Linux&rdquo; o segundo  a arquitetura &ldquo;x86_64&rdquo;.</li>
+</ul>
+
+<p>Agora é necessário dar permissão de execução para o arquivo:</p>
+
+<pre><code class="language-sh">sudo chmod +x /usr/local/bin/docker-compose
+</code></pre>
+
+<ul>
+<li><code>chmod</code>: Este comando altera permissões</li>
+<li><code>+x</code>: Este é um argumento para o <code>chmod</code> o <code>x</code> significa &lsquo;executável&rsquo;.</li>
+</ul>
+
+<p>Testando a instalação:</p>
+
+<pre><code class="language-sh">docker-compose --version
+</code></pre>
+
+<p>AEWW!!! Docker e Docker-compose instalados, agora vamos a exemplos:</p>
+
+<hr />
+
+<h2 id="exemplos-docker">Exemplos: Docker</h2>
+
+<hr />
+
+<p>Vamos iniciar por exemplos simples, ver alguns comandos, subir algumas imagens simples e pequenas, subir alguma imagem de alguma aplicação visual (algo mais tátil), construir algum Dockerfile.</p>
+
+<p><br><br></p>
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Next</div>
+    <a href="/courses/docker/docker_commandos/" rel="prev">Docker Commands</a>
+  </div>
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Aug 1, 2019</p>
+
+          
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

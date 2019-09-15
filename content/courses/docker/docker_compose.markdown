@@ -1,0 +1,284 @@
+---
+title: Docker Compose
+linktitle: Docker Compose
+toc: true
+type: docs
+date: "2019-08-01"
+draft: false
+menu:
+  docker:
+    parent: Tutorial Docker
+    weight: 3
+
+# Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
+weight: 3
+---
+
+
+***
+## Docker-compose
+***
+
+O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do `docker run`. Vamos fazer exemplos e compará-los.
+
+***
+### Exemplo 1: Subir uma imagem numa porta específica
+***
+
+Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando `run`.
+
+
+```sh
+sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
+```
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.
+
+Vamos derrubar o serviço utilizando o nome do container.
+
+
+```sh
+sudo docker container kill r_server_1
+```
+
+Agora vamos criar um arquivo docker-compose e utilizar seu sistema para levantar a aplicação.
+
+Primeiro, vamos criar uma pasta de trabalho:
+
+
+```sh
+mkdir docker_compose_rstudio_server
+```
+
+Vamos entrar na pasta:
+
+
+```sh
+cd docker_compose_rstudio_server
+```
+
+Agora vamos criar um arquivo docker-compose.yml e preencher seu conteúdo.
+
+
+```sh
+nano docker-compose.yml
+```
+
+Estamos dentro do editor de texto nano, coloque o seguinte conteúdo:
+
+
+```sh
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    ports:
+    - "8787:8787"
+```
+
+- `version`: A versão do docker-compose que iremos utilizar, cada uma possui seus features.
+- `services`: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste
+- `r-dl-cpu_teste`: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.
+- `image`: Estamos informando qual a imagem que será utilizado pelo serviço
+- `container_name`: O nome que o container receberá
+- `restart`: A política de restart do serviço, neste caso `always` significa que, caso o serviço morra ele será levantado novamente de imediato
+- `ports`: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.
+
+Pressione CTRL+O para salvar e CTRL+X para sair. Agora vamos subir o serviço
+
+
+```sh
+docker-compose up -d
+```
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.
+
+Vamos matar o serviço, para isso basta apenas:
+
+
+```sh
+docker-compose down
+```
+
+***
+### Exemplo 2: Subir uma imagem passando variáveis de ambiente
+***
+
+É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.
+
+Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio. 
+
+Vamos subir esta imagem utilizando o comando `run`, veja que, o comando já fica desagradável aos olhos (e não pode ser versionado).
+
+
+```sh
+sudo docker run -d -p 8787:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123' zegkreist/r-dl-cpu 
+```
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com **login = teste e senha = facil123**.
+
+Vamos interromper o serviço.
+
+
+
+```sh
+sudo docker container kill r_server_1
+```
+
+Agora, iremos editar novamente o arquivo `docker-compose.yml`.
+
+
+```sh
+nano docker-compose.yml
+```
+
+Substitua seu conteúdo pelo seguinte texto:
+
+
+```sh
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+    - "8787:8787"
+```
+
+CTRL+O para salvar e CTRL+X para sair.
+
+
+```sh
+docker-compose up -d
+```
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com **login = teste e senha = facil123**.
+
+Baixe a aplicação
+
+
+```sh
+docker-compose down
+```
+
+
+***
+### Exemplo 3: Montar volumes
+***
+
+A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.
+
+Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário
+
+
+```sh
+mkdir /home/${USER}/teste
+```
+
+- `${USER}`: Isto acessa a variável de ambiente `USER` que é o nome do seu usuário 
+
+Vamos escrever algum arquivo nesta paste
+
+
+```sh
+echo "nothing to see here" > /home/${USER}/teste/arquivo.txt
+```
+
+
+
+Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando `run`
+
+
+```sh
+sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123'\
+                  -v /home/${USER}/teste:/home/teste/pasta_montada  zegkreist/r-dl-cpu 
+```
+
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com **login = teste e senha = facil123**.
+
+No canto direito inferior na aba *files* olhe o folder com nome "pasta_montada", veja o arquivo que está dentro, acesse e faça alguma modificação e salve.
+
+Agora, vamos derrubar o container.
+
+
+```sh
+sudo docker container kill r_server_1
+```
+
+Vamos ver como está o arquivo que foi modificado dentro do container.
+
+
+```sh
+cat /home/${USER}/teste/arquivo.txt
+```
+
+E ai? Legal? tudo certo?
+
+Vamos agora para o docker-compose, onde podemos ter tudo isso de forma versionada se usarmos um git ('se' do verbo 'vamos').
+
+```sh
+nano docker-compose.yml
+```
+
+Coloque o seguinte conteúdo:
+
+
+```sh
+
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+     - "8787:8787"
+    volumes:
+     - /home/${USER}/teste:/home/teste/pasta_montada:rw  
+```
+
+Vamos levantar:
+
+
+```sh
+docker-compose up -d
+```
+
+
+Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com **login = teste e senha = facil123**.
+
+No canto direito inferior na aba *files* olhe o folder com nome "pasta_montada", veja o arquivo que está dentro, acesse e faça alguma modificação e salve.
+
+Baixe a aplicação
+
+
+```sh
+docker-compose down
+```
+
+Vamos verificar como está o arquivo modificado
+
+
+```sh
+cat /home/${USER}/teste/arquivo.txt
+```
+
+<br><br>
+
+***

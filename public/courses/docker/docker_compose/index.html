@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Navarro Rosa">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
+Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/courses/docker/docker_compose/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.dd629241ea9333c62c071f4a25f829ff.css">
+
+  
+
+  
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/courses/docker/docker_compose/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@zegkreist">
+  <meta property="twitter:creator" content="@zegkreist">
+  
+  <meta property="og:site_name" content="Vugudum">
+  <meta property="og:url" content="/courses/docker/docker_compose/">
+  <meta property="og:title" content="Docker Compose | Vugudum">
+  <meta property="og:description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
+Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-08-01T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-08-01T00:00:00&#43;00:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>Docker Compose | Vugudum</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Vugudum</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/courses/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/courses/docker/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/courses/docker/docker_installation/">Tutorial Docker</a>
+    <ul class="nav docs-sidenav">
+      
+      <li >
+        <a href="/courses/docker/docker_installation/">Docker Installation</a>
+      </li>
+      
+      <li >
+        <a href="/courses/docker/docker_commandos/">Docker Commands</a>
+      </li>
+      
+      <li class="active">
+        <a href="/courses/docker/docker_compose/">Docker Compose</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#docker-compose">Docker-compose</a>
+<ul>
+<li><a href="#exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</a></li>
+<li><a href="#exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</a></li>
+<li><a href="#exemplo-3-montar-volumes">Exemplo 3: Montar volumes</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        <div class="docs-article-container">
+          <h1 itemprop="name">Docker Compose</h1>
+
+          <div class="article-style" itemprop="articleBody">
+            
+
+<hr />
+
+<h2 id="docker-compose">Docker-compose</h2>
+
+<hr />
+
+<p>O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do <code>docker run</code>. Vamos fazer exemplos e compará-los.</p>
+
+<hr />
+
+<h3 id="exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</h3>
+
+<hr />
+
+<p>Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando <code>run</code>.</p>
+
+<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+
+<p>Vamos derrubar o serviço utilizando o nome do container.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Agora vamos criar um arquivo docker-compose e utilizar seu sistema para levantar a aplicação.</p>
+
+<p>Primeiro, vamos criar uma pasta de trabalho:</p>
+
+<pre><code class="language-sh">mkdir docker_compose_rstudio_server
+</code></pre>
+
+<p>Vamos entrar na pasta:</p>
+
+<pre><code class="language-sh">cd docker_compose_rstudio_server
+</code></pre>
+
+<p>Agora vamos criar um arquivo docker-compose.yml e preencher seu conteúdo.</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Estamos dentro do editor de texto nano, coloque o seguinte conteúdo:</p>
+
+<pre><code class="language-sh">version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    ports:
+    - &quot;8787:8787&quot;
+</code></pre>
+
+<ul>
+<li><code>version</code>: A versão do docker-compose que iremos utilizar, cada uma possui seus features.</li>
+<li><code>services</code>: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste</li>
+<li><code>r-dl-cpu_teste</code>: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.</li>
+<li><code>image</code>: Estamos informando qual a imagem que será utilizado pelo serviço</li>
+<li><code>container_name</code>: O nome que o container receberá</li>
+<li><code>restart</code>: A política de restart do serviço, neste caso <code>always</code> significa que, caso o serviço morra ele será levantado novamente de imediato</li>
+<li><code>ports</code>: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.</li>
+</ul>
+
+<p>Pressione CTRL+O para salvar e CTRL+X para sair. Agora vamos subir o serviço</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+
+<p>Vamos matar o serviço, para isso basta apenas:</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<hr />
+
+<h3 id="exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</h3>
+
+<hr />
+
+<p>É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.</p>
+
+<p>Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.</p>
+
+<p>Vamos subir esta imagem utilizando o comando <code>run</code>, veja que, o comando já fica desagradável aos olhos (e não pode ser versionado).</p>
+
+<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123' zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>Vamos interromper o serviço.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Agora, iremos editar novamente o arquivo <code>docker-compose.yml</code>.</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Substitua seu conteúdo pelo seguinte texto:</p>
+
+<pre><code class="language-sh">version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+    - &quot;8787:8787&quot;
+</code></pre>
+
+<p>CTRL+O para salvar e CTRL+X para sair.</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>Baixe a aplicação</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<hr />
+
+<h3 id="exemplo-3-montar-volumes">Exemplo 3: Montar volumes</h3>
+
+<hr />
+
+<p>A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.</p>
+
+<p>Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário</p>
+
+<pre><code class="language-sh">mkdir /home/${USER}/teste
+</code></pre>
+
+<ul>
+<li><code>${USER}</code>: Isto acessa a variável de ambiente <code>USER</code> que é o nome do seu usuário</li>
+</ul>
+
+<p>Vamos escrever algum arquivo nesta paste</p>
+
+<pre><code class="language-sh">echo &quot;nothing to see here&quot; &gt; /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p>Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando <code>run</code></p>
+
+<pre><code class="language-sh">sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
+                                                   -e USERID='1000' \
+                                                   -e PASSWORD='facil123'\
+                  -v /home/${USER}/teste:/home/teste/pasta_montada  zegkreist/r-dl-cpu 
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
+
+<p>Agora, vamos derrubar o container.</p>
+
+<pre><code class="language-sh">sudo docker container kill r_server_1
+</code></pre>
+
+<p>Vamos ver como está o arquivo que foi modificado dentro do container.</p>
+
+<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p>E ai? Legal? tudo certo?</p>
+
+<p>Vamos agora para o docker-compose, onde podemos ter tudo isso de forma versionada se usarmos um git (&lsquo;se&rsquo; do verbo &lsquo;vamos&rsquo;).</p>
+
+<pre><code class="language-sh">nano docker-compose.yml
+</code></pre>
+
+<p>Coloque o seguinte conteúdo:</p>
+
+<pre><code class="language-sh">
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+     - &quot;8787:8787&quot;
+    volumes:
+     - /home/${USER}/teste:/home/teste/pasta_montada:rw  
+</code></pre>
+
+<p>Vamos levantar:</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+
+<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
+
+<p>Baixe a aplicação</p>
+
+<pre><code class="language-sh">docker-compose down
+</code></pre>
+
+<p>Vamos verificar como está o arquivo modificado</p>
+
+<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
+</code></pre>
+
+<p><br><br></p>
+
+<hr />
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Previous</div>
+    <a href="/courses/docker/docker_commandos/" rel="next">Docker Commands</a>
+  </div>
+  
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Aug 1, 2019</p>
+
+          
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

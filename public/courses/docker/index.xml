@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Overview | Vugudum</title>
+    <link>/courses/docker/</link>
+      <atom:link href="/courses/docker/index.xml" rel="self" type="application/rss+xml" />
+    <description>Overview</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>Overview</title>
+      <link>/courses/docker/</link>
+    </image>
+    
+    <item>
+      <title>Docker Installation</title>
+      <link>/courses/docker/docker_installation/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/courses/docker/docker_installation/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;docker&#34;&gt;Docker&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;instalação-docker&#34;&gt;Instalação docker&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada &lt;strong&gt;Amazon linux 2&lt;/strong&gt;, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas &amp;ldquo;facilidades&amp;rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de &lt;strong&gt;CentoOS 7&lt;/strong&gt; que serão compatíveis com a instância na Amazon.&lt;/p&gt;
+
+&lt;p&gt;Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.&lt;/p&gt;
+
+&lt;p&gt;Para evitar problemas, vamos primeiro garantir que não haja nada de docker instalado na máquina.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Este comando tem o seguinte significado:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;sudo&lt;/code&gt;: Tem o significado de &amp;ldquo;faça&amp;rdquo; (&lt;code&gt;do&lt;/code&gt;) como &amp;ldquo;super usuário&amp;rdquo; (&lt;code&gt;su&lt;/code&gt;). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar todo o sistema, não haverá qualquer pergunta, a execução será direta). Outra opção ao &lt;code&gt;sudo&lt;/code&gt; seria logar como &lt;em&gt;SU&lt;/em&gt; e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando &lt;code&gt;sudo&lt;/code&gt;).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;yum&lt;/code&gt;: Este é um programa que gerencia os pacotes instalados do CentOS. Caso fosse uma distribuição baseada em Debian como Ubuntu seria &lt;code&gt;apt&lt;/code&gt;ou &lt;code&gt;apt-get&lt;/code&gt;. Se fosse baseado em Arch seria &lt;code&gt;pacman&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;remove&lt;/code&gt;: Este é um argumento para o programa &lt;code&gt;yum&lt;/code&gt;. Este argumento informa que qualquer pacote descrito a frente deve ser removido.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;\&lt;/code&gt;: Esta barra invertida é apenas uma quebra de linha para facilitar a visualização. Normalmente o comando existe em apenas uma única linha.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Vamos instalar o Docker via repositório. O repositório é um &amp;ldquo;espaço&amp;rdquo; em que seu OS &amp;ldquo;confia&amp;rdquo; para buscar pacotes e instalá-los na máquina. Normalmente o OS linux quando instalado já possui uma lista de repositórios confiáveis e oficiais em que pode contar, cada distribuição possui sua própria coleção de repositórios padrão. Aqui vamos adicionar um repositório nesta lista, o do docker-ce. Para isso, inicialmente será instalado alguns programas auxiliares ao &lt;code&gt;yum&lt;/code&gt;, para podermos adicionar o novo repositório.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Agora adicionando o repositório:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Utilizando o programa auxiliar &lt;code&gt;yum-config-manager&lt;/code&gt; adicionamos o repositório na lista do &lt;code&gt;yum&lt;/code&gt;. O argumento &lt;code&gt;--add-repo&lt;/code&gt; é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.&lt;/p&gt;
+
+&lt;p&gt;Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo yum install docker-ce docker-ce-cli containerd.io
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;O docker foi instalado, porém não iniciado, para isso:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo systemctl start docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;sudo&lt;/code&gt;: Faça como super usuário&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;systemctl&lt;/code&gt;: É o programa que organiza os processos do sistema&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;start&lt;/code&gt;: É um argumento para o programa &lt;code&gt;systemctl&lt;/code&gt;, dizendo para iniciar o programa de nome a frente.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Neste passo o Docker está iniciado. Mas há &lt;strong&gt;2 poréns&lt;/strong&gt;, o primeiro é que sempre que a máquina reiniciar o processo ficará parado, o segundo é que apenas o super usuário possui permissão de executar o docker.&lt;/p&gt;
+
+&lt;p&gt;Resolvendo o primeiro porém:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo systemctl enable docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Resolvendo o Segundo porém:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Uma forma é sempre usar &lt;code&gt;sudo&lt;/code&gt; para executar comandos docker&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;A segunda é dar permissão ao seu usuário para executar comandos docker&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo usermod -aG docker $USER
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Normalmente já existe um grupo chamado &amp;ldquo;docker&amp;rdquo; criado na hora da instalação. O que fazemos nesse comando é adicionar o nosso usuário &lt;code&gt;$USER&lt;/code&gt; no grupo docker. Eu prefiro utilizar sempre o comando &lt;code&gt;sudo&lt;/code&gt; para executar os comandos docker.&lt;/p&gt;
+
+&lt;p&gt;Vamos testar o docker:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run hello-world
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Este comando executa uma imagem chamada &lt;code&gt;hello-world&lt;/code&gt; (caso ela não exista no seu PC, o docker faz o download dela no repositório oficial do docker, o docker hub (não confundir com repositório de pacotes do sistema)).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;instalação-docker-compose&#34;&gt;Instalação docker-compose&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;O docker-compose ajuda na orquestração de uma imagem docker. Para executar uma imagem docker há vários parâmetros a serem setados para um comando só (como veremos adiante). Com o docker-compose é possível reescrever todos esses comandos em um único arquivo que pode ser versionado. Em um único arquivo, também é possível &amp;lsquo;levantar&amp;rsquo; várias imagens diferentes, com seus próprios argumentos e configuração de como essas imagens irão conversar.&lt;/p&gt;
+
+&lt;p&gt;A instalação do docker-compose é diferente das demais. Ainda não há um pacote fechado para ele, o que fazemos nada mais é do que fazer o download de seus binários para um local do sistema e dar permissões a esses arquivos.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo curl -L &amp;quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&amp;quot; -o /usr/local/bin/docker-compose
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;curl&lt;/code&gt;: O curl é basicamente um navegador web para a linha de comando. Ele baixa o arquivo e o coloca no caminho especificado no output&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$(uname -s)&lt;/code&gt; e &lt;code&gt;$(uname -m)&lt;/code&gt;: São variáveis do sistema, o primeiro retorna &amp;ldquo;Linux&amp;rdquo; o segundo  a arquitetura &amp;ldquo;x86_64&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Agora é necessário dar permissão de execução para o arquivo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo chmod +x /usr/local/bin/docker-compose
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;chmod&lt;/code&gt;: Este comando altera permissões&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;+x&lt;/code&gt;: Este é um argumento para o &lt;code&gt;chmod&lt;/code&gt; o &lt;code&gt;x&lt;/code&gt; significa &amp;lsquo;executável&amp;rsquo;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Testando a instalação:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose --version
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;AEWW!!! Docker e Docker-compose instalados, agora vamos a exemplos:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;exemplos-docker&#34;&gt;Exemplos: Docker&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Vamos iniciar por exemplos simples, ver alguns comandos, subir algumas imagens simples e pequenas, subir alguma imagem de alguma aplicação visual (algo mais tátil), construir algum Dockerfile.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Docker Commands</title>
+      <link>/courses/docker/docker_commandos/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/courses/docker/docker_commandos/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comandos-run&#34;&gt;Comandos: run&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &amp;ldquo;sensação&amp;rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &amp;ldquo;execução do comando&amp;rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.&lt;/p&gt;
+
+&lt;p&gt;Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) a imagem será executada no plano de fundo.&lt;/p&gt;
+
+&lt;p&gt;Vamos subir uma imagem que seja um OS ubuntu em foreground:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -it ubuntu bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;run&lt;/code&gt;: Comando que executa uma imagem&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-it&lt;/code&gt;: Argumentos para o comando run, &lt;code&gt;i&lt;/code&gt; significa interativo, &lt;code&gt;t&lt;/code&gt; ativa um tipo de buffer para entradas de texto&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ubuntu&lt;/code&gt;: O nome da imagem que será executado&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bash&lt;/code&gt;: O programa q será executado dentro da imagem, neste caso iniciaremos o console.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note que, agora você está num ambiente ubuntu, dentro da imagem. Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar a imagem ela virá no mesmo formato de antes). &lt;strong&gt;Faça alguns testes aqui a seu prazer&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Para sair de dentro da imagem execute &lt;code&gt;exit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Vamos agora subir uma imagem mais &amp;ldquo;visual&amp;rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -p 8787:3000 metabase/metabase 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do container e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa &lt;a href=&#34;http://127.0.0.1:8787/setup&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787/setup&lt;/a&gt; você está acessando na verdade o container na porta 3000. Caso você esteja em alguma instância o endereço seria &lt;a href=&#34;http://ip-da-instancia:8787/setup&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787/setup&lt;/a&gt;. (porta do host à esquerda e do container à direita)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;metabase/metabase&lt;/code&gt;: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Observe seu terminal, veja que ele está preso à aplicação, caso seu terminal morra a aplicação também irá sofrer o mesmo destino. Vamos subir a aplicação no modo detached.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 8787:3000 metabase/metabase 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Observe agora que o terminal está livre e a aplicação continua rodando. E agora que a imagem já está no PC, observe a velocidade que a aplicação entra em operação.&lt;/p&gt;
+
+&lt;p&gt;Podemos ainda fazer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run  --rm -d -p 8787:3000 metabase/metabase 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--rm&lt;/code&gt;: Este argumento diz que, quando o container morrer ou set parado, ele deve ser removido.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o container, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comandos-container&#34;&gt;Comandos: container&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;O comando container nos permite verificar informações referentes aos contêineres. O container é a aplicação/imagem que foi executada ou está em execução.&lt;/p&gt;
+
+&lt;p&gt;Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container ls
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ls&lt;/code&gt;: O argumento ls significa listar:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste container. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo.&lt;/p&gt;
+
+&lt;p&gt;Ao fazer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container ls -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-a&lt;/code&gt;: Este argumento representa &amp;ldquo;all&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;É possível ver todos os contêineres que já foram executados.&lt;/p&gt;
+
+&lt;p&gt;Vamos então matar esse container ativo que não mais necessitamos. Ao executar &lt;code&gt;sudo docker container ls&lt;/code&gt; podemos ver os ativos, observe que, cada container possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill CONTAINER_ID
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;No meu caso o comando foi &lt;code&gt;sudo docker container kill 816e65266526&lt;/code&gt;, observe com &lt;code&gt;sudo docker container ls&lt;/code&gt; que o container não está mais de pé.&lt;/p&gt;
+
+&lt;p&gt;Há outros argumentos que podem ser utilizados junto com &lt;code&gt;container&lt;/code&gt;, entre eles estão &lt;code&gt;exec&lt;/code&gt;, &lt;code&gt;restart&lt;/code&gt;, &lt;code&gt;pause&lt;/code&gt;, &lt;code&gt;inspec&lt;/code&gt;, &lt;code&gt;start&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;unpause&lt;/code&gt;, &lt;code&gt;logs&lt;/code&gt;, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de container, pois eles irão nascer e morrer a todo momento.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comandos-image&#34;&gt;Comandos: image&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório. Posteriormente até este processo será automático, nosso trabalho será somente versionar os scripts.&lt;/p&gt;
+
+&lt;p&gt;Vamos listar todas as imagens que estão salvas.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo image ls -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Observe os tamanhos de cada imagem, todas essas imagens estão salvas no HD. A medida que são utilizadas o espaço do HD vai diminuindo. Vamos deletar a imagem do ubuntu&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker rmi ubuntu
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Caso tenha algum log de um container que a esteja utilizando podemos forçar a remoção&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker rmi -f ubuntu
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos baixá-la novamente.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image pull ubuntu
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Falarei de como subir imagens somente após a construção da nossa primeira imagem.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comandos-prune&#34;&gt;Comandos: prune&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Este é um comando muito útil. Porém não iremos utilizá-lo em produção, apenas no nosso ambiente de Dev. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados &lt;code&gt;sudo docker container ls -a&lt;/code&gt;, e imagens que não mais utilizamos, ou que foram atualizadas continuam a existir. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Container:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Veja quantos container temos que estão parados:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container ls -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Podemos remover todos os contêineres parados com:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container prune
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Podemos ainda filtrar, aqui removemos todos os contêineres criados parados que possuem mais de 24 horas.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container prune --filter=&amp;quot;until24h&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Images:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Podemos remover imagens que são &amp;ldquo;zumbis&amp;rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum container.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Podemos remover todas as imagens que não estejam associadas a um container:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;E assim como no exemplo dos contêineres podemos utilizar filtros&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune --filter=&amp;quot;until24h&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Tudo:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Podemos fazer um prune de tudo ao mesmo tempo incluindo &lt;strong&gt;Networks (Não abordei networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker system prune
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Execute esse comando e depois observe quantos contêineres você possui e quantas imagens salvas.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;comandos-build&#34;&gt;Comandos: build&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;VAMOS CONSTRUIR!!!!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Vamos construir nosso primeiro Dockerfile. O Dockerfile é uma receita de bolo, dizendo como será a imagem. Essa receita de bolo consiste em empilhar comandos do próprio Linux num arquivo interpretável. Existe um procedimento de como deixar as imagens menores e mais eficientes, mas isso não é importante no momento, apenas construa a seu prazer para testar as possibilidades.&lt;/p&gt;
+
+&lt;p&gt;O Dockerfile se baseia nos seguintes comandos:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FROM&lt;/code&gt;: A imagem inicial que sua imagem irá se basear (normalmente algo pequeno, para um ambiente de DEV costuma ser um OS e para produção um OS mais capado possível)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RUN&lt;/code&gt;: Aqui dizemos os comandos que serão executados antes da imagem estar pronta (instalar pacotes por exemplo)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MAINTAINER&lt;/code&gt;: O autor do arquivo&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;COPY&lt;/code&gt;: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;USER&lt;/code&gt;: Define qual será o usuário padrão para a imagem&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;: Define qual a aplicação do container. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CMD&lt;/code&gt;: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser &amp;ldquo;ofuscado&amp;rdquo; por algum outro comando na hora de executar a imagem, exemplo &lt;code&gt;sudo docker run --rm -it ubuntu /bin/bash&lt;/code&gt;, aqui estamos executando a imagem ubuntu com o CMD &lt;code&gt;/bin/bash&lt;/code&gt; que substitui qualquer outro CMD dentro da imagem.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Vamos preparar o terreno. Primeiro precisamos de uma área de trabalho para essa imagem que vamos criar. Então vamos criar um caminho de pastas para nosso Dockerfile ficar isolado e entrar nessas pasta.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mkdir teste_docker
+cd teste_docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mkdir&lt;/code&gt;: Significa &amp;ldquo;make a directory&amp;rdquo;, estamos criando uma pasta chamada teste_docker&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cd&lt;/code&gt;: Significa &amp;ldquo;change directory&amp;rdquo;, vamos entrar na pasta teste_docker.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Estamos dentro da pasta de trabalho, agora iremos criar um arquivo de texto e começar a construir nossa imagem. Vamos utilizar o programa &lt;code&gt;nano&lt;/code&gt;, caso não tenha instale:&lt;/p&gt;
+
+&lt;p&gt;Para CentOS&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo yum install nano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Para ubuntu/debian&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo apt-get install nano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos criar um executável para passar para dentro da imagem.Observe que, após executar esse comando agora temos uma página em branco para ser preenchida. Para salvar o arquivo após algo escrito aperte CTRL+ O, para sair do editor nano e retornar ao terminal CTRL+X. Vamos preencher o documento.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;nano text_print.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Coloque o seguinte texto:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;
+#!/usr/bin/env bash
+
+echo &amp;quot;ESTAMOS IMPRIMIIINDOO&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos criar um arquivo chamado Dockerfile:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;nano Dockerfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos colocar o seguinte texto:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;FROM ubuntu # da imagem ubuntu
+
+MAINTAINER eu_mesmo # autor
+
+RUN apt-get update \
+    &amp;amp;&amp;amp; apt-get install -y mariadb-client \
+    libmariadbclient-dev \
+    libmariadb-client-lgpl-dev \
+    &amp;amp;&amp;amp; apt-get clean \
+    &amp;amp;&amp;amp; rm -rf /var/lib/apt/* \
+    &amp;amp;&amp;amp; rm -rf /tmp/*
+
+COPY text_print.sh /text_print.sh
+
+RUN chmod 755 /text_print.sh
+
+ENTRYPOINT /text_print.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A seguir CTRL+O para salvar e CTRL+X para sair.&lt;/p&gt;
+
+&lt;p&gt;Acima temos:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;FROM: imagem ubuntu&lt;/li&gt;
+&lt;li&gt;MAINTAINER: autor&lt;/li&gt;
+&lt;li&gt;RUN: Executo uma série de comandos, primeiro dou update nos repositórios do apt-get (instalador de pacotes do ubuntu). Depois instalo 3 pacotes, cliente e bibliotecas do MariaDB. Após isso eu limpo o cache de instalação e deleto qualquer arquivo intermediário que possa ter ficado das instalações.&lt;/li&gt;
+&lt;li&gt;COPY: Copio o arquivo que criamos anteriormente e coloco na raiz&lt;/li&gt;
+&lt;li&gt;RUN: Dou permissão para esse arquivo ser executado
+-ENTRYPOINT: Aponto o que será executado quando a subirmos o container.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Agora que temos a receita vamos construir a imagem &amp;ldquo;buildar&amp;rdquo;. A pasta deve conter apenas dois arquivos, verifique:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;ls
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Deve retornar isso:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;Dockerfile  text_print.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Então vamos buildar a imagem:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker build -t imagem_teste .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;build&lt;/code&gt;: é o comando para construir a imagem&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-t&lt;/code&gt;: é o argumento dizendo que vamos nomear a nossa imagem&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;imagem_teste&lt;/code&gt;: O nome da nossa imagem&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.&lt;/code&gt;: O comando build precisa que você referencie a pasta onde está o Dockerfile e os arquivos necessários para a construção. O &lt;code&gt;.&lt;/code&gt; referencia a pasta que você está no presente momento com o console.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Aguarde a imagem terminar de buildar e verifique:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image ls
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado (teremos um FUNCIONAL) você pode fazer o seguinte para subir a imagem para tal.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker tag imagem_teste seu_nome_usuario_repo/imagem_teste
+sudo docker push seu_nome_usuario_repo/imagem_teste
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Primeiro renomeia a imagem, colocando seu usuário como prefixo. Depois usar o push, para o upload da imagem, irá pedir um login e senha do repositório e irá iniciar o upload.&lt;/p&gt;
+
+&lt;p&gt;Vamos testar a imagem!!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run imagem_teste
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Imprimiu o que queríamos?&lt;/p&gt;
+
+&lt;p&gt;Vamos sair desta pasta que criamos e voltar para onde estávamos&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cd ..
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;..&lt;/code&gt;: Este símbolo significa subir uma pasta&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Docker Compose</title>
+      <link>/courses/docker/docker_compose/</link>
+      <pubDate>Thu, 01 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/courses/docker/docker_compose/</guid>
+      <description>
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;docker-compose&#34;&gt;Docker-compose&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do &lt;code&gt;docker run&lt;/code&gt;. Vamos fazer exemplos e compará-los.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;exemplo-1-subir-uma-imagem-numa-porta-específica&#34;&gt;Exemplo 1: Subir uma imagem numa porta específica&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando &lt;code&gt;run&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.&lt;/p&gt;
+
+&lt;p&gt;Vamos derrubar o serviço utilizando o nome do container.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill r_server_1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Agora vamos criar um arquivo docker-compose e utilizar seu sistema para levantar a aplicação.&lt;/p&gt;
+
+&lt;p&gt;Primeiro, vamos criar uma pasta de trabalho:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mkdir docker_compose_rstudio_server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos entrar na pasta:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cd docker_compose_rstudio_server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Agora vamos criar um arquivo docker-compose.yml e preencher seu conteúdo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;nano docker-compose.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Estamos dentro do editor de texto nano, coloque o seguinte conteúdo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;version: &#39;2&#39;
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    ports:
+    - &amp;quot;8787:8787&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;version&lt;/code&gt;: A versão do docker-compose que iremos utilizar, cada uma possui seus features.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;services&lt;/code&gt;: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r-dl-cpu_teste&lt;/code&gt;: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image&lt;/code&gt;: Estamos informando qual a imagem que será utilizado pelo serviço&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;container_name&lt;/code&gt;: O nome que o container receberá&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;restart&lt;/code&gt;: A política de restart do serviço, neste caso &lt;code&gt;always&lt;/code&gt; significa que, caso o serviço morra ele será levantado novamente de imediato&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ports&lt;/code&gt;: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Pressione CTRL+O para salvar e CTRL+X para sair. Agora vamos subir o serviço&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.&lt;/p&gt;
+
+&lt;p&gt;Vamos matar o serviço, para isso basta apenas:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose down
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente&#34;&gt;Exemplo 2: Subir uma imagem passando variáveis de ambiente&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.&lt;/p&gt;
+
+&lt;p&gt;Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.&lt;/p&gt;
+
+&lt;p&gt;Vamos subir esta imagem utilizando o comando &lt;code&gt;run&lt;/code&gt;, veja que, o comando já fica desagradável aos olhos (e não pode ser versionado).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 8787:8787 --name=r_server_1  -e USER=&#39;teste&#39; \
+                                                   -e USERID=&#39;1000&#39; \
+                                                   -e PASSWORD=&#39;facil123&#39; zegkreist/r-dl-cpu 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com &lt;strong&gt;login = teste e senha = facil123&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Vamos interromper o serviço.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill r_server_1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Agora, iremos editar novamente o arquivo &lt;code&gt;docker-compose.yml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;nano docker-compose.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Substitua seu conteúdo pelo seguinte texto:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;version: &#39;2&#39;
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+    - &amp;quot;8787:8787&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;CTRL+O para salvar e CTRL+X para sair.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com &lt;strong&gt;login = teste e senha = facil123&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Baixe a aplicação&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose down
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;exemplo-3-montar-volumes&#34;&gt;Exemplo 3: Montar volumes&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.&lt;/p&gt;
+
+&lt;p&gt;Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mkdir /home/${USER}/teste
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;${USER}&lt;/code&gt;: Isto acessa a variável de ambiente &lt;code&gt;USER&lt;/code&gt; que é o nome do seu usuário&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Vamos escrever algum arquivo nesta paste&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;echo &amp;quot;nothing to see here&amp;quot; &amp;gt; /home/${USER}/teste/arquivo.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando &lt;code&gt;run&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER=&#39;teste&#39; \
+                                                   -e USERID=&#39;1000&#39; \
+                                                   -e PASSWORD=&#39;facil123&#39;\
+                  -v /home/${USER}/teste:/home/teste/pasta_montada  zegkreist/r-dl-cpu 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com &lt;strong&gt;login = teste e senha = facil123&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;No canto direito inferior na aba &lt;em&gt;files&lt;/em&gt; olhe o folder com nome &amp;ldquo;pasta_montada&amp;rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.&lt;/p&gt;
+
+&lt;p&gt;Agora, vamos derrubar o container.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill r_server_1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos ver como está o arquivo que foi modificado dentro do container.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat /home/${USER}/teste/arquivo.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;E ai? Legal? tudo certo?&lt;/p&gt;
+
+&lt;p&gt;Vamos agora para o docker-compose, onde podemos ter tudo isso de forma versionada se usarmos um git (&amp;lsquo;se&amp;rsquo; do verbo &amp;lsquo;vamos&amp;rsquo;).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;nano docker-compose.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Coloque o seguinte conteúdo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;
+version: &#39;2&#39;
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=teste
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+     - &amp;quot;8787:8787&amp;quot;
+    volumes:
+     - /home/${USER}/teste:/home/teste/pasta_montada:rw  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos levantar:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Teste o acesso em &lt;a href=&#34;http://127.0.0.1:8787&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787&lt;/a&gt; se você estiver na sua máquina local ou  &lt;a href=&#34;http://ip-da-instancia:8787&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787&lt;/a&gt; numa instância na nuvem. É possível logar no serviço com &lt;strong&gt;login = teste e senha = facil123&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;No canto direito inferior na aba &lt;em&gt;files&lt;/em&gt; olhe o folder com nome &amp;ldquo;pasta_montada&amp;rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.&lt;/p&gt;
+
+&lt;p&gt;Baixe a aplicação&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;docker-compose down
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vamos verificar como está o arquivo modificado&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat /home/${USER}/teste/arquivo.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
