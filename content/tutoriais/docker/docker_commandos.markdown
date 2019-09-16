@@ -25,7 +25,8 @@ Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai
 
 Vamos subir uma imagem que seja um OS ubuntu em foreground:
 
-```{sh , eval = F}
+
+```sh
 sudo docker run -it ubuntu bash
 ```
 
@@ -40,17 +41,19 @@ Para sair de dentro da imagem execute `exit`.
 
 Vamos agora subir uma imagem mais "visual". Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.
 
-```{sh, eval = F}
+
+```sh
 sudo docker run -p 8787:3000 metabase/metabase 
 ```
 
-- `-p`: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do container e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa http://127.0.0.1:8787/setup você está acessando na verdade o container na porta 3000. Caso você esteja em alguma instância o endereço seria http://ip-da-instancia:8787/setup. (porta do host à esquerda e do container à direita)
+- `-p`: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do contêiner. Então, quando se acessa http://127.0.0.1:8787/setup você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria http://ip-da-instancia:8787/setup. (porta do host à esquerda e do contêiner à direita)
 
 - `metabase/metabase`: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório
 
 Observe seu terminal, veja que ele está preso à aplicação, caso seu terminal morra a aplicação também irá sofrer o mesmo destino. Vamos subir a aplicação no modo detached.
 
-```{sh, eval = F}
+
+```sh
 sudo docker run -d -p 8787:3000 metabase/metabase 
 ```
 
@@ -59,37 +62,40 @@ Observe agora que o terminal está livre e a aplicação continua rodando. E ago
 
 Podemos ainda fazer:
 
-```{sh, eval = F}
+
+```sh
 sudo docker run  --rm -d -p 8787:3000 metabase/metabase 
 ```
 
-- `--rm`: Este argumento diz que, quando o container morrer ou set parado, ele deve ser removido.
+- `--rm`: Este argumento diz que, quando o contêiner morrer ou set parado, ele deve ser removido.
 
 
-O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o container, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.
+O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o contêiner, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.
 
 <br><br>
 
 ***
-## Comandos: container
+## Comandos: contêiner
 ***
 
 
-O comando container nos permite verificar informações referentes aos contêineres. O container é a aplicação/imagem que foi executada ou está em execução.
+O comando contêiner nos permite verificar informações referentes aos contêineres. O contêiner é a aplicação/imagem que foi executada ou está em execução.
 
 Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.
 
-```{sh, eval = F}
+
+```sh
 sudo docker container ls
 ```
 
 - `ls`: O argumento ls significa listar:
 
-Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste container. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo. 
+Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste contêiner. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo. 
 
 Ao fazer:
 
-```{sh, eval = F}
+
+```sh
 sudo docker container ls -a
 ```
 
@@ -97,15 +103,16 @@ sudo docker container ls -a
 
 É possível ver todos os contêineres que já foram executados.
 
-Vamos então matar esse container ativo que não mais necessitamos. Ao executar `sudo docker container ls` podemos ver os ativos, observe que, cada container possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:
+Vamos então matar esse contêiner ativo que não mais necessitamos. Ao executar `sudo docker container ls` podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:
 
-```{sh, eval = F}
+
+```sh
 sudo docker container kill CONTAINER_ID
 ```
 
-No meu caso o comando foi `sudo docker container kill 816e65266526`, observe com `sudo docker container ls` que o container não está mais de pé.
+No meu caso o comando foi `sudo docker container kill 816e65266526`, observe com `sudo docker container ls` que o contêiner não está mais de pé.
 
-Há outros argumentos que podem ser utilizados junto com `container`, entre eles estão `exec`, `restart`, `pause`, `inspec`, `start`, `stop`, `unpause`, `logs`, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de container, pois eles irão nascer e morrer a todo momento.
+Há outros argumentos que podem ser utilizados junto com `container`, entre eles estão `exec`, `restart`, `pause`, `inspec`, `start`, `stop`, `unpause`, `logs`, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu contêiner para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de contêiner, pois eles irão nascer e morrer a todo momento.
 
 <br><br>
 
@@ -118,24 +125,28 @@ Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos
 
 Vamos listar todas as imagens que estão salvas.
 
-```{sh, eval = F}
+
+```sh
 sudo image ls -a
 ```
 
 Observe os tamanhos de cada imagem, todas essas imagens estão salvas no HD. A medida que são utilizadas o espaço do HD vai diminuindo. Vamos deletar a imagem do ubuntu
 
-```{sh, eval = F}
+
+```sh
 sudo docker rmi ubuntu
 ```
-Caso tenha algum log de um container que a esteja utilizando podemos forçar a remoção
+Caso tenha algum log de um contêiner que a esteja utilizando podemos forçar a remoção
 
-```{sh, eval = F}
+
+```sh
 sudo docker rmi -f ubuntu
 ```
 
 Vamos baixá-la novamente.
 
-```{sh, eval = F}
+
+```sh
 sudo docker image pull ubuntu
 ```
 
@@ -152,46 +163,53 @@ Este é um comando muito útil. Porém não iremos utilizá-lo em produção, ap
 
 **Container:**
 
-Veja quantos container temos que estão parados:
+Veja quantos contêiner temos que estão parados:
 
-```{sh, eval = F}
+
+```sh
 sudo docker container ls -a
 ```
 
 Podemos remover todos os contêineres parados com:
 
-```{sh , eval = F}
+
+```sh
 sudo docker container prune
 ```
 
 Podemos ainda filtrar, aqui removemos todos os contêineres criados parados que possuem mais de 24 horas.
-```{sh, eval = F}
+
+```sh
 sudo docker container prune --filter="until24h"
 ```
 
 **Images:**
 
-Podemos remover imagens que são "zumbis". Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum container.
+Podemos remover imagens que são "zumbis". Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum contêiner.
 
-```{sh, eval = F}
+
+```sh
 sudo docker image prune
 ```
 
-Podemos remover todas as imagens que não estejam associadas a um container:
-```{sh, eval = F}
+Podemos remover todas as imagens que não estejam associadas a um contêiner:
+
+```sh
 sudo docker image prune -a
 ```
 
 E assim como no exemplo dos contêineres podemos utilizar filtros
-```{sh, eval = F}
+
+```sh
 sudo docker image prune --filter="until24h"
 ```
 
 **Tudo:**
 
-Podemos fazer um prune de tudo ao mesmo tempo incluindo **Networks (Não abordei networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)**
+Podemos fazer um prune de tudo ao mesmo tempo incluindo **Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os contêineres de modo que eles apenas se comuniquem num espaço fechado)**
 
-```{sh, eval = F}
+
+```sh
 sudo docker system prune
 ```
 
@@ -217,12 +235,13 @@ O Dockerfile se baseia nos seguintes comandos:
 - `MAINTAINER`: O autor do arquivo
 - `COPY`: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)
 - `USER`: Define qual será o usuário padrão para a imagem
-- `ENTRYPOINT`: Define qual a aplicação do container. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).
+- `ENTRYPOINT`: Define qual a aplicação do contêiner. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um contêiner).
 - `CMD`: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser "ofuscado" por algum outro comando na hora de executar a imagem, exemplo `sudo docker run --rm -it ubuntu /bin/bash`, aqui estamos executando a imagem ubuntu com o CMD `/bin/bash` que substitui qualquer outro CMD dentro da imagem.
 
 Vamos preparar o terreno. Primeiro precisamos de uma área de trabalho para essa imagem que vamos criar. Então vamos criar um caminho de pastas para nosso Dockerfile ficar isolado e entrar nessas pasta.
 
-```{sh, eval = F}
+
+```sh
 mkdir teste_docker
 cd teste_docker
 ```
@@ -233,12 +252,14 @@ cd teste_docker
 Estamos dentro da pasta de trabalho, agora iremos criar um arquivo de texto e começar a construir nossa imagem. Vamos utilizar o programa `nano`, caso não tenha instale:
 
 Para CentOS
-```{sh, eval = F}
+
+```sh
 sudo yum install nano
 ```
 
 Para ubuntu/debian
-```{sh , eval = F}
+
+```sh
 sudo apt-get install nano
 ```
 
@@ -246,12 +267,14 @@ sudo apt-get install nano
 Vamos criar um executável para passar para dentro da imagem.Observe que, após executar esse comando agora temos uma página em branco para ser preenchida. Para salvar o arquivo após algo escrito aperte CTRL+ O, para sair do editor nano e retornar ao terminal CTRL+X. Vamos preencher o documento.
 
 
-```{sh, eval = F}
+
+```sh
 nano text_print.sh
 ```
 
 Coloque o seguinte texto:
-```{sh, eval = F}
+
+```sh
 
 #!/usr/bin/env bash
 
@@ -261,13 +284,15 @@ echo "ESTAMOS IMPRIMIIINDOO"
 
 Vamos criar um arquivo chamado Dockerfile:
 
-```{sh, eval = F}
+
+```sh
 nano Dockerfile
 ```
 
 Vamos colocar o seguinte texto:
 
-```{sh , eval = F}
+
+```sh
 FROM ubuntu # da imagem ubuntu
 
 MAINTAINER eu_mesmo # autor
@@ -298,23 +323,26 @@ Acima temos:
 - RUN: Executo uma série de comandos, primeiro dou update nos repositórios do apt-get (instalador de pacotes do ubuntu). Depois instalo 3 pacotes, cliente e bibliotecas do MariaDB. Após isso eu limpo o cache de instalação e deleto qualquer arquivo intermediário que possa ter ficado das instalações.
 - COPY: Copio o arquivo que criamos anteriormente e coloco na raiz
 - RUN: Dou permissão para esse arquivo ser executado
--ENTRYPOINT: Aponto o que será executado quando a subirmos o container.
+-ENTRYPOINT: Aponto o que será executado quando a subirmos o contêiner.
 
 
 Agora que temos a receita vamos construir a imagem "buildar". A pasta deve conter apenas dois arquivos, verifique:
 
-```{sh, eval = F}
+
+```sh
 ls
 ```
 
 Deve retornar isso:
-```{sh, eval = F}
+
+```sh
 Dockerfile  text_print.sh
 ```
 
 Então vamos buildar a imagem:
 
-```{sh , eval = F}
+
+```sh
 sudo docker build -t imagem_teste .
 ```
 
@@ -324,13 +352,15 @@ sudo docker build -t imagem_teste .
 - `.`: O comando build precisa que você referencie a pasta onde está o Dockerfile e os arquivos necessários para a construção. O `.` referencia a pasta que você está no presente momento com o console.
 
 Aguarde a imagem terminar de buildar e verifique:
-```{sh, eval = F}
+
+```sh
 sudo docker image ls
 ```
 
 Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado (teremos um FUNCIONAL) você pode fazer o seguinte para subir a imagem para tal.
 
-```{sh, eval = F}
+
+```sh
 sudo docker tag imagem_teste seu_nome_usuario_repo/imagem_teste
 sudo docker push seu_nome_usuario_repo/imagem_teste
 ```
@@ -339,14 +369,16 @@ Primeiro renomeia a imagem, colocando seu usuário como prefixo. Depois usar o p
 
 Vamos testar a imagem!!
 
-```{sh, eval = F}
+
+```sh
 sudo docker run imagem_teste
 ```
 
 Imprimiu o que queríamos?
 
 Vamos sair desta pasta que criamos e voltar para onde estávamos
-```{sh , eval = F}
+
+```sh
 cd ..
 ```
 

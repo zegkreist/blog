@@ -5,7 +5,7 @@
     <link>/authors/</link>
       <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pt-br</language>
     <image>
       <url>/img/icon-192.png</url>
       <title>Authors</title>
@@ -17,11 +17,10 @@
       <link>/authors/admin/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>/authors/admin/</guid>
-      <description>&lt;p&gt;Navarro Rosa is a young Statistician that love to solve problems and answer questions with data.
-Has worked on receipt-generated data from over one million people. Making models to categorize the text in each line for the appropriate product type. Performed market and basket analyzes. Designed and applied A | B tests to verify the effect of the marketing campaign.&lt;/p&gt;
+      <description>&lt;p&gt;Navarro Rosa é um jovem estatístico que adora resolver problemas e responder perguntas usando dados.
+Já trabalhou com dados de notas fiscais de mais de um milhão de pessoas. Criando modelos para categorizar os produtos descritos nos cupons. Realizou análises de mercado e de cesta. Desenhou e aplicou testes A|B para verificar o efeito de campanha de marketing.&lt;/p&gt;
 
-&lt;p&gt;Today work with health care data.
-Making predictive models for diseases, bringing doctor&amp;rsquo;s attention to the most serious patients. Performing tests of effectiveness of medical programs in the population.&lt;/p&gt;
+&lt;p&gt;Hoje trabalha com dados de saúde. Fazendo modelos preditivos para doenças, chamando a atenção de médicos para os pacientes mais sérios. Testando a efetividade de programas médicos aplicado à populações.&lt;/p&gt;
 </description>
     </item>
     

@@ -5,7 +5,7 @@
     <link>/courses/docker/</link>
       <atom:link href="/courses/docker/index.xml" rel="self" type="application/rss+xml" />
     <description>Overview</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pt-br</language><lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>Overview</title>
@@ -25,7 +25,11 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).&lt;/p&gt;
+&lt;p&gt;O Docker é uma tecnologia de container. Um container basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).&lt;/p&gt;
+
+&lt;p&gt;O Docker é um software que permite a construção e execução destes containeres. A construção é feita a partir de um &amp;lsquo;Dockerfile&amp;rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar. Por meio dele é possível construir uma imagem, esta imagem quando executada cria o container.&lt;/p&gt;
+
+&lt;p&gt;A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -33,7 +37,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada &lt;strong&gt;Amazon linux 2&lt;/strong&gt;, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas &amp;ldquo;facilidades&amp;rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de &lt;strong&gt;CentoOS 7&lt;/strong&gt; que serão compatíveis com a instância na Amazon.&lt;/p&gt;
+&lt;p&gt;Para usá-lo é necessário instalá-lo. Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas &amp;ldquo;facilidades&amp;rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de de acordo com o sabor que estiver utilizando.&lt;/p&gt;
 
 &lt;p&gt;Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.&lt;/p&gt;
 
@@ -75,7 +79,7 @@
     https://download.docker.com/linux/centos/docker-ce.repo
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Utilizando o programa auxiliar &lt;code&gt;yum-config-manager&lt;/code&gt; adicionamos o repositório na lista do &lt;code&gt;yum&lt;/code&gt;. O argumento &lt;code&gt;--add-repo&lt;/code&gt; é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.&lt;/p&gt;
+&lt;p&gt;Utilizando o programa auxiliar &lt;code&gt;yum-config-manager&lt;/code&gt; adicionamos o repositório na lista do &lt;code&gt;yum&lt;/code&gt;. O argumento &lt;code&gt;--add-repo&lt;/code&gt; é um argumento de chamada para o programa, logo após, especificamos qual o valor deste argumento, o link para o repositório.&lt;/p&gt;
 
 &lt;p&gt;Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):&lt;/p&gt;
 

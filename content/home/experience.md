@@ -5,7 +5,7 @@ headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 40  # Order that this section will appear.
 
-title = "Experience"
+title = "Experiências"
 subtitle = ""
 
 # Date format for experience
@@ -25,14 +25,13 @@ company_url = "https://www.priced.com.br/"
 location    = "São Paulo - SP"
 date_start  = "2016-10-01"
 date_end    = "2018-06-01"
-description = """Market analysis, NLP, machine learning
+description = """ Análise de mercado, NLP, machine learning 
 
+Responsabilidades:
 
-Responsibilities include:
-
-* Analysing
-* Modelling
-* Deploying
+* Análises
+* Modelagem
+* Classificação
 """
 
 [[experience]]
@@ -42,14 +41,14 @@ company_url = "https://www.funcionalhealthanalytics.com.br/"
 location = "São Paulo - SP"
 date_start = "2018-06-01"
 date_end = ""
-description = """ Statistical analysis on health care data. NLP and machine learning modeling
+description = """ Análises estatísticas em dados de planos de saúde. Classficiação NLP de procedimentos médicos, modelos preditivos para doenças, etc.
 
 
-Responsibilities include:
+Responsabilidades:
 
-* Analysing
-* Modelling
-* Deploying
+* Análises
+* Modelagem
+* Deploy
 """
 
 +++

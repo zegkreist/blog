@@ -31,7 +31,7 @@
   <meta name="description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.">
 
   
-  <link rel="alternate" hreflang="pt-br" href="../../../courses/docker/docker_commandos/">
+  <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/docker/docker_commandos/">
 
   
 
@@ -110,7 +110,7 @@
   <link rel="icon" type="image/png" href="../../../img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="../../../img/icon-192.png">
 
-  <link rel="canonical" href="../../../courses/docker/docker_commandos/">
+  <link rel="canonical" href="../../../tutoriais/docker/docker_commandos/">
 
   
   
@@ -126,7 +126,7 @@
   <meta property="twitter:creator" content="@zegkreist">
   
   <meta property="og:site_name" content="Vugudum">
-  <meta property="og:url" content="/courses/docker/docker_commandos/">
+  <meta property="og:url" content="/tutoriais/docker/docker_commandos/">
   <meta property="og:title" content="Docker Commands | Vugudum">
   <meta property="og:description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
@@ -279,7 +279,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link  active" href="../../../courses/"><span>Tutorials</span></a>
+          <a class="nav-link  active" href="../../../tutoriais/"><span>Tutoriais</span></a>
         </li>
 
         
@@ -308,7 +308,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="../../../#contact"><span>Contact</span></a>
+          <a class="nav-link " href="../../../#contact"><span>contato</span></a>
         </li>
 
         
@@ -367,24 +367,24 @@
   
   
   <div class="docs-toc-item">
-    <a class="docs-toc-link" href="../../../courses/docker/">Overview</a>
+    <a class="docs-toc-link" href="../../../tutoriais/docker/">Overview</a>
 
   </div>
   
   <div class="docs-toc-item">
-    <a class="docs-toc-link" href="../../../courses/docker/docker_installation/">Tutorial Docker</a>
+    <a class="docs-toc-link" href="../../../tutoriais/docker/docker_installation/">Tutorial Docker</a>
     <ul class="nav docs-sidenav">
       
       <li >
-        <a href="../../../courses/docker/docker_installation/">Docker Installation</a>
+        <a href="../../../tutoriais/docker/docker_installation/">Docker Installation</a>
       </li>
       
       <li class="active">
-        <a href="../../../courses/docker/docker_commandos/">Docker Commands</a>
+        <a href="../../../tutoriais/docker/docker_commandos/">Docker Commands</a>
       </li>
       
       <li >
-        <a href="../../../courses/docker/docker_compose/">Docker Compose</a>
+        <a href="../../../tutoriais/docker/docker_compose/">Docker Compose</a>
       </li>
       
     </ul>
@@ -408,7 +408,7 @@
 <li>
 <ul>
 <li><a href="#comandos-run">Comandos: run</a></li>
-<li><a href="#comandos-container">Comandos: container</a></li>
+<li><a href="#comandos-contêiner">Comandos: contêiner</a></li>
 <li><a href="#comandos-image">Comandos: image</a></li>
 <li><a href="#comandos-prune">Comandos: prune</a></li>
 <li><a href="#comandos-build">Comandos: build</a></li>
@@ -462,7 +462,7 @@
 </code></pre>
 
 <ul>
-<li><p><code>-p</code>: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do container e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa <a href="http://127.0.0.1:8787/setup" target="_blank">http://127.0.0.1:8787/setup</a> você está acessando na verdade o container na porta 3000. Caso você esteja em alguma instância o endereço seria <a href="http://ip-da-instancia:8787/setup" target="_blank">http://ip-da-instancia:8787/setup</a>. (porta do host à esquerda e do container à direita)</p></li>
+<li><p><code>-p</code>: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do contêiner. Então, quando se acessa <a href="http://127.0.0.1:8787/setup" target="_blank">http://127.0.0.1:8787/setup</a> você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria <a href="http://ip-da-instancia:8787/setup" target="_blank">http://ip-da-instancia:8787/setup</a>. (porta do host à esquerda e do contêiner à direita)</p></li>
 
 <li><p><code>metabase/metabase</code>: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório</p></li>
 </ul>
@@ -480,20 +480,20 @@
 </code></pre>
 
 <ul>
-<li><code>--rm</code>: Este argumento diz que, quando o container morrer ou set parado, ele deve ser removido.</li>
+<li><code>--rm</code>: Este argumento diz que, quando o contêiner morrer ou set parado, ele deve ser removido.</li>
 </ul>
 
-<p>O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o container, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.</p>
+<p>O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o contêiner, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.</p>
 
 <p><br><br></p>
 
 <hr />
 
-<h2 id="comandos-container">Comandos: container</h2>
+<h2 id="comandos-contêiner">Comandos: contêiner</h2>
 
 <hr />
 
-<p>O comando container nos permite verificar informações referentes aos contêineres. O container é a aplicação/imagem que foi executada ou está em execução.</p>
+<p>O comando contêiner nos permite verificar informações referentes aos contêineres. O contêiner é a aplicação/imagem que foi executada ou está em execução.</p>
 
 <p>Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.</p>
 
@@ -504,7 +504,7 @@
 <li><code>ls</code>: O argumento ls significa listar:</li>
 </ul>
 
-<p>Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste container. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo.</p>
+<p>Caso você tenha executado o exemplo detached do metabase da sessão anterior terá uma linha preenchida com as informações deste contêiner. Verá que ele está ativo, em qual porta, qual o comando executado e a quanto tempo.</p>
 
 <p>Ao fazer:</p>
 
@@ -517,14 +517,14 @@
 
 <p>É possível ver todos os contêineres que já foram executados.</p>
 
-<p>Vamos então matar esse container ativo que não mais necessitamos. Ao executar <code>sudo docker container ls</code> podemos ver os ativos, observe que, cada container possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:</p>
+<p>Vamos então matar esse contêiner ativo que não mais necessitamos. Ao executar <code>sudo docker container ls</code> podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:</p>
 
 <pre><code class="language-sh">sudo docker container kill CONTAINER_ID
 </code></pre>
 
-<p>No meu caso o comando foi <code>sudo docker container kill 816e65266526</code>, observe com <code>sudo docker container ls</code> que o container não está mais de pé.</p>
+<p>No meu caso o comando foi <code>sudo docker container kill 816e65266526</code>, observe com <code>sudo docker container ls</code> que o contêiner não está mais de pé.</p>
 
-<p>Há outros argumentos que podem ser utilizados junto com <code>container</code>, entre eles estão <code>exec</code>, <code>restart</code>, <code>pause</code>, <code>inspec</code>, <code>start</code>, <code>stop</code>, <code>unpause</code>, <code>logs</code>, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de container, pois eles irão nascer e morrer a todo momento.</p>
+<p>Há outros argumentos que podem ser utilizados junto com <code>container</code>, entre eles estão <code>exec</code>, <code>restart</code>, <code>pause</code>, <code>inspec</code>, <code>start</code>, <code>stop</code>, <code>unpause</code>, <code>logs</code>, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu contêiner para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de contêiner, pois eles irão nascer e morrer a todo momento.</p>
 
 <p><br><br></p>
 
@@ -546,7 +546,7 @@
 <pre><code class="language-sh">sudo docker rmi ubuntu
 </code></pre>
 
-<p>Caso tenha algum log de um container que a esteja utilizando podemos forçar a remoção</p>
+<p>Caso tenha algum log de um contêiner que a esteja utilizando podemos forçar a remoção</p>
 
 <pre><code class="language-sh">sudo docker rmi -f ubuntu
 </code></pre>
@@ -570,7 +570,7 @@
 
 <p><strong>Container:</strong></p>
 
-<p>Veja quantos container temos que estão parados:</p>
+<p>Veja quantos contêiner temos que estão parados:</p>
 
 <pre><code class="language-sh">sudo docker container ls -a
 </code></pre>
@@ -587,12 +587,12 @@
 
 <p><strong>Images:</strong></p>
 
-<p>Podemos remover imagens que são &ldquo;zumbis&rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum container.</p>
+<p>Podemos remover imagens que são &ldquo;zumbis&rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum contêiner.</p>
 
 <pre><code class="language-sh">sudo docker image prune
 </code></pre>
 
-<p>Podemos remover todas as imagens que não estejam associadas a um container:</p>
+<p>Podemos remover todas as imagens que não estejam associadas a um contêiner:</p>
 
 <pre><code class="language-sh">sudo docker image prune -a
 </code></pre>
@@ -604,7 +604,7 @@
 
 <p><strong>Tudo:</strong></p>
 
-<p>Podemos fazer um prune de tudo ao mesmo tempo incluindo <strong>Networks (Não abordei networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)</strong></p>
+<p>Podemos fazer um prune de tudo ao mesmo tempo incluindo <strong>Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os contêineres de modo que eles apenas se comuniquem num espaço fechado)</strong></p>
 
 <pre><code class="language-sh">sudo docker system prune
 </code></pre>
@@ -631,7 +631,7 @@
 <li><code>MAINTAINER</code>: O autor do arquivo</li>
 <li><code>COPY</code>: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)</li>
 <li><code>USER</code>: Define qual será o usuário padrão para a imagem</li>
-<li><code>ENTRYPOINT</code>: Define qual a aplicação do container. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).</li>
+<li><code>ENTRYPOINT</code>: Define qual a aplicação do contêiner. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um contêiner).</li>
 <li><code>CMD</code>: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser &ldquo;ofuscado&rdquo; por algum outro comando na hora de executar a imagem, exemplo <code>sudo docker run --rm -it ubuntu /bin/bash</code>, aqui estamos executando a imagem ubuntu com o CMD <code>/bin/bash</code> que substitui qualquer outro CMD dentro da imagem.</li>
 </ul>
 
@@ -707,7 +707,7 @@ ENTRYPOINT /text_print.sh
 <li>RUN: Executo uma série de comandos, primeiro dou update nos repositórios do apt-get (instalador de pacotes do ubuntu). Depois instalo 3 pacotes, cliente e bibliotecas do MariaDB. Após isso eu limpo o cache de instalação e deleto qualquer arquivo intermediário que possa ter ficado das instalações.</li>
 <li>COPY: Copio o arquivo que criamos anteriormente e coloco na raiz</li>
 <li>RUN: Dou permissão para esse arquivo ser executado
--ENTRYPOINT: Aponto o que será executado quando a subirmos o container.</li>
+-ENTRYPOINT: Aponto o que será executado quando a subirmos o contêiner.</li>
 </ul>
 
 <p>Agora que temos a receita vamos construir a imagem &ldquo;buildar&rdquo;. A pasta deve conter apenas dois arquivos, verifique:</p>
@@ -778,14 +778,14 @@ sudo docker push seu_nome_usuario_repo/imagem_teste
   
   <div class="post-nav-item">
     <div class="meta-nav">Previous</div>
-    <a href="../../../courses/docker/docker_installation/" rel="next">Docker Installation</a>
+    <a href="../../../tutoriais/docker/docker_installation/" rel="next">Docker Installation</a>
   </div>
   
   
   
   <div class="post-nav-item">
     <div class="meta-nav">Next</div>
-    <a href="../../../courses/docker/docker_compose/" rel="prev">Docker Compose</a>
+    <a href="../../../tutoriais/docker/docker_compose/" rel="prev">Docker Compose</a>
   </div>
   
 </div>

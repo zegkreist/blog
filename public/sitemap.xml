@@ -3,22 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/courses/docker/docker_installation/</loc>
+    <loc>/tutoriais/docker/docker_installation/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/courses/docker/</loc>
+    <loc>/tutoriais/docker/</loc>
     <lastmod>2018-09-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/courses/docker/docker_commandos/</loc>
+    <loc>/tutoriais/docker/docker_commandos/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/courses/docker/docker_compose/</loc>
+    <loc>/tutoriais/docker/docker_compose/</loc>
     <lastmod>2019-08-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -40,7 +40,7 @@
   </url>
   
   <url>
-    <loc>/courses/</loc>
+    <loc>/tutoriais/</loc>
   </url>
   
   <url>

@@ -18,14 +18,15 @@ organizations:
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
-bio: I bring order and knowledge to the chaos of data.
+bio: Eu tragro ordem e conhecimento ao chaos que existe nos dados.
 
 interests:
-- Statistics
-- Data Engineering
-- Artificial Intelligence
-- Computational Linguistics
-- Food
+- Estatística
+- Engenharia de Dados
+- AI/ML/NLP tudo a mesma coisa
+- TI Stuff
+- Infra stuff
+- COMIDA
 
 education:
   courses:
@@ -64,8 +65,7 @@ user_groups:
 - Visitors
 ---
 
-Navarro Rosa is a young Statistician that love to solve problems and answer questions with data. 
-Has worked on receipt-generated data from over one million people. Making models to categorize the text in each line for the appropriate product type. Performed market and basket analyzes. Designed and applied A | B tests to verify the effect of the marketing campaign.
+Navarro Rosa é um jovem estatístico que adora resolver problemas e responder perguntas usando dados.
+Já trabalhou com dados de notas fiscais de mais de um milhão de pessoas. Criando modelos para categorizar os produtos descritos nos cupons. Realizou análises de mercado e de cesta. Desenhou e aplicou testes A|B para verificar o efeito de campanha de marketing.
 
-Today work with health care data. 
-Making predictive models for diseases, bringing doctor's attention to the most serious patients. Performing tests of effectiveness of medical programs in the population.
+Hoje trabalha com dados de saúde. Fazendo modelos preditivos para doenças, chamando a atenção de médicos para os pacientes mais sérios. Testando a efetividade de programas médicos aplicado à populações.

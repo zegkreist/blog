@@ -19,13 +19,13 @@ weight: 3
 ## Docker-compose
 ***
 
-O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do `docker run`. Vamos fazer exemplos e compará-los.
+O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do `docker run`. Vamos fazer exemplos e compará-los.
 
 ***
 ### Exemplo 1: Subir uma imagem numa porta específica
 ***
 
-Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando `run`.
+Vamos subir uma imagem numa porta específica e dar nome ao contêiner, assim podemos identificar pelo nome do contêiner qual aplicação está rodando com o comando `run`.
 
 ```{sh, eval = F}
 sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
@@ -33,7 +33,7 @@ sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu
 
 Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local ou  http://ip-da-instancia:8787 numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.
 
-Vamos derrubar o serviço utilizando o nome do container.
+Vamos derrubar o serviço utilizando o nome do contêiner.
 
 ```{sh, eval = F}
 sudo docker container kill r_server_1
@@ -74,9 +74,9 @@ services:
 
 - `version`: A versão do docker-compose que iremos utilizar, cada uma possui seus features.
 - `services`: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste
-- `r-dl-cpu_teste`: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.
+- `r-dl-cpu_teste`: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está indentado com ele são suas definições.
 - `image`: Estamos informando qual a imagem que será utilizado pelo serviço
-- `container_name`: O nome que o container receberá
+- `container_name`: O nome que o contêiner receberá
 - `restart`: A política de restart do serviço, neste caso `always` significa que, caso o serviço morra ele será levantado novamente de imediato
 - `ports`: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.
 
@@ -98,7 +98,7 @@ docker-compose down
 ### Exemplo 2: Subir uma imagem passando variáveis de ambiente
 ***
 
-É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.
+É possível passar variáveis de ambiente para uma imagem utilizar na execução de um contêiner. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do contêiner. Podemos então passar essas variáveis e consumi-las em nosso códigos.
 
 Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio. 
 
@@ -161,9 +161,9 @@ docker-compose down
 ### Exemplo 3: Montar volumes
 ***
 
-A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.
+A ideia por trás de montar volumes é que, o contêiner possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do contêiner (dentro do contêiner), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o contêiner poder ler ou ler e escrever numa região do host.
 
-Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário
+Primeiro vamos definir a pasta que será montada dentro do contêiner. Vamos criar uma pasta embaixo da pasta de usuário
 
 ```{sh, eval = F}
 mkdir /home/${USER}/teste
@@ -179,7 +179,7 @@ echo "nothing to see here" > /home/${USER}/teste/arquivo.txt
 
 
 
-Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando `run`
+Vamos subir uma imagem com essa pasta montada dentro do contêiner utilizando o comando `run`
 
 ```{sh, eval = F}
 sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
@@ -193,13 +193,13 @@ Teste o acesso em http://127.0.0.1:8787 se você estiver na sua máquina local o
 
 No canto direito inferior na aba *files* olhe o folder com nome "pasta_montada", veja o arquivo que está dentro, acesse e faça alguma modificação e salve.
 
-Agora, vamos derrubar o container.
+Agora, vamos derrubar o contêiner.
 
 ```{sh, eval = F}
 sudo docker container kill r_server_1
 ```
 
-Vamos ver como está o arquivo que foi modificado dentro do container.
+Vamos ver como está o arquivo que foi modificado dentro do contêiner.
 
 ```{sh, eval = F}
 cat /home/${USER}/teste/arquivo.txt

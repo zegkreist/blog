@@ -2,23 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Courses | Vugudum</title>
-    <link>/courses/</link>
-      <atom:link href="/courses/index.xml" rel="self" type="application/rss+xml" />
+    <link>/tutoriais/</link>
+      <atom:link href="/tutoriais/index.xml" rel="self" type="application/rss+xml" />
     <description>Courses</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pt-br</language>
     <image>
       <url>/img/icon-192.png</url>
       <title>Courses</title>
-      <link>/courses/</link>
+      <link>/tutoriais/</link>
     </image>
     
     <item>
       <title>Overview</title>
-      <link>/courses/docker/</link>
+      <link>/tutoriais/docker/</link>
       <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
-      <guid>/courses/docker/</guid>
-      <description>&lt;p&gt;I will pass some topics. First of all I wil show how to install, in CentOS and Ubuntu.&lt;/p&gt;
-</description>
+      <guid>/tutoriais/docker/</guid>
+      <description></description>
     </item>
     
   </channel>

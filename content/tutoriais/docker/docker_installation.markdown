@@ -19,18 +19,23 @@ weight: 1
 ## Docker
 ***
 
-A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
+O Docker é uma tecnologia de contêiner. Um contêiner basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação). 
+
+O Docker é um software que permite a construção e execução destes contêineres. A construção é feita a partir de um 'Dockerfile', nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar. Por meio dele é possível construir uma imagem, esta imagem quando executada cria o contêiner.
+
+A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile.
 
 ***
 ## Instalação docker
 ***
 
-Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada **Amazon linux 2**, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas "facilidades", comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de **CentoOS 7** que serão compatíveis com a instância na Amazon.
+Para usá-lo é necessário instalá-lo. Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas "facilidades", comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de de acordo com o sabor que estiver utilizando.
 
 Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.
 
 Para evitar problemas, vamos primeiro garantir que não haja nada de docker instalado na máquina.
-```{sh, eval = F}
+
+```sh
 sudo yum remove docker \
                   docker-client \
                   docker-client-latest \
@@ -52,7 +57,8 @@ Este comando tem o seguinte significado:
 
 Vamos instalar o Docker via repositório. O repositório é um "espaço" em que seu OS "confia" para buscar pacotes e instalá-los na máquina. Normalmente o OS linux quando instalado já possui uma lista de repositórios confiáveis e oficiais em que pode contar, cada distribuição possui sua própria coleção de repositórios padrão. Aqui vamos adicionar um repositório nesta lista, o do docker-ce. Para isso, inicialmente será instalado alguns programas auxiliares ao `yum`, para podermos adicionar o novo repositório.
 
-```{sh, eval = F}
+
+```sh
 sudo yum install -y yum-utils \
   device-mapper-persistent-data \
   lvm2
@@ -60,23 +66,26 @@ sudo yum install -y yum-utils \
 
 Agora adicionando o repositório:
 
-```{sh , eval = F}
+
+```sh
 sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 ```
 
-Utilizando o programa auxiliar `yum-config-manager` adicionamos o repositório na lista do `yum`. O argumento `--add-repo` é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.
+Utilizando o programa auxiliar `yum-config-manager` adicionamos o repositório na lista do `yum`. O argumento `--add-repo` é um argumento de chamada para o programa, logo após, especificamos qual o valor deste argumento, o link para o repositório.
 
 Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):
 
-```{sh, eval = F}
+
+```sh
 sudo yum install docker-ce docker-ce-cli containerd.io
 ```
 
 O docker foi instalado, porém não iniciado, para isso:
 
-```{sh, eval = F}
+
+```sh
 sudo systemctl start docker
 ```
 
@@ -90,7 +99,8 @@ Neste passo o Docker está iniciado. Mas há **2 poréns**, o primeiro é que se
 
 Resolvendo o primeiro porém:
 
-```{sh, eval = F}
+
+```sh
 sudo systemctl enable docker
 ```
 
@@ -100,7 +110,8 @@ Resolvendo o Segundo porém:
 
 - A segunda é dar permissão ao seu usuário para executar comandos docker
 
-```{sh, eval = F}
+
+```sh
 sudo usermod -aG docker $USER
 ```
 
@@ -108,7 +119,8 @@ Normalmente já existe um grupo chamado "docker" criado na hora da instalação.
 
 Vamos testar o docker:
 
-```{sh, eval = F}
+
+```sh
 sudo docker run hello-world
 ```
 
@@ -122,7 +134,8 @@ O docker-compose ajuda na orquestração de uma imagem docker. Para executar uma
 
 A instalação do docker-compose é diferente das demais. Ainda não há um pacote fechado para ele, o que fazemos nada mais é do que fazer o download de seus binários para um local do sistema e dar permissões a esses arquivos.
 
-```{sh , eval = F}
+
+```sh
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
@@ -131,7 +144,8 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-
 
 Agora é necessário dar permissão de execução para o arquivo:
 
-```{sh, eval = F}
+
+```sh
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
@@ -141,7 +155,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 Testando a instalação:
 
-```{sh, eval = F}
+
+```sh
 docker-compose --version
 ```
 

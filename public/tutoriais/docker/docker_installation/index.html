@@ -28,11 +28,11 @@
   
     
   
-  <meta name="description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
-Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run.">
+  <meta name="description" content="Docker O Docker é uma tecnologia de contêiner. Um contêiner basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).
+O Docker é um software que permite a construção e execução destes contêineres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar.">
 
   
-  <link rel="alternate" hreflang="pt-br" href="../../../courses/docker/docker_compose/">
+  <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/docker/docker_installation/">
 
   
 
@@ -111,7 +111,7 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
   <link rel="icon" type="image/png" href="../../../img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="../../../img/icon-192.png">
 
-  <link rel="canonical" href="../../../courses/docker/docker_compose/">
+  <link rel="canonical" href="../../../tutoriais/docker/docker_installation/">
 
   
   
@@ -127,10 +127,10 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
   <meta property="twitter:creator" content="@zegkreist">
   
   <meta property="og:site_name" content="Vugudum">
-  <meta property="og:url" content="/courses/docker/docker_compose/">
-  <meta property="og:title" content="Docker Compose | Vugudum">
-  <meta property="og:description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
-Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:url" content="/tutoriais/docker/docker_installation/">
+  <meta property="og:title" content="Docker Installation | Vugudum">
+  <meta property="og:description" content="Docker O Docker é uma tecnologia de contêiner. Um contêiner basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).
+O Docker é um software que permite a construção e execução destes contêineres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
   
     
@@ -148,7 +148,7 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
 
 
 
-  <title>Docker Compose | Vugudum</title>
+  <title>Docker Installation | Vugudum</title>
 
 </head>
 
@@ -281,7 +281,7 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
         
 
         <li class="nav-item">
-          <a class="nav-link  active" href="../../../courses/"><span>Tutorials</span></a>
+          <a class="nav-link  active" href="../../../tutoriais/"><span>Tutoriais</span></a>
         </li>
 
         
@@ -310,7 +310,7 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
         
 
         <li class="nav-item">
-          <a class="nav-link " href="../../../#contact"><span>Contact</span></a>
+          <a class="nav-link " href="../../../#contact"><span>contato</span></a>
         </li>
 
         
@@ -369,24 +369,24 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
   
   
   <div class="docs-toc-item">
-    <a class="docs-toc-link" href="../../../courses/docker/">Overview</a>
+    <a class="docs-toc-link" href="../../../tutoriais/docker/">Overview</a>
 
   </div>
   
   <div class="docs-toc-item">
-    <a class="docs-toc-link" href="../../../courses/docker/docker_installation/">Tutorial Docker</a>
+    <a class="docs-toc-link" href="../../../tutoriais/docker/docker_installation/">Tutorial Docker</a>
     <ul class="nav docs-sidenav">
       
-      <li >
-        <a href="../../../courses/docker/docker_installation/">Docker Installation</a>
-      </li>
-      
-      <li >
-        <a href="../../../courses/docker/docker_commandos/">Docker Commands</a>
-      </li>
-      
       <li class="active">
-        <a href="../../../courses/docker/docker_compose/">Docker Compose</a>
+        <a href="../../../tutoriais/docker/docker_installation/">Docker Installation</a>
+      </li>
+      
+      <li >
+        <a href="../../../tutoriais/docker/docker_commandos/">Docker Commands</a>
+      </li>
+      
+      <li >
+        <a href="../../../tutoriais/docker/docker_compose/">Docker Compose</a>
       </li>
       
     </ul>
@@ -409,12 +409,10 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
 <ul>
 <li>
 <ul>
-<li><a href="#docker-compose">Docker-compose</a>
-<ul>
-<li><a href="#exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</a></li>
-<li><a href="#exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</a></li>
-<li><a href="#exemplo-3-montar-volumes">Exemplo 3: Montar volumes</a></li>
-</ul></li>
+<li><a href="#docker">Docker</a></li>
+<li><a href="#instalação-docker">Instalação docker</a></li>
+<li><a href="#instalação-docker-compose">Instalação docker-compose</a></li>
+<li><a href="#exemplos-docker">Exemplos: Docker</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -428,237 +426,162 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
       <article class="article" itemscope itemtype="http://schema.org/Article">
 
         <div class="docs-article-container">
-          <h1 itemprop="name">Docker Compose</h1>
+          <h1 itemprop="name">Docker Installation</h1>
 
           <div class="article-style" itemprop="articleBody">
             
 
 <hr />
 
-<h2 id="docker-compose">Docker-compose</h2>
+<h2 id="docker">Docker</h2>
 
 <hr />
 
-<p>O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e networks, uma versão em arquivo do <code>docker run</code>. Vamos fazer exemplos e compará-los.</p>
+<p>O Docker é uma tecnologia de contêiner. Um contêiner basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).</p>
+
+<p>O Docker é um software que permite a construção e execução destes contêineres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar. Por meio dele é possível construir uma imagem, esta imagem quando executada cria o contêiner.</p>
+
+<p>A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile.</p>
 
 <hr />
 
-<h3 id="exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</h3>
+<h2 id="instalação-docker">Instalação docker</h2>
 
 <hr />
 
-<p>Vamos subir uma imagem numa porta específica e dar nome ao container, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando <code>run</code>.</p>
+<p>Para usá-lo é necessário instalá-lo. Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas &ldquo;facilidades&rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de de acordo com o sabor que estiver utilizando.</p>
 
-<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
+<p>Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.</p>
+
+<p>Para evitar problemas, vamos primeiro garantir que não haja nada de docker instalado na máquina.</p>
+
+<pre><code class="language-sh">sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
 </code></pre>
 
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+<p>Este comando tem o seguinte significado:</p>
 
-<p>Vamos derrubar o serviço utilizando o nome do container.</p>
+<ul>
+<li><p><code>sudo</code>: Tem o significado de &ldquo;faça&rdquo; (<code>do</code>) como &ldquo;super usuário&rdquo; (<code>su</code>). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar todo o sistema, não haverá qualquer pergunta, a execução será direta). Outra opção ao <code>sudo</code> seria logar como <em>SU</em> e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando <code>sudo</code>).</p></li>
 
-<pre><code class="language-sh">sudo docker container kill r_server_1
+<li><p><code>yum</code>: Este é um programa que gerencia os pacotes instalados do CentOS. Caso fosse uma distribuição baseada em Debian como Ubuntu seria <code>apt</code>ou <code>apt-get</code>. Se fosse baseado em Arch seria <code>pacman</code>.</p></li>
+
+<li><p><code>remove</code>: Este é um argumento para o programa <code>yum</code>. Este argumento informa que qualquer pacote descrito a frente deve ser removido.</p></li>
+
+<li><p><code>\</code>: Esta barra invertida é apenas uma quebra de linha para facilitar a visualização. Normalmente o comando existe em apenas uma única linha.</p></li>
+</ul>
+
+<p>Vamos instalar o Docker via repositório. O repositório é um &ldquo;espaço&rdquo; em que seu OS &ldquo;confia&rdquo; para buscar pacotes e instalá-los na máquina. Normalmente o OS linux quando instalado já possui uma lista de repositórios confiáveis e oficiais em que pode contar, cada distribuição possui sua própria coleção de repositórios padrão. Aqui vamos adicionar um repositório nesta lista, o do docker-ce. Para isso, inicialmente será instalado alguns programas auxiliares ao <code>yum</code>, para podermos adicionar o novo repositório.</p>
+
+<pre><code class="language-sh">sudo yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
 </code></pre>
 
-<p>Agora vamos criar um arquivo docker-compose e utilizar seu sistema para levantar a aplicação.</p>
+<p>Agora adicionando o repositório:</p>
 
-<p>Primeiro, vamos criar uma pasta de trabalho:</p>
-
-<pre><code class="language-sh">mkdir docker_compose_rstudio_server
+<pre><code class="language-sh">sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
 </code></pre>
 
-<p>Vamos entrar na pasta:</p>
+<p>Utilizando o programa auxiliar <code>yum-config-manager</code> adicionamos o repositório na lista do <code>yum</code>. O argumento <code>--add-repo</code> é um argumento de chamada para o programa, logo após, especificamos qual o valor deste argumento, o link para o repositório.</p>
 
-<pre><code class="language-sh">cd docker_compose_rstudio_server
+<p>Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):</p>
+
+<pre><code class="language-sh">sudo yum install docker-ce docker-ce-cli containerd.io
 </code></pre>
 
-<p>Agora vamos criar um arquivo docker-compose.yml e preencher seu conteúdo.</p>
+<p>O docker foi instalado, porém não iniciado, para isso:</p>
 
-<pre><code class="language-sh">nano docker-compose.yml
-</code></pre>
-
-<p>Estamos dentro do editor de texto nano, coloque o seguinte conteúdo:</p>
-
-<pre><code class="language-sh">version: '2'
-services:
-  r-dl-cpu_teste:
-    image: zegkreist/r-dl-cpu
-    container_name: r_server_1
-    restart: always
-    ports:
-    - &quot;8787:8787&quot;
+<pre><code class="language-sh">sudo systemctl start docker
 </code></pre>
 
 <ul>
-<li><code>version</code>: A versão do docker-compose que iremos utilizar, cada uma possui seus features.</li>
-<li><code>services</code>: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste</li>
-<li><code>r-dl-cpu_teste</code>: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está identado com ele são suas definições.</li>
-<li><code>image</code>: Estamos informando qual a imagem que será utilizado pelo serviço</li>
-<li><code>container_name</code>: O nome que o container receberá</li>
-<li><code>restart</code>: A política de restart do serviço, neste caso <code>always</code> significa que, caso o serviço morra ele será levantado novamente de imediato</li>
-<li><code>ports</code>: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.</li>
+<li><p><code>sudo</code>: Faça como super usuário</p></li>
+
+<li><p><code>systemctl</code>: É o programa que organiza os processos do sistema</p></li>
+
+<li><p><code>start</code>: É um argumento para o programa <code>systemctl</code>, dizendo para iniciar o programa de nome a frente.</p></li>
 </ul>
 
-<p>Pressione CTRL+O para salvar e CTRL+X para sair. Agora vamos subir o serviço</p>
+<p>Neste passo o Docker está iniciado. Mas há <strong>2 poréns</strong>, o primeiro é que sempre que a máquina reiniciar o processo ficará parado, o segundo é que apenas o super usuário possui permissão de executar o docker.</p>
 
-<pre><code class="language-sh">docker-compose up -d
+<p>Resolvendo o primeiro porém:</p>
+
+<pre><code class="language-sh">sudo systemctl enable docker
 </code></pre>
 
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com login = rstudio e senha = rstudio.</p>
+<p>Resolvendo o Segundo porém:</p>
 
-<p>Vamos matar o serviço, para isso basta apenas:</p>
+<ul>
+<li><p>Uma forma é sempre usar <code>sudo</code> para executar comandos docker</p></li>
 
-<pre><code class="language-sh">docker-compose down
+<li><p>A segunda é dar permissão ao seu usuário para executar comandos docker</p>
+
+<pre><code class="language-sh">sudo usermod -aG docker $USER
+</code></pre></li>
+</ul>
+
+<p>Normalmente já existe um grupo chamado &ldquo;docker&rdquo; criado na hora da instalação. O que fazemos nesse comando é adicionar o nosso usuário <code>$USER</code> no grupo docker. Eu prefiro utilizar sempre o comando <code>sudo</code> para executar os comandos docker.</p>
+
+<p>Vamos testar o docker:</p>
+
+<pre><code class="language-sh">sudo docker run hello-world
 </code></pre>
+
+<p>Este comando executa uma imagem chamada <code>hello-world</code> (caso ela não exista no seu PC, o docker faz o download dela no repositório oficial do docker, o docker hub (não confundir com repositório de pacotes do sistema)).</p>
 
 <hr />
 
-<h3 id="exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</h3>
+<h2 id="instalação-docker-compose">Instalação docker-compose</h2>
 
 <hr />
 
-<p>É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.</p>
+<p>O docker-compose ajuda na orquestração de uma imagem docker. Para executar uma imagem docker há vários parâmetros a serem setados para um comando só (como veremos adiante). Com o docker-compose é possível reescrever todos esses comandos em um único arquivo que pode ser versionado. Em um único arquivo, também é possível &lsquo;levantar&rsquo; várias imagens diferentes, com seus próprios argumentos e configuração de como essas imagens irão conversar.</p>
 
-<p>Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.</p>
+<p>A instalação do docker-compose é diferente das demais. Ainda não há um pacote fechado para ele, o que fazemos nada mais é do que fazer o download de seus binários para um local do sistema e dar permissões a esses arquivos.</p>
 
-<p>Vamos subir esta imagem utilizando o comando <code>run</code>, veja que, o comando já fica desagradável aos olhos (e não pode ser versionado).</p>
-
-<pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1  -e USER='teste' \
-                                                   -e USERID='1000' \
-                                                   -e PASSWORD='facil123' zegkreist/r-dl-cpu 
-</code></pre>
-
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
-
-<p>Vamos interromper o serviço.</p>
-
-<pre><code class="language-sh">sudo docker container kill r_server_1
-</code></pre>
-
-<p>Agora, iremos editar novamente o arquivo <code>docker-compose.yml</code>.</p>
-
-<pre><code class="language-sh">nano docker-compose.yml
-</code></pre>
-
-<p>Substitua seu conteúdo pelo seguinte texto:</p>
-
-<pre><code class="language-sh">version: '2'
-services:
-  r-dl-cpu_teste:
-    image: zegkreist/r-dl-cpu
-    container_name: r_server_1
-    restart: always
-    environment:
-     - USER=teste
-     - USERID=1000
-     - PASSWORD=facil123
-    ports:
-    - &quot;8787:8787&quot;
-</code></pre>
-
-<p>CTRL+O para salvar e CTRL+X para sair.</p>
-
-<pre><code class="language-sh">docker-compose up -d
-</code></pre>
-
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
-
-<p>Baixe a aplicação</p>
-
-<pre><code class="language-sh">docker-compose down
-</code></pre>
-
-<hr />
-
-<h3 id="exemplo-3-montar-volumes">Exemplo 3: Montar volumes</h3>
-
-<hr />
-
-<p>A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do container), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.</p>
-
-<p>Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário</p>
-
-<pre><code class="language-sh">mkdir /home/${USER}/teste
+<pre><code class="language-sh">sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose
 </code></pre>
 
 <ul>
-<li><code>${USER}</code>: Isto acessa a variável de ambiente <code>USER</code> que é o nome do seu usuário</li>
+<li><code>curl</code>: O curl é basicamente um navegador web para a linha de comando. Ele baixa o arquivo e o coloca no caminho especificado no output</li>
+<li><code>$(uname -s)</code> e <code>$(uname -m)</code>: São variáveis do sistema, o primeiro retorna &ldquo;Linux&rdquo; o segundo  a arquitetura &ldquo;x86_64&rdquo;.</li>
 </ul>
 
-<p>Vamos escrever algum arquivo nesta paste</p>
+<p>Agora é necessário dar permissão de execução para o arquivo:</p>
 
-<pre><code class="language-sh">echo &quot;nothing to see here&quot; &gt; /home/${USER}/teste/arquivo.txt
+<pre><code class="language-sh">sudo chmod +x /usr/local/bin/docker-compose
 </code></pre>
 
-<p>Vamos subir uma imagem com essa pasta montada dentro do container utilizando o comando <code>run</code></p>
+<ul>
+<li><code>chmod</code>: Este comando altera permissões</li>
+<li><code>+x</code>: Este é um argumento para o <code>chmod</code> o <code>x</code> significa &lsquo;executável&rsquo;.</li>
+</ul>
 
-<pre><code class="language-sh">sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
-                                                   -e USERID='1000' \
-                                                   -e PASSWORD='facil123'\
-                  -v /home/${USER}/teste:/home/teste/pasta_montada  zegkreist/r-dl-cpu 
+<p>Testando a instalação:</p>
+
+<pre><code class="language-sh">docker-compose --version
 </code></pre>
 
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
+<p>AEWW!!! Docker e Docker-compose instalados, agora vamos a exemplos:</p>
 
-<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
+<hr />
 
-<p>Agora, vamos derrubar o container.</p>
+<h2 id="exemplos-docker">Exemplos: Docker</h2>
 
-<pre><code class="language-sh">sudo docker container kill r_server_1
-</code></pre>
+<hr />
 
-<p>Vamos ver como está o arquivo que foi modificado dentro do container.</p>
-
-<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
-</code></pre>
-
-<p>E ai? Legal? tudo certo?</p>
-
-<p>Vamos agora para o docker-compose, onde podemos ter tudo isso de forma versionada se usarmos um git (&lsquo;se&rsquo; do verbo &lsquo;vamos&rsquo;).</p>
-
-<pre><code class="language-sh">nano docker-compose.yml
-</code></pre>
-
-<p>Coloque o seguinte conteúdo:</p>
-
-<pre><code class="language-sh">
-version: '2'
-services:
-  r-dl-cpu_teste:
-    image: zegkreist/r-dl-cpu
-    container_name: r_server_1
-    restart: always
-    environment:
-     - USER=teste
-     - USERID=1000
-     - PASSWORD=facil123
-    ports:
-     - &quot;8787:8787&quot;
-    volumes:
-     - /home/${USER}/teste:/home/teste/pasta_montada:rw  
-</code></pre>
-
-<p>Vamos levantar:</p>
-
-<pre><code class="language-sh">docker-compose up -d
-</code></pre>
-
-<p>Teste o acesso em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se você estiver na sua máquina local ou  <a href="http://ip-da-instancia:8787" target="_blank">http://ip-da-instancia:8787</a> numa instância na nuvem. É possível logar no serviço com <strong>login = teste e senha = facil123</strong>.</p>
-
-<p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
-
-<p>Baixe a aplicação</p>
-
-<pre><code class="language-sh">docker-compose down
-</code></pre>
-
-<p>Vamos verificar como está o arquivo modificado</p>
-
-<pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
-</code></pre>
+<p>Vamos iniciar por exemplos simples, ver alguns comandos, subir algumas imagens simples e pequenas, subir alguma imagem de alguma aplicação visual (algo mais tátil), construir algum Dockerfile.</p>
 
 <p><br><br></p>
-
-<hr />
 
           </div>
 
@@ -674,10 +597,9 @@ services:
   
   
   <div class="post-nav-item">
-    <div class="meta-nav">Previous</div>
-    <a href="../../../courses/docker/docker_commandos/" rel="next">Docker Commands</a>
+    <div class="meta-nav">Next</div>
+    <a href="../../../tutoriais/docker/docker_commandos/" rel="prev">Docker Commands</a>
   </div>
-  
   
 </div>
 

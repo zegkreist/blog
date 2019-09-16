@@ -1,7 +1,7 @@
 ---
 # Course title, summary, and position.
 linktitle: Docker
-summary: In this tutorial I will show a little of Docker.
+summary: Aqui irei passar por alguns tópicos, como instalar o docker e docker-compose e como utilizá-los
 weight: 1
 
 # Page metadata.
@@ -22,4 +22,4 @@ menu:
 ---
 
 
-I will pass some topics. First of all I wil show how to install, in CentOS and Ubuntu.
+

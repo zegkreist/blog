@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="pt-br">
 
 <head>
 
@@ -28,11 +28,11 @@
   
     
   
-  <meta name="description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
-Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem.">
+  <meta name="description" content="Docker O Docker é uma tecnologia de container. Um container basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).
+O Docker é um software que permite a construção e execução destes containeres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar.">
 
   
-  <link rel="alternate" hreflang="en-us" href="../../../courses/docker/docker_installation/">
+  <link rel="alternate" hreflang="pt-br" href="../../../courses/docker/docker_installation/">
 
   
 
@@ -129,9 +129,9 @@ Instalação docker Para usá-lo é necessário instalá-lo. A instância que se
   <meta property="og:site_name" content="Vugudum">
   <meta property="og:url" content="/courses/docker/docker_installation/">
   <meta property="og:title" content="Docker Installation | Vugudum">
-  <meta property="og:description" content="Docker A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).
-Instalação docker Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada Amazon linux 2, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem."><meta property="og:image" content="/img/icon-192.png">
-  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  <meta property="og:description" content="Docker O Docker é uma tecnologia de container. Um container basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).
+O Docker é um software que permite a construção e execução destes containeres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
   
     
       <meta property="article:published_time" content="2019-08-01T00:00:00&#43;00:00">
@@ -437,7 +437,11 @@ Instalação docker Para usá-lo é necessário instalá-lo. A instância que se
 
 <hr />
 
-<p>A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile (nada mais que uma receita de bolo para alguma coisa).</p>
+<p>O Docker é uma tecnologia de container. Um container basicamente é um pacote em que há os códigos de uma aplicação, assim como toda a parte necessária (em questão de dependências de SO e bibliotecas da própria aplicação).</p>
+
+<p>O Docker é um software que permite a construção e execução destes containeres. A construção é feita a partir de um &lsquo;Dockerfile&rsquo;, nada mais que uma receita de bolo. Este arquivo possui as diretrizes do que é necessário para sua aplicação rodar. Por meio dele é possível construir uma imagem, esta imagem quando executada cria o container.</p>
+
+<p>A base do que iremos fazer depende do docker, então nessa etapa inicial ensinarei a instalar, dar alguns exemplos de chamadas e também como criar o Dockerfile.</p>
 
 <hr />
 
@@ -445,7 +449,7 @@ Instalação docker Para usá-lo é necessário instalá-lo. A instância que se
 
 <hr />
 
-<p>Para usá-lo é necessário instalá-lo. A instância que será utilizada na Amazon é um distribuição linux própria chamada <strong>Amazon linux 2</strong>, ela é baseada em CentOS 7. Os sabores do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar, assim como algumas &ldquo;facilidades&rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de <strong>CentoOS 7</strong> que serão compatíveis com a instância na Amazon.</p>
+<p>Para usá-lo é necessário instalá-lo. Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas &ldquo;facilidades&rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de de acordo com o sabor que estiver utilizando.</p>
 
 <p>Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.</p>
 
@@ -487,7 +491,7 @@ Instalação docker Para usá-lo é necessário instalá-lo. A instância que se
     https://download.docker.com/linux/centos/docker-ce.repo
 </code></pre>
 
-<p>Utilizando o programa auxiliar <code>yum-config-manager</code> adicionamos o repositório na lista do <code>yum</code>. O argumento <code>--add-repo</code> é um argumento de chamada para o programa, logo após com especificamos qual o valor deste argumento, o link para o repositório.</p>
+<p>Utilizando o programa auxiliar <code>yum-config-manager</code> adicionamos o repositório na lista do <code>yum</code>. O argumento <code>--add-repo</code> é um argumento de chamada para o programa, logo após, especificamos qual o valor deste argumento, o link para o repositório.</p>
 
 <p>Agora que temos o repositório onde o docker-ce existe podemos instalá-lo da seguinte forma (semelhante ao que já utilizamos antes):</p>
 
