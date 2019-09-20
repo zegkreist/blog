@@ -28,8 +28,8 @@
   
     
   
-  <meta name="description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
-Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao contêiner, assim podemos identificar pelo nome do contêiner qual aplicação está rodando com o comando run.">
+  <meta name="description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os container Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
+Exemplo 1: Subir um container numa porta específica Vamos subir um container numa porta específica e dar nome a ele, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run.">
 
   
   <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/docker/docker_compose/">
@@ -129,8 +129,8 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
   <meta property="og:site_name" content="Vugudum">
   <meta property="og:url" content="/tutoriais/docker/docker_compose/">
   <meta property="og:title" content="Docker Compose | Vugudum">
-  <meta property="og:description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
-Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa porta específica e dar nome ao contêiner, assim podemos identificar pelo nome do contêiner qual aplicação está rodando com o comando run."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Docker-compose O docker-compose tem como objetivo melhor organizar os container Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do docker run. Vamos fazer exemplos e compará-los.
+Exemplo 1: Subir um container numa porta específica Vamos subir um container numa porta específica e dar nome a ele, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando run."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
   
     
@@ -411,7 +411,7 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
 <ul>
 <li><a href="#docker-compose">Docker-compose</a>
 <ul>
-<li><a href="#exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</a></li>
+<li><a href="#exemplo-1-subir-um-container-numa-porta-específica">Exemplo 1: Subir um container numa porta específica</a></li>
 <li><a href="#exemplo-2-subir-uma-imagem-passando-variáveis-de-ambiente">Exemplo 2: Subir uma imagem passando variáveis de ambiente</a></li>
 <li><a href="#exemplo-3-montar-volumes">Exemplo 3: Montar volumes</a></li>
 </ul></li>
@@ -439,15 +439,15 @@ Exemplo 1: Subir uma imagem numa porta específica Vamos subir uma imagem numa p
 
 <hr />
 
-<p>O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do <code>docker run</code>. Vamos fazer exemplos e compará-los.</p>
+<p>O docker-compose tem como objetivo melhor organizar os container Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do <code>docker run</code>. Vamos fazer exemplos e compará-los.</p>
 
 <hr />
 
-<h3 id="exemplo-1-subir-uma-imagem-numa-porta-específica">Exemplo 1: Subir uma imagem numa porta específica</h3>
+<h3 id="exemplo-1-subir-um-container-numa-porta-específica">Exemplo 1: Subir um container numa porta específica</h3>
 
 <hr />
 
-<p>Vamos subir uma imagem numa porta específica e dar nome ao contêiner, assim podemos identificar pelo nome do contêiner qual aplicação está rodando com o comando <code>run</code>.</p>
+<p>Vamos subir um container numa porta específica e dar nome a ele, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando <code>run</code>.</p>
 
 <pre><code class="language-sh">sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
 </code></pre>
@@ -493,7 +493,7 @@ services:
 <li><code>services</code>: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste</li>
 <li><code>r-dl-cpu_teste</code>: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está indentado com ele são suas definições.</li>
 <li><code>image</code>: Estamos informando qual a imagem que será utilizado pelo serviço</li>
-<li><code>container_name</code>: O nome que o contêiner receberá</li>
+<li><code>container_name</code>: O nome que o container receberá</li>
 <li><code>restart</code>: A política de restart do serviço, neste caso <code>always</code> significa que, caso o serviço morra ele será levantado novamente de imediato</li>
 <li><code>ports</code>: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.</li>
 </ul>
@@ -516,7 +516,7 @@ services:
 
 <hr />
 
-<p>É possível passar variáveis de ambiente para uma imagem utilizar na execução de um contêiner. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do contêiner. Podemos então passar essas variáveis e consumi-las em nosso códigos.</p>
+<p>É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.</p>
 
 <p>Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.</p>
 
@@ -573,9 +573,9 @@ services:
 
 <hr />
 
-<p>A ideia por trás de montar volumes é que, o contêiner possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do contêiner (dentro do contêiner), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o contêiner poder ler ou ler e escrever numa região do host.</p>
+<p>A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do dele), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.</p>
 
-<p>Primeiro vamos definir a pasta que será montada dentro do contêiner. Vamos criar uma pasta embaixo da pasta de usuário</p>
+<p>Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário</p>
 
 <pre><code class="language-sh">mkdir /home/${USER}/teste
 </code></pre>
@@ -589,7 +589,7 @@ services:
 <pre><code class="language-sh">echo &quot;nothing to see here&quot; &gt; /home/${USER}/teste/arquivo.txt
 </code></pre>
 
-<p>Vamos subir uma imagem com essa pasta montada dentro do contêiner utilizando o comando <code>run</code></p>
+<p>Vamos subir um container com essa pasta montada utilizando o comando <code>run</code></p>
 
 <pre><code class="language-sh">sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER='teste' \
                                                    -e USERID='1000' \
@@ -601,12 +601,12 @@ services:
 
 <p>No canto direito inferior na aba <em>files</em> olhe o folder com nome &ldquo;pasta_montada&rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.</p>
 
-<p>Agora, vamos derrubar o contêiner.</p>
+<p>Agora, vamos derrubar o container.</p>
 
 <pre><code class="language-sh">sudo docker container kill r_server_1
 </code></pre>
 
-<p>Vamos ver como está o arquivo que foi modificado dentro do contêiner.</p>
+<p>Vamos ver como está o arquivo que foi modificado dentro do container.</p>
 
 <pre><code class="language-sh">cat /home/${USER}/teste/arquivo.txt
 </code></pre>

@@ -37,7 +37,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;Para usá-lo é necessário instalá-lo. Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas &amp;ldquo;facilidades&amp;rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de de acordo com o sabor que estiver utilizando.&lt;/p&gt;
+&lt;p&gt;Para se usar alguma coisa é necessário primeiro tê-la, logo &amp;hellip; Irei basear a instalação em um Linux CentOS 7. A depender do sabor do linux utilizado faz com que algumas coisas nos sistema variem. Por exemplo, o comando de instalação de pacotes, o caminho de arquivos de configurações do sistema podem mudar. Assim como algumas &amp;ldquo;facilidades&amp;rdquo;, comandos podem existir num sabor e não em outro. Então caso procure algum tutorial de instalação, ou de solução de problemas, procure soluções de acordo com o sabor que estiver utilizando.&lt;/p&gt;
 
 &lt;p&gt;Dito isso, vamos começar a instalar o Docker para um sabor baseado em CentOS7.&lt;/p&gt;
 
@@ -56,7 +56,7 @@
 &lt;p&gt;Este comando tem o seguinte significado:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;sudo&lt;/code&gt;: Tem o significado de &amp;ldquo;faça&amp;rdquo; (&lt;code&gt;do&lt;/code&gt;) como &amp;ldquo;super usuário&amp;rdquo; (&lt;code&gt;su&lt;/code&gt;). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar todo o sistema, não haverá qualquer pergunta, a execução será direta). Outra opção ao &lt;code&gt;sudo&lt;/code&gt; seria logar como &lt;em&gt;SU&lt;/em&gt; e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando &lt;code&gt;sudo&lt;/code&gt;).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;sudo&lt;/code&gt;: Tem o significado de &amp;ldquo;faça&amp;rdquo; (&lt;code&gt;do&lt;/code&gt;) como &amp;ldquo;super usuário&amp;rdquo; (&lt;code&gt;su&lt;/code&gt;). O super usuário nada mais é que o administrador da máquina, tem plenos poderes sobre ela. Normalmente quando executado alguma coisa como super usuário não há qualquer pergunta (caso execute o comando para deletar um arquivo essencial para o sistema, não haverá qualquer pergunta, a execução será direta, caixão e vela preta). Outra opção ao &lt;code&gt;sudo&lt;/code&gt; seria logar como &lt;em&gt;SU&lt;/em&gt; e executando o comando posterior (em distribuições como Debian isso é necessário, pois não há comando &lt;code&gt;sudo&lt;/code&gt;).&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;yum&lt;/code&gt;: Este é um programa que gerencia os pacotes instalados do CentOS. Caso fosse uma distribuição baseada em Debian como Ubuntu seria &lt;code&gt;apt&lt;/code&gt;ou &lt;code&gt;apt-get&lt;/code&gt;. Se fosse baseado em Arch seria &lt;code&gt;pacman&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 
@@ -186,11 +186,11 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &amp;ldquo;sensação&amp;rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &amp;ldquo;execução do comando&amp;rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.&lt;/p&gt;
+&lt;p&gt;O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele roda um container por meio de uma imagem, normalmente o container executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre (na verdade finaliza com sucesso). Se subirmos um script batch, será executado tudo que deve ser feito e depois o container morre. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &amp;ldquo;sensação&amp;rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &amp;ldquo;execução do comando&amp;rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.&lt;/p&gt;
 
-&lt;p&gt;Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) a imagem será executada no plano de fundo.&lt;/p&gt;
+&lt;p&gt;Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) o container será executada no plano de fundo.&lt;/p&gt;
 
-&lt;p&gt;Vamos subir uma imagem que seja um OS ubuntu em foreground:&lt;/p&gt;
+&lt;p&gt;Vamos subir um bash de uma imagem que seja um OS ubuntu em foreground:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -it ubuntu bash
 &lt;/code&gt;&lt;/pre&gt;
@@ -202,22 +202,26 @@
 &lt;li&gt;&lt;code&gt;bash&lt;/code&gt;: O programa q será executado dentro da imagem, neste caso iniciaremos o console.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Note que, agora você está num ambiente ubuntu, dentro da imagem. Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar a imagem ela virá no mesmo formato de antes). &lt;strong&gt;Faça alguns testes aqui a seu prazer&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Note que, agora você está num ambiente ubuntu, dentro do container Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar o container ele virá no mesmo formato de antes, que é o que foi colocado na imagem). &lt;strong&gt;Faça alguns testes aqui a seu prazer&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;Para sair de dentro da imagem execute &lt;code&gt;exit&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Vamos agora subir uma imagem mais &amp;ldquo;visual&amp;rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.&lt;/p&gt;
+&lt;p&gt;Vamos agora subir um container mais &amp;ldquo;visual&amp;rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -p 8787:3000 metabase/metabase 
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do contêiner. Então, quando se acessa &lt;a href=&#34;http://127.0.0.1:8787/setup&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787/setup&lt;/a&gt; você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria &lt;a href=&#34;http://ip-da-instancia:8787/setup&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787/setup&lt;/a&gt;. (porta do host à esquerda e do contêiner à direita)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa &lt;a href=&#34;http://127.0.0.1:8787/setup&#34; target=&#34;_blank&#34;&gt;http://127.0.0.1:8787/setup&lt;/a&gt; você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria &lt;a href=&#34;http://ip-da-instancia:8787/setup&#34; target=&#34;_blank&#34;&gt;http://ip-da-instancia:8787/setup&lt;/a&gt;. (porta do host à esquerda e do contêiner à direita)&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;metabase/metabase&lt;/code&gt;: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Observe seu terminal, veja que ele está preso à aplicação, caso seu terminal morra a aplicação também irá sofrer o mesmo destino. Vamos subir a aplicação no modo detached.&lt;/p&gt;
+
+&lt;p&gt;Mas primeiro mate sua execução atual &lt;code&gt;CTRL + C&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Agora sim, vamos subir no modo detached.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 8787:3000 metabase/metabase 
 &lt;/code&gt;&lt;/pre&gt;
@@ -230,7 +234,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;--rm&lt;/code&gt;: Este argumento diz que, quando o contêiner morrer ou set parado, ele deve ser removido.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--rm&lt;/code&gt;: Este argumento diz que, quando o container morrer ou ser parado, ele deve ser removido.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o contêiner, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.&lt;/p&gt;
@@ -239,13 +243,13 @@
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;comandos-contêiner&#34;&gt;Comandos: contêiner&lt;/h2&gt;
+&lt;h2 id=&#34;comandos-container&#34;&gt;Comandos: container&lt;/h2&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;O comando contêiner nos permite verificar informações referentes aos contêineres. O contêiner é a aplicação/imagem que foi executada ou está em execução.&lt;/p&gt;
+&lt;p&gt;O comando &lt;code&gt;container&lt;/code&gt; nos permite verificar informações referentes aos containers. O container é a aplicação/imagem que foi executada ou está em execução.&lt;/p&gt;
 
-&lt;p&gt;Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.&lt;/p&gt;
+&lt;p&gt;Primeiramente vamos verificar os containers ativos, aquelas imagens que estão em execução.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container ls
 &lt;/code&gt;&lt;/pre&gt;
@@ -267,14 +271,14 @@
 
 &lt;p&gt;É possível ver todos os contêineres que já foram executados.&lt;/p&gt;
 
-&lt;p&gt;Vamos então matar esse contêiner ativo que não mais necessitamos. Ao executar &lt;code&gt;sudo docker container ls&lt;/code&gt; podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:&lt;/p&gt;
+&lt;p&gt;Vamos então matar esse container ativo que não mais necessitamos. Ao executar &lt;code&gt;sudo docker container ls&lt;/code&gt; podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill CONTAINER_ID
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;No meu caso o comando foi &lt;code&gt;sudo docker container kill 816e65266526&lt;/code&gt;, observe com &lt;code&gt;sudo docker container ls&lt;/code&gt; que o contêiner não está mais de pé.&lt;/p&gt;
 
-&lt;p&gt;Há outros argumentos que podem ser utilizados junto com &lt;code&gt;container&lt;/code&gt;, entre eles estão &lt;code&gt;exec&lt;/code&gt;, &lt;code&gt;restart&lt;/code&gt;, &lt;code&gt;pause&lt;/code&gt;, &lt;code&gt;inspec&lt;/code&gt;, &lt;code&gt;start&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;unpause&lt;/code&gt;, &lt;code&gt;logs&lt;/code&gt;, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu contêiner para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de contêiner, pois eles irão nascer e morrer a todo momento.&lt;/p&gt;
+&lt;p&gt;Há outros argumentos que podem ser utilizados junto com &lt;code&gt;container&lt;/code&gt;, entre eles estão &lt;code&gt;exec&lt;/code&gt;, &lt;code&gt;restart&lt;/code&gt;, &lt;code&gt;pause&lt;/code&gt;, &lt;code&gt;inspec&lt;/code&gt;, &lt;code&gt;start&lt;/code&gt;, &lt;code&gt;stop&lt;/code&gt;, &lt;code&gt;unpause&lt;/code&gt;, &lt;code&gt;logs&lt;/code&gt;, etc. Normalmente eles estão ligados à manutenção de containers, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc).&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 
@@ -284,7 +288,7 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório. Posteriormente até este processo será automático, nosso trabalho será somente versionar os scripts.&lt;/p&gt;
+&lt;p&gt;Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório.&lt;/p&gt;
 
 &lt;p&gt;Vamos listar todas as imagens que estão salvas.&lt;/p&gt;
 
@@ -296,7 +300,7 @@
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker rmi ubuntu
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Caso tenha algum log de um contêiner que a esteja utilizando podemos forçar a remoção&lt;/p&gt;
+&lt;p&gt;Caso tenha alguma imagem dependente da que iremos remover é necessário forçar a remoção&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker rmi -f ubuntu
 &lt;/code&gt;&lt;/pre&gt;
@@ -316,50 +320,50 @@
 
 &lt;hr /&gt;
 
-&lt;p&gt;Este é um comando muito útil. Porém não iremos utilizá-lo em produção, apenas no nosso ambiente de Dev. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados &lt;code&gt;sudo docker container ls -a&lt;/code&gt;, e imagens que não mais utilizamos, ou que foram atualizadas continuam a existir. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.&lt;/p&gt;
+&lt;p&gt;Este é um comando muito útil. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados &lt;code&gt;sudo docker container ls -a&lt;/code&gt;, e imagens que não mais utilizamos. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Container:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Veja quantos contêiner temos que estão parados:&lt;/p&gt;
+&lt;p&gt;Veja quantos container que estão parados:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container ls -a
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Podemos remover todos os contêineres parados com:&lt;/p&gt;
+&lt;p&gt;Podemos remover todos os containers parados com:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container prune
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Podemos ainda filtrar, aqui removemos todos os contêineres criados parados que possuem mais de 24 horas.&lt;/p&gt;
+&lt;p&gt;Podemos ainda filtrar, aqui removemos todos os container parados que possuem mais de 24 horas.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container prune --filter=&amp;quot;until24h&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Images:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Podemos remover imagens que são &amp;ldquo;zumbis&amp;rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum contêiner.&lt;/p&gt;
+&lt;p&gt;Podemos remover imagens que são &amp;ldquo;zumbis&amp;rdquo;. Essas imagens são aquelas estão referenciadas por nenhum container ou imagem.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Podemos remover todas as imagens que não estejam associadas a um contêiner:&lt;/p&gt;
+&lt;p&gt;Podemos remover todas as imagens que não estejam associadas a um container:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune -a
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;E assim como no exemplo dos contêineres podemos utilizar filtros&lt;/p&gt;
+&lt;p&gt;E assim como no exemplo dos container podemos utilizar filtros&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image prune --filter=&amp;quot;until24h&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Tudo:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Podemos fazer um prune de tudo ao mesmo tempo incluindo &lt;strong&gt;Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os contêineres de modo que eles apenas se comuniquem num espaço fechado)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Podemos fazer um prune de tudo ao mesmo tempo incluindo &lt;strong&gt;Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker system prune
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Execute esse comando e depois observe quantos contêineres você possui e quantas imagens salvas.&lt;/p&gt;
+&lt;p&gt;Execute esse comando e depois observe quantos containers você possui e quantas imagens salvas.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 
@@ -381,7 +385,7 @@
 &lt;li&gt;&lt;code&gt;MAINTAINER&lt;/code&gt;: O autor do arquivo&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;COPY&lt;/code&gt;: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;USER&lt;/code&gt;: Define qual será o usuário padrão para a imagem&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;: Define qual a aplicação do contêiner. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um contêiner).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;: Define qual a aplicação do container Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;CMD&lt;/code&gt;: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser &amp;ldquo;ofuscado&amp;rdquo; por algum outro comando na hora de executar a imagem, exemplo &lt;code&gt;sudo docker run --rm -it ubuntu /bin/bash&lt;/code&gt;, aqui estamos executando a imagem ubuntu com o CMD &lt;code&gt;/bin/bash&lt;/code&gt; que substitui qualquer outro CMD dentro da imagem.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -487,7 +491,7 @@ ENTRYPOINT /text_print.sh
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker image ls
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado (teremos um FUNCIONAL) você pode fazer o seguinte para subir a imagem para tal.&lt;/p&gt;
+&lt;p&gt;Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado você pode fazer o seguinte para subir a imagem para tal.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker tag imagem_teste seu_nome_usuario_repo/imagem_teste
 sudo docker push seu_nome_usuario_repo/imagem_teste
@@ -528,15 +532,15 @@ sudo docker push seu_nome_usuario_repo/imagem_teste
 
 &lt;hr /&gt;
 
-&lt;p&gt;O docker-compose tem como objetivo melhor organizar os contêineres. Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do &lt;code&gt;docker run&lt;/code&gt;. Vamos fazer exemplos e compará-los.&lt;/p&gt;
+&lt;p&gt;O docker-compose tem como objetivo melhor organizar os container Ele nada mais é do que uma instrução de como subir contêineres e Networks, uma versão em arquivo do &lt;code&gt;docker run&lt;/code&gt;. Vamos fazer exemplos e compará-los.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h3 id=&#34;exemplo-1-subir-uma-imagem-numa-porta-específica&#34;&gt;Exemplo 1: Subir uma imagem numa porta específica&lt;/h3&gt;
+&lt;h3 id=&#34;exemplo-1-subir-um-container-numa-porta-específica&#34;&gt;Exemplo 1: Subir um container numa porta específica&lt;/h3&gt;
 
 &lt;hr /&gt;
 
-&lt;p&gt;Vamos subir uma imagem numa porta específica e dar nome ao contêiner, assim podemos identificar pelo nome do contêiner qual aplicação está rodando com o comando &lt;code&gt;run&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Vamos subir um container numa porta específica e dar nome a ele, assim podemos identificar pelo nome do container qual aplicação está rodando com o comando &lt;code&gt;run&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 8787:8787 --name=r_server_1 zegkreist/r-dl-cpu 
 &lt;/code&gt;&lt;/pre&gt;
@@ -582,7 +586,7 @@ services:
 &lt;li&gt;&lt;code&gt;services&lt;/code&gt;: Os serviços que iremos levantar, pode ser mais de 1, neste caso será somente um o r-dl-cpu-teste&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;r-dl-cpu_teste&lt;/code&gt;: Este é o serviço (que nomeamos nós mesmos) que será levantado, tudo que está indentado com ele são suas definições.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;image&lt;/code&gt;: Estamos informando qual a imagem que será utilizado pelo serviço&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;container_name&lt;/code&gt;: O nome que o contêiner receberá&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;container_name&lt;/code&gt;: O nome que o container receberá&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;restart&lt;/code&gt;: A política de restart do serviço, neste caso &lt;code&gt;always&lt;/code&gt; significa que, caso o serviço morra ele será levantado novamente de imediato&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ports&lt;/code&gt;: Aqui estamos informando o mapping das portas, pode ser mais de um map por vez.&lt;/li&gt;
 &lt;/ul&gt;
@@ -605,7 +609,7 @@ services:
 
 &lt;hr /&gt;
 
-&lt;p&gt;É possível passar variáveis de ambiente para uma imagem utilizar na execução de um contêiner. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do contêiner. Podemos então passar essas variáveis e consumi-las em nosso códigos.&lt;/p&gt;
+&lt;p&gt;É possível passar variáveis de ambiente para uma imagem utilizar na execução de um container. Isso se faz importante para que logins e senhas não fique hardcoded em códigos dentro do container. Podemos então passar essas variáveis e consumi-las em nosso códigos.&lt;/p&gt;
 
 &lt;p&gt;Esta imagem em específico permite que passemos variáveis de usuário, Id do usuário e senha para que automaticamente se crie um usuário com senha para acessar o R server. Caso elas não sejam passadas é criado o usuário padrão rstudio:rstudio.&lt;/p&gt;
 
@@ -662,9 +666,9 @@ services:
 
 &lt;hr /&gt;
 
-&lt;p&gt;A ideia por trás de montar volumes é que, o contêiner possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do contêiner (dentro do contêiner), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o contêiner poder ler ou ler e escrever numa região do host.&lt;/p&gt;
+&lt;p&gt;A ideia por trás de montar volumes é que, o container possa acessar arquivos num local persistente no host. Quando se cria algum arquivo ou alteração numa área exclusiva do container (dentro do dele), quando este for derrubado ou reiniciado está mudança será perdida. Então o que fazemos é dar permissão para o container poder ler ou ler e escrever numa região do host.&lt;/p&gt;
 
-&lt;p&gt;Primeiro vamos definir a pasta que será montada dentro do contêiner. Vamos criar uma pasta embaixo da pasta de usuário&lt;/p&gt;
+&lt;p&gt;Primeiro vamos definir a pasta que será montada dentro do container. Vamos criar uma pasta embaixo da pasta de usuário&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mkdir /home/${USER}/teste
 &lt;/code&gt;&lt;/pre&gt;
@@ -678,7 +682,7 @@ services:
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;echo &amp;quot;nothing to see here&amp;quot; &amp;gt; /home/${USER}/teste/arquivo.txt
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Vamos subir uma imagem com essa pasta montada dentro do contêiner utilizando o comando &lt;code&gt;run&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Vamos subir um container com essa pasta montada utilizando o comando &lt;code&gt;run&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker run -d -p 3000:8787 --name=r_server_1  -e USER=&#39;teste&#39; \
                                                    -e USERID=&#39;1000&#39; \
@@ -690,12 +694,12 @@ services:
 
 &lt;p&gt;No canto direito inferior na aba &lt;em&gt;files&lt;/em&gt; olhe o folder com nome &amp;ldquo;pasta_montada&amp;rdquo;, veja o arquivo que está dentro, acesse e faça alguma modificação e salve.&lt;/p&gt;
 
-&lt;p&gt;Agora, vamos derrubar o contêiner.&lt;/p&gt;
+&lt;p&gt;Agora, vamos derrubar o container.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;sudo docker container kill r_server_1
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Vamos ver como está o arquivo que foi modificado dentro do contêiner.&lt;/p&gt;
+&lt;p&gt;Vamos ver como está o arquivo que foi modificado dentro do container.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat /home/${USER}/teste/arquivo.txt
 &lt;/code&gt;&lt;/pre&gt;

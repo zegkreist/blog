@@ -18,7 +18,7 @@ organizations:
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
-bio: Eu tragro ordem e conhecimento ao chaos que existe nos dados.
+bio: Eu trago ordem e conhecimento ao caos que existe nos dados.
 
 interests:
 - Estatística

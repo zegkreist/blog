@@ -28,7 +28,7 @@
   
     
   
-  <meta name="description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.">
+  <meta name="description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele roda um container por meio de uma imagem, normalmente o container executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre (na verdade finaliza com sucesso). Se subirmos um script batch, será executado tudo que deve ser feito e depois o container morre.">
 
   
   <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/docker/docker_commandos/">
@@ -128,7 +128,7 @@
   <meta property="og:site_name" content="Vugudum">
   <meta property="og:url" content="/tutoriais/docker/docker_commandos/">
   <meta property="og:title" content="Docker Commands | Vugudum">
-  <meta property="og:description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Comandos: run O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele roda um container por meio de uma imagem, normalmente o container executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre (na verdade finaliza com sucesso). Se subirmos um script batch, será executado tudo que deve ser feito e depois o container morre."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
   
     
@@ -408,7 +408,7 @@
 <li>
 <ul>
 <li><a href="#comandos-run">Comandos: run</a></li>
-<li><a href="#comandos-contêiner">Comandos: contêiner</a></li>
+<li><a href="#comandos-container">Comandos: container</a></li>
 <li><a href="#comandos-image">Comandos: image</a></li>
 <li><a href="#comandos-prune">Comandos: prune</a></li>
 <li><a href="#comandos-build">Comandos: build</a></li>
@@ -436,11 +436,11 @@
 
 <hr />
 
-<p>O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele executa uma imagem, normalmente esta imagem executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre. Se subirmos uma API por exemplo, ela executaria todo o cálculo e morreria logo após. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.</p>
+<p>O comando run, quando não utilizado com outra ferramente de orquestração, como docker-compose, kubernets, ou outro, será o comando mais utilizado. Ele roda um container por meio de uma imagem, normalmente o container executa um comando e morre. A imagem hello-world basicamente executa um print de texto no console e depois morre (na verdade finaliza com sucesso). Se subirmos um script batch, será executado tudo que deve ser feito e depois o container morre. Se subirmos um serviço contínuo o comportamento ainda é o mesmo, porém a &ldquo;sensação&rdquo; é outra, por exemplo, subimos um serviço de banco de dados, o comando que a imagem terá é executar o banco, a imagem continuará ativa durante toda a &ldquo;execução do comando&rdquo;, ou seja, a imagem só irá morrer caso o banco de dados morra por algum motivo.</p>
 
-<p>Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) a imagem será executada no plano de fundo.</p>
+<p>Primeiro, há duas formas de executar uma imagem, no Foreground (seu console vai ficar preso no que for executado) e no Background (ou detached) o container será executada no plano de fundo.</p>
 
-<p>Vamos subir uma imagem que seja um OS ubuntu em foreground:</p>
+<p>Vamos subir um bash de uma imagem que seja um OS ubuntu em foreground:</p>
 
 <pre><code class="language-sh">sudo docker run -it ubuntu bash
 </code></pre>
@@ -452,22 +452,26 @@
 <li><code>bash</code>: O programa q será executado dentro da imagem, neste caso iniciaremos o console.</li>
 </ul>
 
-<p>Note que, agora você está num ambiente ubuntu, dentro da imagem. Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar a imagem ela virá no mesmo formato de antes). <strong>Faça alguns testes aqui a seu prazer</strong>.</p>
+<p>Note que, agora você está num ambiente ubuntu, dentro do container Aqui você pode fazer qualquer coisa, inclusive deletar seu OS (pois quando restartar o container ele virá no mesmo formato de antes, que é o que foi colocado na imagem). <strong>Faça alguns testes aqui a seu prazer</strong>.</p>
 
 <p>Para sair de dentro da imagem execute <code>exit</code>.</p>
 
-<p>Vamos agora subir uma imagem mais &ldquo;visual&rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.</p>
+<p>Vamos agora subir um container mais &ldquo;visual&rdquo;. Muitos estão falando sobre o Metabase, um visualizador gratuito. Então vamos subir uma aplicação em Foreground de Metabase para que possamos acessá-la.</p>
 
 <pre><code class="language-sh">sudo docker run -p 8787:3000 metabase/metabase 
 </code></pre>
 
 <ul>
-<li><p><code>-p</code>: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do contêiner. Então, quando se acessa <a href="http://127.0.0.1:8787/setup" target="_blank">http://127.0.0.1:8787/setup</a> você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria <a href="http://ip-da-instancia:8787/setup" target="_blank">http://ip-da-instancia:8787/setup</a>. (porta do host à esquerda e do contêiner à direita)</p></li>
+<li><p><code>-p</code>: Aqui temos um argumento novo, a porta. O app fica exposto numa porta, nesse caso na porta 3000. Porém essa porta é do contêiner e nós acessamos a máquina (host), então é necessário que seja construído um caminho para a porta do container. Então, quando se acessa <a href="http://127.0.0.1:8787/setup" target="_blank">http://127.0.0.1:8787/setup</a> você está acessando na verdade o contêiner na porta 3000. Caso você esteja em alguma instância o endereço seria <a href="http://ip-da-instancia:8787/setup" target="_blank">http://ip-da-instancia:8787/setup</a>. (porta do host à esquerda e do contêiner à direita)</p></li>
 
 <li><p><code>metabase/metabase</code>: O nome da imagem, caso não tenha a imagem no PC o docker irá procurar em seu repositório</p></li>
 </ul>
 
 <p>Observe seu terminal, veja que ele está preso à aplicação, caso seu terminal morra a aplicação também irá sofrer o mesmo destino. Vamos subir a aplicação no modo detached.</p>
+
+<p>Mas primeiro mate sua execução atual <code>CTRL + C</code>.</p>
+
+<p>Agora sim, vamos subir no modo detached.</p>
 
 <pre><code class="language-sh">sudo docker run -d -p 8787:3000 metabase/metabase 
 </code></pre>
@@ -480,7 +484,7 @@
 </code></pre>
 
 <ul>
-<li><code>--rm</code>: Este argumento diz que, quando o contêiner morrer ou set parado, ele deve ser removido.</li>
+<li><code>--rm</code>: Este argumento diz que, quando o container morrer ou ser parado, ele deve ser removido.</li>
 </ul>
 
 <p>O comando run tem muitas outras opções, como por exemplo dar acesso a pastas do host para o contêiner, declarar variáveis de ambiente, etc. Mas vamos deixar isso para depois, quando estivermos falando de docker-compose.</p>
@@ -489,13 +493,13 @@
 
 <hr />
 
-<h2 id="comandos-contêiner">Comandos: contêiner</h2>
+<h2 id="comandos-container">Comandos: container</h2>
 
 <hr />
 
-<p>O comando contêiner nos permite verificar informações referentes aos contêineres. O contêiner é a aplicação/imagem que foi executada ou está em execução.</p>
+<p>O comando <code>container</code> nos permite verificar informações referentes aos containers. O container é a aplicação/imagem que foi executada ou está em execução.</p>
 
-<p>Primeiramente vamos verificar os contêineres ativos, aquelas imagens que estão em execução.</p>
+<p>Primeiramente vamos verificar os containers ativos, aquelas imagens que estão em execução.</p>
 
 <pre><code class="language-sh">sudo docker container ls
 </code></pre>
@@ -517,14 +521,14 @@
 
 <p>É possível ver todos os contêineres que já foram executados.</p>
 
-<p>Vamos então matar esse contêiner ativo que não mais necessitamos. Ao executar <code>sudo docker container ls</code> podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:</p>
+<p>Vamos então matar esse container ativo que não mais necessitamos. Ao executar <code>sudo docker container ls</code> podemos ver os ativos, observe que, cada contêiner possui um CONTAINER ID, é por ele iremos matar o processo, basta fazer:</p>
 
 <pre><code class="language-sh">sudo docker container kill CONTAINER_ID
 </code></pre>
 
 <p>No meu caso o comando foi <code>sudo docker container kill 816e65266526</code>, observe com <code>sudo docker container ls</code> que o contêiner não está mais de pé.</p>
 
-<p>Há outros argumentos que podem ser utilizados junto com <code>container</code>, entre eles estão <code>exec</code>, <code>restart</code>, <code>pause</code>, <code>inspec</code>, <code>start</code>, <code>stop</code>, <code>unpause</code>, <code>logs</code>, etc. Normalmente eles estão ligados à manutenção de contêineres, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu contêiner para observar algo, etc). Como nosso objetivo é criar uma API escalável não faremos nenhuma manutenção de contêiner, pois eles irão nascer e morrer a todo momento.</p>
+<p>Há outros argumentos que podem ser utilizados junto com <code>container</code>, entre eles estão <code>exec</code>, <code>restart</code>, <code>pause</code>, <code>inspec</code>, <code>start</code>, <code>stop</code>, <code>unpause</code>, <code>logs</code>, etc. Normalmente eles estão ligados à manutenção de containers, sugiro que sejam estudados caso a necessidade (preciso visualizar as entranhas do meu container para observar algo, etc).</p>
 
 <p><br><br></p>
 
@@ -534,7 +538,7 @@
 
 <hr />
 
-<p>Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório. Posteriormente até este processo será automático, nosso trabalho será somente versionar os scripts.</p>
+<p>Este comando tem o objetivo de gerir as imagens que existem. Inicialmente iremos utilizar bastante esse comando para poder baixar e subir imagens para o nosso repositório.</p>
 
 <p>Vamos listar todas as imagens que estão salvas.</p>
 
@@ -546,7 +550,7 @@
 <pre><code class="language-sh">sudo docker rmi ubuntu
 </code></pre>
 
-<p>Caso tenha algum log de um contêiner que a esteja utilizando podemos forçar a remoção</p>
+<p>Caso tenha alguma imagem dependente da que iremos remover é necessário forçar a remoção</p>
 
 <pre><code class="language-sh">sudo docker rmi -f ubuntu
 </code></pre>
@@ -566,50 +570,50 @@
 
 <hr />
 
-<p>Este é um comando muito útil. Porém não iremos utilizá-lo em produção, apenas no nosso ambiente de Dev. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados <code>sudo docker container ls -a</code>, e imagens que não mais utilizamos, ou que foram atualizadas continuam a existir. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.</p>
+<p>Este é um comando muito útil. Nós temos um histórico no docker, como por exemplo todos os contêineres já executados <code>sudo docker container ls -a</code>, e imagens que não mais utilizamos. O prune tem como objetivo limpar todos esse lixo. Ele pode ser feito em etapas ou em todo o docker. Vamos por etapas.</p>
 
 <p><strong>Container:</strong></p>
 
-<p>Veja quantos contêiner temos que estão parados:</p>
+<p>Veja quantos container que estão parados:</p>
 
 <pre><code class="language-sh">sudo docker container ls -a
 </code></pre>
 
-<p>Podemos remover todos os contêineres parados com:</p>
+<p>Podemos remover todos os containers parados com:</p>
 
 <pre><code class="language-sh">sudo docker container prune
 </code></pre>
 
-<p>Podemos ainda filtrar, aqui removemos todos os contêineres criados parados que possuem mais de 24 horas.</p>
+<p>Podemos ainda filtrar, aqui removemos todos os container parados que possuem mais de 24 horas.</p>
 
 <pre><code class="language-sh">sudo docker container prune --filter=&quot;until24h&quot;
 </code></pre>
 
 <p><strong>Images:</strong></p>
 
-<p>Podemos remover imagens que são &ldquo;zumbis&rdquo;. Essas imagens são aquelas que não são taggeadas ou não sejam referenciadas por nenhum contêiner.</p>
+<p>Podemos remover imagens que são &ldquo;zumbis&rdquo;. Essas imagens são aquelas estão referenciadas por nenhum container ou imagem.</p>
 
 <pre><code class="language-sh">sudo docker image prune
 </code></pre>
 
-<p>Podemos remover todas as imagens que não estejam associadas a um contêiner:</p>
+<p>Podemos remover todas as imagens que não estejam associadas a um container:</p>
 
 <pre><code class="language-sh">sudo docker image prune -a
 </code></pre>
 
-<p>E assim como no exemplo dos contêineres podemos utilizar filtros</p>
+<p>E assim como no exemplo dos container podemos utilizar filtros</p>
 
 <pre><code class="language-sh">sudo docker image prune --filter=&quot;until24h&quot;
 </code></pre>
 
 <p><strong>Tudo:</strong></p>
 
-<p>Podemos fazer um prune de tudo ao mesmo tempo incluindo <strong>Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os contêineres de modo que eles apenas se comuniquem num espaço fechado)</strong></p>
+<p>Podemos fazer um prune de tudo ao mesmo tempo incluindo <strong>Networks (Não abordei Networks nesse documento, mas acho pertinente fazer uma pesquisa em separa quando ir surgindo a necessidade de ligar com essas configurações, mas num resumo bem breve, podemos criar Networks internas para os containers de modo que eles apenas se comuniquem num espaço fechado)</strong></p>
 
 <pre><code class="language-sh">sudo docker system prune
 </code></pre>
 
-<p>Execute esse comando e depois observe quantos contêineres você possui e quantas imagens salvas.</p>
+<p>Execute esse comando e depois observe quantos containers você possui e quantas imagens salvas.</p>
 
 <p><br><br></p>
 
@@ -631,7 +635,7 @@
 <li><code>MAINTAINER</code>: O autor do arquivo</li>
 <li><code>COPY</code>: Copia algum arquivo para dentro da imagem (assim quando a imagem for iniciada ela já possui o arquivo)</li>
 <li><code>USER</code>: Define qual será o usuário padrão para a imagem</li>
-<li><code>ENTRYPOINT</code>: Define qual a aplicação do contêiner. Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um contêiner).</li>
+<li><code>ENTRYPOINT</code>: Define qual a aplicação do container Normalmente é um arquivo em shell dentro da imagem com tudo para ser executado. É executado quanto a imagem é executada (na criação de um container).</li>
 <li><code>CMD</code>: Semelhante ao ENTRYPOINT, pode executar um comando na execução da imagem, ou passar argumentos para o ENTRYPOINT. Porém o CMD pode ser &ldquo;ofuscado&rdquo; por algum outro comando na hora de executar a imagem, exemplo <code>sudo docker run --rm -it ubuntu /bin/bash</code>, aqui estamos executando a imagem ubuntu com o CMD <code>/bin/bash</code> que substitui qualquer outro CMD dentro da imagem.</li>
 </ul>
 
@@ -737,7 +741,7 @@ ENTRYPOINT /text_print.sh
 <pre><code class="language-sh">sudo docker image ls
 </code></pre>
 
-<p>Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado (teremos um FUNCIONAL) você pode fazer o seguinte para subir a imagem para tal.</p>
+<p>Caso você tenha uma conta no docker hub (repositório oficial) ou tenha algum repositório de imagens configurado você pode fazer o seguinte para subir a imagem para tal.</p>
 
 <pre><code class="language-sh">sudo docker tag imagem_teste seu_nome_usuario_repo/imagem_teste
 sudo docker push seu_nome_usuario_repo/imagem_teste

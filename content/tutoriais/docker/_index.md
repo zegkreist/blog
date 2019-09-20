@@ -23,3 +23,10 @@ menu:
 
 
 
+Tutorialzinho de Docker para dar um empurrão nos estudos, se você precisar é claro!
+
+Aqui temos basicamente três sessões.
+
+- Docker Installation: Faço um passo a passo de como instalhar o bagulho
+- Docker Commands: Mostro os principais comandos
+- Docker Compose: Mostro e exemplifico o docker-compose

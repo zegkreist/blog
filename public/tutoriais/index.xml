@@ -17,7 +17,16 @@
       <link>/tutoriais/docker/</link>
       <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
       <guid>/tutoriais/docker/</guid>
-      <description></description>
+      <description>&lt;p&gt;Tutorialzinho de Docker para dar um empurrão nos estudos, se você precisar é claro!&lt;/p&gt;
+
+&lt;p&gt;Aqui temos basicamente três sessões.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Docker Installation: Faço um passo a passo de como instalhar o bagulho&lt;/li&gt;
+&lt;li&gt;Docker Commands: Mostro os principais comandos&lt;/li&gt;
+&lt;li&gt;Docker Compose: Mostro e exemplifico o docker-compose&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
   </channel>
