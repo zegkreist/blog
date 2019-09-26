@@ -17,86 +17,55 @@
       <link>/post/strata-data-conference-data-plataform/</link>
       <pubDate>Tue, 24 Sep 2019 00:00:00 +0000</pubDate>
       <guid>/post/strata-data-conference-data-plataform/</guid>
-      <description>&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+      <description>
 
+
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;p&gt;Architecting a data plataform for enterprise use
 Mark Madsen
 Todd Walter&lt;/p&gt;
-
 &lt;p&gt;more complex needs drive more complex tech&lt;/p&gt;
-
 &lt;p&gt;complexidade trás dificuldade de inovação. Uma vez que se tem uma cadeia complicada dos dados os processos ficam dependentes deles. É necessário um grande esforço para mudar isso&lt;/p&gt;
-
 &lt;p&gt;Grande parte dos dos projetos de inovação em TI falham. Devido há uma grande complexidade envolvida. Para resolver um problema complexo é necessário uma solução complexa.&lt;/p&gt;
-
 &lt;p&gt;A solução para os problemas não vem pela tecnologia, mas pela arquitetura. Pensando no uso, no objetivo final do criar a plataforma de dados.
 Pensar no tempo que isso irá durar. Quando o código entra em produção ele deve estar preparado para durar o tempo que for requerido para que ele funcione, a preferência é que ele dure par sempre.
 Sempre pense no usuário daquela plataforma. Entáo a plataforma de dados em si depende de quais usuários estarão gerando e usando aqueles dados.
 A plataforma deve gerar valor. O esforço deve ser emcima disso
 Se não há um planejamento a tendência é construir coisas desnecessárias, aumentando complexidade por causa de algo que não foi se quer projetado.&lt;/p&gt;
-
-&lt;p&gt;Vendores oferecem ferramentas  e soluçoes. Eles não oferecem arquitetura. No máximo eles irão confundir e limitar a sua arquitetura&lt;/p&gt;
-
+&lt;p&gt;Vendores oferecem ferramentas e soluçoes. Eles não oferecem arquitetura. No máximo eles irão confundir e limitar a sua arquitetura&lt;/p&gt;
 &lt;p&gt;A arquitetura não é estática é um processo. Não é necessariamente técnica, é ter noção de que tipos de atitudes tomar para se chegar no objetivo. Essas atitudes afetam o que já foi construído?&lt;/p&gt;
-
 &lt;p&gt;BI
 Data models depende da pergunta? Qual a pergunta?
 Quando isso for construído serão feitas novas perguntas e novos modelos necessitam serem construídos
 A arquitetura deve comportar isso, esse ciclo de pergunta do negócio e o sistema para responder essa pergunta.&lt;/p&gt;
-
 &lt;p&gt;Porém há necessidades que surgem a todo tempo. O ambiente de análise de dados possui uma s;eria de ferramentas diferentes que não são substituíveis. No final será necessário manter todas essas tecnologias lado a lado. As vezes é necessário descobrir uma pergunta.&lt;/p&gt;
-
 &lt;p&gt;As ferramentas podem ser acopladas em grupos&lt;/p&gt;
-
 &lt;p&gt;Egines aqueles que irão utilizar os dados, R python, tableau, mnext, tensorflow, etc.&lt;/p&gt;
-
 &lt;p&gt;A base, data stored: Dados guardados que serviram as engines de descoberta.&lt;/p&gt;
-
 &lt;p&gt;Algo que possui os dados curados, pega do RAW e joga para as bases que fornecem para as engines de estudo&lt;/p&gt;
-
 &lt;p&gt;RAW data&lt;/p&gt;
-
 &lt;p&gt;Grande parte dos projetos de data science sao feitos em notebooks, não sendo necessário grandes servidores. Cuidado para não construir coisas a mais que não são necessárias.&lt;/p&gt;
-
 &lt;p&gt;A grande questão é selecionar as technologias. Vendedores de Db querem que a solução seja seu DB, Hadoop vendors o hadoop, sparkeanos querem spark. A questão é que a construção mora em todos, não somente em um.&lt;/p&gt;
-
 &lt;p&gt;Quando pensamos numa solução não devemos pensar só nela. Além do uso e do objetivo devemos pensar em como ela se aloca em sua vizinhança. Se construirmos um quarto precisamos entender como se ele encaixa na casa. Se construirmos uma casa precisamos entender como ela se encaixa na quadra. Como a quadra se encaixa no bairro. Como o bairro está alocado na cidade.&lt;/p&gt;
-
 &lt;p&gt;Não podemos criar uma casa que abrigue uma cidade. O modelo de consumo de dados atual mudou, DW assumia apenas leitura, hoje nas nossas análises nos criamos dados.&lt;/p&gt;
-
 &lt;p&gt;Não devemos pensar em ambientes uniformes. AS várias arquiteturas são apenas ferramentas, nossos ambientes deve possuir uma série de ferramentas. O embiente em que elas vivem também deve ser pensado nelas. Se há ferramentas que necessitam serem trocadas com frequencia devemos pensar numa estrutura que seja fácil trocar essas ferramentas.&lt;/p&gt;
-
 &lt;p&gt;Devemos Zonear a arquitetura.&lt;/p&gt;
-
 &lt;p&gt;Quando começamos a automatizar as processos geramos mais dados, logs, kpi, metricas. Com o passar do tempo acaba sendo necessário automatizar a análise dos metadados. O que acaba gerando uma nova camada de dados.&lt;/p&gt;
-
 &lt;p&gt;Grey boxes. Combinação de modelos black box que possuim uma outra camada de modelos que avaliam suas decisões. Caso o modelo principal fique errático ou comece a tomar decisões totalmente erradas ele deve ser parado antes que faça muito estrago&lt;/p&gt;
-
 &lt;p&gt;Isso acaba gerando mais BI. Mas há uma vantagem nisso, deixando o humano mais afastado das análises Repitivas e chatas e deixando-os mais concentrados em tarefas/ BI em decisões que necessitam uma atenção maior do humano.&lt;/p&gt;
-
-&lt;p&gt;Devemos ter camada de automação.   Verificação manual para decioes mais necessárias e Suporte de decisão (o chefe)  que observa as duas outras camadas.&lt;/p&gt;
-
+&lt;p&gt;Devemos ter camada de automação. Verificação manual para decioes mais necessárias e Suporte de decisão (o chefe) que observa as duas outras camadas.&lt;/p&gt;
 &lt;p&gt;Arquitetura. Se focarmos apenas em negócio teremos uma favela, sem infra estrutura, sem agua, sem eletricidade. Otimizado localmente mas não globalmente&lt;/p&gt;
-
 &lt;p&gt;FAzer o design todo primeiro que os usuários seguem. Se ficar muito distante dos usuários teremos uma brasília, algo pouco funcional para o usuário.&lt;/p&gt;
-
 &lt;p&gt;Foque nos objetivos e usuários. Constura a infraestrutura necessária para melhor atende-los&lt;/p&gt;
-
 &lt;p&gt;1 guardar os dados raw num único local.&lt;/p&gt;
-
 &lt;p&gt;2 Feature repository. Dados finalizados para uso de modelos, dados curados.&lt;/p&gt;
-
 &lt;p&gt;3 Dados normalizados. Os dados são o principal elemento de reuso, não o código. Cada DW focado na aplicação de saída&lt;/p&gt;
-
 &lt;p&gt;Os dados devem ser Tidy. Quadradinhos bonitinhos, para facilicitar a análise dos usuários. Devem ser centralizados e de fácil acesso para os analistas. Evitar silos, onde cada área possui seu banco de dados. Pois há muitas perguntas e explorações que para serem feitas necessitam do conjunto desses dados.&lt;/p&gt;
-
 &lt;p&gt;Não é necessário curar todos os dados. Otimização muito cedo. O dado deve ser curado a medida que a necessidade de sua utilização passe a ser necessária.
- Então o data lake é uma espécie de nuvem, onde os data sets que estào na beirada possuem menos necessidade de cura, enquanto os mais próximos do centro devem estar curados. Cada data set deve ter seu &amp;lsquo;planejamento&amp;rsquo;, no futuro esse dado deve atender tais especificações para atender tal objetivo. MVP&lt;/p&gt;
-
-&lt;p&gt;Separe os tipos de dados. Real time  Batch, incremental, one time&lt;/p&gt;
-
+Então o data lake é uma espécie de nuvem, onde os data sets que estào na beirada possuem menos necessidade de cura, enquanto os mais próximos do centro devem estar curados. Cada data set deve ter seu ‘planejamento’, no futuro esse dado deve atender tais especificações para atender tal objetivo. MVP&lt;/p&gt;
+&lt;p&gt;Separe os tipos de dados. Real time Batch, incremental, one time&lt;/p&gt;
 &lt;p&gt;Na terceira etapa precisamos provisionar os dados da melhor forma possível para a aplicação na frente.
-&lt;a href=&#34;/tutoriais/docker/&#34; target=&#34;_blank&#34;&gt;tutorialzinho&lt;/a&gt;&lt;/p&gt;
+[tutorialzinho] ( {{&amp;lt; relref “tutoriais/docker” &amp;gt;}})&lt;/p&gt;
 </description>
     </item>
     
