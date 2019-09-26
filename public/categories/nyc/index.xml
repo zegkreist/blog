@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts | Vugudum</title>
-    <link>/post/</link>
-      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    <description>Posts</description>
+    <title>nyc | Vugudum</title>
+    <link>/categories/nyc/</link>
+      <atom:link href="/categories/nyc/index.xml" rel="self" type="application/rss+xml" />
+    <description>nyc</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>pt-br</language><lastBuildDate>Tue, 24 Sep 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
-      <title>Posts</title>
-      <link>/post/</link>
+      <title>nyc</title>
+      <link>/categories/nyc/</link>
     </image>
     
     <item>
@@ -212,37 +212,6 @@ Em tempos de home office essa parte é muito importante, pois é uma porta de en
 &lt;p&gt;SEMPRE devemos pensar na segurança por default. Hoje, muitos sistema são construídos para então serem adicionados etapas de segurança. Isto deve ser invertido, devemos pensar nos sistemas e nas soluções de forma a fornecer o máximo de segurança. Encriptar dados, controle de acesso, anonimização pseudoanonimização (xuberar), acesso fino aos dados.&lt;/p&gt;
 
 &lt;p&gt;Sempre implementar mecanismos de validar o consentimento das pessoas que de fato são os donos de suas informações pessoais. Toda aplicação deve receber os dados após a validação do consentimento, nunca dos dados base.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Tutorialzinho de Docker</title>
-      <link>/post/tutorialzinho-de-docker/</link>
-      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
-      <guid>/post/tutorialzinho-de-docker/</guid>
-      <description>&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;p&gt;Oláá, olá a todos!! Espero que estejam ótimos. É sempre bom isso.&lt;/p&gt;
-
-&lt;p&gt;Venho por meio deste, meu primeiro post neste blog, informar que coloquei um &amp;ldquo;tutorialzinho&amp;rdquo; de docker também neste blog, veja só!&lt;/p&gt;
-
-&lt;p&gt;O Docker nos permite abstrair uma série de problemas. Quando fazemos análises de dados não sabemos exatamente o que utilizar durante o processo.&lt;/p&gt;
-
-&lt;p&gt;Partimos de uma ideia, uma hipótese, mas isto não é fixo, a partir do aprendizado e da familiaridade que vai se construindo ao trabalhar com os dados novas ideias surgem, e com isso a necessidade de novas ferramentas para algo em específico surge. Essa nova ferramenta pode vir em formato de network, de algum pacote, uma lib, das nuvens &amp;hellip; de baixo da terra, sei lah.&lt;/p&gt;
-
-&lt;p&gt;A questão aqui é ir entulhando seu sistema operacional com toda essas libs e a carga de dependências que normalmente vem junto. As vezes algum componente não conversa bem com outro e sai briga. Logo seu OS vai ficando sujo. Aqui que o Docker ajuda.&lt;/p&gt;
-
-&lt;p&gt;Quando se desenvolve dentro de um container Docker você tem toda a liberdade de derrubar as paredes da casa, se o telhado cair na sua cabeça tudo bem!! Apenas restarte o container e tá tudo certo, a casa está de pé novamente, seu OS limpo da mesma forma, seu ambiente de desenvolvimento intacto.&lt;/p&gt;
-
-&lt;p&gt;Há quase um ano eu trabalho utilizando uma imagem específica, tem basicamente tudo que eu preciso, do R server ao Latex! A imagem é gigante? É sim! Mas se eu precisar formatar meu PC em 10 minutos instalo o docker, baixo a imagem e estou com meu ambiente de desenvolvimento que já conheço de pé.&lt;/p&gt;
-
-&lt;p&gt;O Docker facilita também a parte de colocar as coisas em produção, já que você consegue versionar seu ambiente de execução inteiro.&lt;/p&gt;
-
-&lt;p&gt;Por isso e mais um pouco resolvi colocar um tutorial de Docker aqui. Ensino a instalar, falo mais detalhadamente sobre alguns comandos para quem não está muito acostumado com o linux. Exemplifico os principais comandos e mostro a mágica que é o docker-compose aquela delícia!!!&lt;/p&gt;
-
-&lt;p&gt;Dê uma olhadinha!  XD&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;/tutoriais/docker/&#34; target=&#34;_blank&#34;&gt;tutorialzinho&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

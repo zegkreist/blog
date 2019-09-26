@@ -29,7 +29,7 @@ Venho por meio deste, meu primeiro post neste blog, informar que coloquei um "tu
 
 O Docker nos permite abstrair uma série de problemas. Quando fazemos análises de dados não sabemos exatamente o que utilizar durante o processo. 
 
-Partimos de uma idéia, uma hipótese, mas isto não é fixo, a partir do aprendizado e da familiaridade que vai se construindo ao trabalhar com os dados novas ideias surgem, e com isso a necessidade de novas ferramentas para algo em específico surge. Essa nova ferramenta pode vir em formato de network, de algum pacote, uma lib, das nuvens ... de baixo da terra, sei lah.
+Partimos de uma ideia, uma hipótese, mas isto não é fixo, a partir do aprendizado e da familiaridade que vai se construindo ao trabalhar com os dados novas ideias surgem, e com isso a necessidade de novas ferramentas para algo em específico surge. Essa nova ferramenta pode vir em formato de network, de algum pacote, uma lib, das nuvens ... de baixo da terra, sei lah.
 
 A questão aqui é ir entulhando seu sistema operacional com toda essas libs e a carga de dependências que normalmente vem junto. As vezes algum componente não conversa bem com outro e sai briga. Logo seu OS vai ficando sujo. Aqui que o Docker ajuda.
 
