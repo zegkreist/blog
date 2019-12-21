@@ -32,7 +32,7 @@ Há muito não posto nada no blog. Vocês sabem como é ... vida corrida, blá b
 
 Porém estou de férias, não posso reclamar de falta de tempo. Estou com o pé para cima
 
-![como podem ver pela foto](pe_prarriba.png)
+![como podem ver pela foto](https://lh3.googleusercontent.com/yivIf7JlZoshRs1phN3f5TQxI7DvJW2uKQsuzHiaV5FAJb1dtRWBpIjS25-2M8vuw4d3r5nQG9BnwkR8Lf_YAdO-siJAD0-g2nyMtw3kcC-rw1mSry7WNVngYyniI2lZsqveJx6Xew)
 
 Tirando o atraso da 
 lista de jogos (Red Dead 2, BloodBorne, God of War, Remnant, etc) veja que são alguns e não são novos. 

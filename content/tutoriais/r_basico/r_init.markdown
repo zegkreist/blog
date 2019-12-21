@@ -394,12 +394,12 @@ head(dados)
 
 ```
 ##   id letras  numeros
-## 1  1      A 87.17943
-## 2  2      B 95.03441
-## 3  3      C 59.79877
-## 4  4      D 27.82970
-## 5  5      E 13.58656
-## 6  6      F 87.61289
+## 1  1      A 98.08171
+## 2  2      B 43.00829
+## 3  3      C 26.86298
+## 4  4      D 40.94583
+## 5  5      E 16.11603
+## 6  6      F 48.42628
 ```
 
 Podemos acessar o data-frame de forma semelhante à matriz, veja:
@@ -411,7 +411,7 @@ dados[1,] # Primeira linha
 
 ```
 ##   id letras  numeros
-## 1  1      A 87.17943
+## 1  1      A 98.08171
 ```
 
 ```r
@@ -947,8 +947,8 @@ vetor_logico
 ```
 
 ```
-##  [1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
-## [12]  TRUE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE
+##  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE
+## [12]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE
 ```
 
 Agora podemos selecionar posições em `a` informando quem 'desligar' e a quem retornar, veja:
@@ -959,7 +959,8 @@ a[vetor_logico]
 ```
 
 ```
-## [1] 1.335407 2.728543 4.714224 2.118679 4.694672 1.350015
+## [1] 1.032027 4.410348 4.270202 2.854233 4.884520 3.757685 3.068622 3.834133
+## [9] 2.706487
 ```
 
 ```r
@@ -968,7 +969,8 @@ a[a < 5] # quero a, onde a é menor que 5
 ```
 
 ```
-## [1] 1.335407 2.728543 4.714224 2.118679 4.694672 1.350015
+## [1] 1.032027 4.410348 4.270202 2.854233 4.884520 3.757685 3.068622 3.834133
+## [9] 2.706487
 ```
 
 Agora queremos as posições de `a` que são menores que 5
@@ -979,7 +981,7 @@ which(a < 5 )
 ```
 
 ```
-## [1]  4  6 12 13 15 19
+## [1]  5 10 11 12 13 14 16 17 20
 ```
 
 ```r
@@ -989,7 +991,8 @@ a[pos]
 ```
 
 ```
-## [1] 1.335407 2.728543 4.714224 2.118679 4.694672 1.350015
+## [1] 1.032027 4.410348 4.270202 2.854233 4.884520 3.757685 3.068622 3.834133
+## [9] 2.706487
 ```
 Podemos também negar um vetor lógico (basicamente pegando o contrário)
 
@@ -999,8 +1002,8 @@ a[!vetor_logico]
 ```
 
 ```
-##  [1] 5.613933 6.306559 5.980838 7.274490 6.055749 7.171903 8.900745
-##  [8] 7.314315 5.754658 8.287106 5.376884 7.663514 9.424019 9.945513
+##  [1] 6.385984 8.736175 7.104037 8.203882 6.494243 6.770594 9.450312
+##  [8] 6.899342 7.313048 7.928868 7.744817
 ```
 Os vetores lógicos possuem algumas propriedades, por exemplo `TRUE = 1` e `FALSE = 0`, então podemos fazer operações com isso. Queremos saber quantos números em `a` são menores que 5, então podemos fazer assim:
 
@@ -1010,7 +1013,7 @@ sum(a < 5)
 ```
 
 ```
-## [1] 6
+## [1] 9
 ```
 
 ```r
@@ -1019,7 +1022,7 @@ length(a[a < 5])
 ```
 
 ```
-## [1] 6
+## [1] 9
 ```
 
 Vamos zerar os números menores que 5:
@@ -1030,9 +1033,9 @@ a*!vetor_logico
 ```
 
 ```
-##  [1] 5.613933 6.306559 5.980838 0.000000 7.274490 0.000000 6.055749
-##  [8] 7.171903 8.900745 7.314315 5.754658 0.000000 0.000000 8.287106
-## [15] 0.000000 5.376884 7.663514 9.424019 0.000000 9.945513
+##  [1] 6.385984 8.736175 7.104037 8.203882 0.000000 6.494243 6.770594
+##  [8] 9.450312 6.899342 0.000000 0.000000 0.000000 0.000000 0.000000
+## [15] 7.313048 0.000000 0.000000 7.928868 7.744817 0.000000
 ```
 
 ```r
@@ -1043,9 +1046,9 @@ a
 ```
 
 ```
-##  [1] 5.613933 6.306559 5.980838 0.000000 7.274490 0.000000 6.055749
-##  [8] 7.171903 8.900745 7.314315 5.754658 0.000000 0.000000 8.287106
-## [15] 0.000000 5.376884 7.663514 9.424019 0.000000 9.945513
+##  [1] 6.385984 8.736175 7.104037 8.203882 0.000000 6.494243 6.770594
+##  [8] 9.450312 6.899342 0.000000 0.000000 0.000000 0.000000 0.000000
+## [15] 7.313048 0.000000 0.000000 7.928868 7.744817 0.000000
 ```
 
 Podemos utilizar outros vetores de mesmo tamanho para fazer esse filtro, caso as informações sejam casadas. Vamos supor um `data.frame` e trabalhar com ele para esses filtros
@@ -1066,7 +1069,7 @@ dados$letras[dados$numeros < 50]
 ```
 
 ```
-##  [1] A C D E G H I L M N O P Q S
+##  [1] B D E F G H K N O P R S T
 ## Levels: A B C D E F G H I J K L M N O P Q R S T
 ```
 
@@ -1079,13 +1082,13 @@ head(dados1)
 ```
 
 ```
-##   id letras  numeros
-## 1  1      A 20.00067
-## 3  3      C 48.87220
-## 4  4      D 17.57676
-## 5  5      E 48.42215
-## 7  7      G 12.41036
-## 8  8      H 48.87775
+##   id letras   numeros
+## 2  2      B  1.518690
+## 4  4      D  3.384159
+## 5  5      E 23.287412
+## 6  6      F 28.360873
+## 7  7      G  9.157979
+## 8  8      H 41.689610
 ```
 
 Nós usamos muito os vetores lógicos, em todos os lugares. Porém não vou me prolongar aqui, farei isso quando estivermos falando de `data.table` que é redesenho do `data.frame`. É utilizando ele que faremos todas as manipulações alá banco de dados, por que ele? por isso:
@@ -1168,8 +1171,8 @@ rbenchmark::benchmark(
 ```
 ##          test replications relative elapsed
 ## 3  vetorizado          100        1   0.001
-## 2 pre_alocado          100      221   0.221
-## 1  sem_alocar          100      246   0.246
+## 2 pre_alocado          100      240   0.240
+## 1  sem_alocar          100      273   0.273
 ```
 
 Observe a velocidade relativa, o método **vetorizado** é a base, observe que o método **sem_alocar** é o mais demorado, quantas vezes mais lento? Muito não?!? Agora observe que caso o tamanho do `result` seja pré alocado é um pouco mais rápido, mas nem de longe comparado com a versão vetorizada.
@@ -1290,16 +1293,16 @@ dados
 
 ```
 ##           A condicoes      saida
-## 1  7.782101     FALSE EITA NAAOO
-## 2  7.693311     FALSE EITA NAAOO
-## 3  5.345587     FALSE EITA NAAOO
-## 4  1.625184      TRUE    EITAAAA
-## 5  1.300335      TRUE    EITAAAA
-## 6  1.851643      TRUE    EITAAAA
-## 7  6.102358     FALSE EITA NAAOO
-## 8  4.607045      TRUE    EITAAAA
-## 9  5.969509     FALSE EITA NAAOO
-## 10 3.370244      TRUE    EITAAAA
+## 1  7.588302     FALSE EITA NAAOO
+## 2  5.560936     FALSE EITA NAAOO
+## 3  4.385240      TRUE    EITAAAA
+## 4  2.665477      TRUE    EITAAAA
+## 5  2.307467      TRUE    EITAAAA
+## 6  2.449290      TRUE    EITAAAA
+## 7  2.920070      TRUE    EITAAAA
+## 8  8.914990     FALSE EITA NAAOO
+## 9  3.729306      TRUE    EITAAAA
+## 10 4.224658      TRUE    EITAAAA
 ```
 
 ***
@@ -1487,7 +1490,7 @@ file.size("dados_example.txt.gz")/1000000 #mb
 ```
 
 ```
-## [1] 0.587147
+## [1] 0.586925
 ```
 
 ```r
@@ -1495,7 +1498,7 @@ file.size("dados_example.txt")/1000000 #mb
 ```
 
 ```
-## [1] 1.233423
+## [1] 1.233302
 ```
 
 Vamos carregar o arquivo original utilizando a função `fread` do `data.table`.

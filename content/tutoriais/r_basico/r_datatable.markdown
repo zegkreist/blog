@@ -80,8 +80,8 @@ rbenchmark::benchmark(
 
 ```
 ##      test replications relative elapsed
-## 2 com_key            1    1.000   0.088
-## 1 sem_key            1    1.545   0.136
+## 2 com_key            1    1.000   0.101
+## 1 sem_key            1    1.842   0.186
 ```
 São iguais?
 
@@ -107,17 +107,17 @@ dados[categoria == 1]
 
 ```
 ##          categoria     valor sexo
-##       1:         1  975.4248    1
-##       2:         1 1023.0986    1
-##       3:         1 1001.0985    1
-##       4:         1 1005.0957    2
-##       5:         1  976.7483    1
+##       1:         1  983.1805    2
+##       2:         1 1020.7571    2
+##       3:         1 1041.2756    1
+##       4:         1  984.5988    2
+##       5:         1  981.9217    2
 ##      ---                         
-## 2498366:         1 1012.5867    2
-## 2498367:         1  976.4526    1
-## 2498368:         1  992.7365    1
-## 2498369:         1  986.8656    2
-## 2498370:         1  960.7972    2
+## 2501239:         1 1018.7187    2
+## 2501240:         1 1028.5804    1
+## 2501241:         1 1045.4142    1
+## 2501242:         1  993.8039    2
+## 2501243:         1  998.1015    2
 ```
 
 Perceba que, eu faço referência ao nome da coluna de forma direta internamente. Podemos compor este vetor lógico de outras formas, utilizando outras colunas também, veja.
@@ -129,17 +129,17 @@ dados[categoria == 1 & valor >= 1000 & sexo == 1]
 
 ```
 ##         categoria    valor sexo
-##      1:         1 1023.099    1
-##      2:         1 1001.098    1
-##      3:         1 1002.891    1
-##      4:         1 1007.914    1
-##      5:         1 1003.784    1
+##      1:         1 1041.276    1
+##      2:         1 1012.897    1
+##      3:         1 1010.089    1
+##      4:         1 1018.702    1
+##      5:         1 1020.278    1
 ##     ---                        
-## 625109:         1 1050.729    1
-## 625110:         1 1001.734    1
-## 625111:         1 1005.494    1
-## 625112:         1 1009.409    1
-## 625113:         1 1019.553    1
+## 624581:         1 1025.785    1
+## 624582:         1 1016.047    1
+## 624583:         1 1020.169    1
+## 624584:         1 1028.580    1
+## 624585:         1 1045.414    1
 ```
 
 Porém, quando assim fazemos, não nos utilizamos da busca binária. Para usá-la precisamos criar as chaves e usar uma lista para passar os argumentos.
@@ -158,17 +158,17 @@ dados[.(1,1)][valor >= 1000]
 
 ```
 ##         categoria    valor sexo
-##      1:         1 1023.099    1
-##      2:         1 1001.098    1
-##      3:         1 1002.891    1
-##      4:         1 1007.914    1
-##      5:         1 1003.784    1
+##      1:         1 1041.276    1
+##      2:         1 1012.897    1
+##      3:         1 1010.089    1
+##      4:         1 1018.702    1
+##      5:         1 1020.278    1
 ##     ---                        
-## 625109:         1 1050.729    1
-## 625110:         1 1001.734    1
-## 625111:         1 1005.494    1
-## 625112:         1 1009.409    1
-## 625113:         1 1019.553    1
+## 624581:         1 1025.785    1
+## 624582:         1 1016.047    1
+## 624583:         1 1020.169    1
+## 624584:         1 1028.580    1
+## 624585:         1 1045.414    1
 ```
 
 Vejamos a diferença:
@@ -190,8 +190,8 @@ rbenchmark::benchmark(
 
 ```
 ##      test replications relative elapsed
-## 2 com_key            1    1.000   0.027
-## 1 sem_key            1    5.481   0.148
+## 2 com_key            1     1.00   0.028
+## 1 sem_key            1     5.75   0.161
 ```
 
 São iguais?
@@ -224,7 +224,7 @@ dados1
 
 ```
 ##    media_valor desvio_padrao_valor
-## 1:    1000.005            20.00088
+## 1:    1000.004            20.00367
 ```
 
 O que vemos nesta expressão?
@@ -246,7 +246,7 @@ dados1
 
 ```
 ##    media_valor desvio_padrao_valor
-## 1:    1015.958            12.05815
+## 1:    1015.969            12.05818
 ```
 
 Ao contrário da expressão anterior, adicionamos um filtro no espaço destinado a ele. Podemos reescrever isso de outra forma, já mostrada anteriormente, fazendo primeiro um `data.table` filtrado e continuando os cálculos. Isto pode ser feito com o pipe ou usando a função `[`, a segunda é mais recomendada pois não gera cópias.
@@ -289,17 +289,17 @@ dados
 
 ```
 ##           categoria     valor sexo media_valor desvio_padrao_valor
-##        1:         1  975.4248    1    1000.005            20.00088
-##        2:         1 1023.0986    1    1000.005            20.00088
-##        3:         1 1001.0985    1    1000.005            20.00088
-##        4:         1  976.7483    1    1000.005            20.00088
-##        5:         1  982.0134    1    1000.005            20.00088
+##        1:         1 1041.2756    1    1000.004            20.00367
+##        2:         1  989.1302    1    1000.004            20.00367
+##        3:         1  978.7430    1    1000.004            20.00367
+##        4:         1  998.9086    1    1000.004            20.00367
+##        5:         1 1012.8971    1    1000.004            20.00367
 ##       ---                                                         
-##  9999996:         4  952.9602    2    1000.005            20.00088
-##  9999997:         4 1008.7344    2    1000.005            20.00088
-##  9999998:         4  988.2921    2    1000.005            20.00088
-##  9999999:         4 1017.5209    2    1000.005            20.00088
-## 10000000:         4  965.8441    2    1000.005            20.00088
+##  9999996:         4 1018.1498    2    1000.004            20.00367
+##  9999997:         4  981.9318    2    1000.004            20.00367
+##  9999998:         4 1000.6837    2    1000.004            20.00367
+##  9999999:         4  987.9402    2    1000.004            20.00367
+## 10000000:         4 1038.9378    2    1000.004            20.00367
 ```
 
 A função `:=` também é utilizada para deleter colunas.
@@ -322,12 +322,12 @@ head(dados)
 
 ```
 ##    categoria     valor sexo media_valor desvio_padrao_valor
-## 1:         1  975.4248    1    1000.005            20.00088
-## 2:         1 1023.0986    1    1000.005            20.00088
-## 3:         1 1001.0985    1    1000.005            20.00088
-## 4:         1  976.7483    1    1000.005            20.00088
-## 5:         1  982.0134    1    1000.005            20.00088
-## 6:         1 1002.8910    1    1000.005            20.00088
+## 1:         1 1041.2756    1    1000.004            20.00367
+## 2:         1  989.1302    1    1000.004            20.00367
+## 3:         1  978.7430    1    1000.004            20.00367
+## 4:         1  998.9086    1    1000.004            20.00367
+## 5:         1 1012.8971    1    1000.004            20.00367
+## 6:         1 1010.0885    1    1000.004            20.00367
 ```
 
 A função `:=` altera o `data.table` inplace, então tome cuidado quando for alterar colunas já existentes. A exemplo, vamos alterar uma coluna já existente utilizando de filtros.
@@ -344,12 +344,12 @@ head(dados)
 
 ```
 ##    categoria     valor sexo media_valor desvio_padrao_valor
-## 1:         1  975.4248    1    1000.005            20.00088
-## 2:         1 1023.0986    1    1015.958            12.05815
-## 3:         1 1001.0985    1    1015.958            12.05815
-## 4:         1  976.7483    1    1000.005            20.00088
-## 5:         1  982.0134    1    1000.005            20.00088
-## 6:         1 1002.8910    1    1015.958            12.05815
+## 1:         1 1041.2756    1    1015.969            12.05818
+## 2:         1  989.1302    1    1000.004            20.00367
+## 3:         1  978.7430    1    1000.004            20.00367
+## 4:         1  998.9086    1    1000.004            20.00367
+## 5:         1 1012.8971    1    1015.969            12.05818
+## 6:         1 1010.0885    1    1015.969            12.05818
 ```
 
 Observou que alguns dos dados da coluna alterada aparentam serem os mesmos? A coluna só foi alterada onde a condição do filtro é satisfeita, que é `valor > 1000`. Veja:
@@ -362,17 +362,17 @@ dados[c(1:5, (nrow(dados)-5):nrow(dados))]
 
 ```
 ##     categoria     valor sexo media_valor desvio_padrao_valor
-##  1:         4  895.2639    1    1000.005            20.00088
-##  2:         3  898.6232    2    1000.005            20.00088
-##  3:         1  899.5407    1    1000.005            20.00088
-##  4:         3  902.9212    1    1000.005            20.00088
-##  5:         2  903.0805    2    1000.005            20.00088
-##  6:         4 1097.1874    1    1015.958            12.05815
-##  7:         2 1097.6480    2    1015.958            12.05815
-##  8:         3 1097.8430    2    1015.958            12.05815
-##  9:         1 1098.4183    1    1015.958            12.05815
-## 10:         1 1099.5458    2    1015.958            12.05815
-## 11:         1 1100.1758    1    1015.958            12.05815
+##  1:         2  900.4804    2    1000.004            20.00367
+##  2:         3  902.8411    1    1000.004            20.00367
+##  3:         1  903.1211    1    1000.004            20.00367
+##  4:         2  903.4796    1    1000.004            20.00367
+##  5:         4  903.6676    1    1000.004            20.00367
+##  6:         4 1100.1116    1    1015.969            12.05818
+##  7:         4 1100.5020    1    1015.969            12.05818
+##  8:         2 1101.6412    1    1015.969            12.05818
+##  9:         4 1102.5581    1    1015.969            12.05818
+## 10:         3 1103.1713    2    1015.969            12.05818
+## 11:         3 1105.0339    1    1015.969            12.05818
 ```
 
 Vamos criar agora uma label para a variável `sexo`. Veremos o que acontecerá.
@@ -386,9 +386,9 @@ dados[c(1,500,10000000)]
 
 ```
 ##    categoria     valor sexo media_valor desvio_padrao_valor
-## 1:         4  895.2639    1    1000.005            20.00088
-## 2:         1  925.2515    1    1000.005            20.00088
-## 3:         1 1099.5458    2    1015.958            12.05815
+## 1:         3  902.8411    1    1000.004            20.00367
+## 2:         3  926.0478    1    1000.004            20.00367
+## 3:         3 1103.1713    2    1015.969            12.05818
 ##    SexoBeneficiario
 ## 1:        Masculino
 ## 2:        Masculino
@@ -408,9 +408,9 @@ dados[c(1,500,10000000)]
 
 ```
 ##    categoria     valor sexo SexoBeneficiario
-## 1:         4  895.2639    1        Masculino
-## 2:         1  925.2515    1        Masculino
-## 3:         1 1099.5458    2         Feminino
+## 1:         3  902.8411    1        Masculino
+## 2:         3  926.0478    1        Masculino
+## 3:         3 1103.1713    2         Feminino
 ```
 
 Pronto, podemos fazer isso de outra forma, veremos qual será mais rápido, para isso iremos deletar esta coluna.
@@ -444,9 +444,9 @@ rbenchmark::benchmark(
 
 ```
 ##                 test replications relative elapsed
-## 3            com_key            1    1.000   0.154
-## 2 sem_key_data.table            1    1.078   0.166
-## 1     sem_key_ifelse            1   10.143   1.562
+## 2 sem_key_data.table            1    1.000   0.209
+## 3            com_key            1    1.033   0.216
+## 1     sem_key_ifelse            1    8.321   1.739
 ```
 
 São iguais?
@@ -488,9 +488,9 @@ rbenchmark::benchmark(
 
 ```
 ##                 test replications relative elapsed
-## 3            com_key            1    1.000   0.156
-## 2 sem_key_data.table            1    1.051   0.164
-## 1     sem_key_ifelse            1    9.449   1.474
+## 3            com_key            1    1.000   0.165
+## 2 sem_key_data.table            1    1.073   0.177
+## 1     sem_key_ifelse            1    9.945   1.641
 ```
 
 O index apenas funciona para `==` e `%in%`. Uma coisa que devemos ter cuidado é sempre utilizar os tipos certos para se fazer comparação e para atribuir valores, conversões saem caras em questão de performance, assim sempre que possível devemos atribuir as coisas de forma correta, como em `sexo == 1L` aqui eu especifico com o `L` que o número à esquerda é um inteiro.
@@ -513,7 +513,7 @@ gc(reset = T)
 ```
 ##           used (Mb) gc trigger  (Mb) max used (Mb)
 ## Ncells  599594 32.1    1069260  57.2   599594 32.1
-## Vcells 3695540 28.2   90653403 691.7  3695540 28.2
+## Vcells 3693424 28.2   90661241 691.7  3693424 28.2
 ```
 
 Vamos declarar o dados novamente
@@ -540,10 +540,10 @@ dados[, .(media_valor         = mean(valor),
 
 ```
 ##    categoria media_valor desvio_padrao_valor
-## 1:         4    999.9759            20.00497
-## 2:         3    999.9809            20.00681
-## 3:         1   1000.0350            20.00017
-## 4:         2    999.9953            19.99649
+## 1:         4    999.9855            19.99456
+## 2:         2    999.9867            20.00855
+## 3:         1   1000.0115            20.00871
+## 4:         3    999.9952            19.99853
 ```
 
 Esta foi uma agregação, um resumo, vamos criar as mesmas duas métricas para cada categoria, um mutate.
@@ -561,12 +561,12 @@ head(dados)
 
 ```
 ##    categoria     valor sexo media_valor desvio_padrao_valor
-## 1:         4  944.6925    2    999.9759            20.00497
-## 2:         3 1012.5386    1    999.9809            20.00681
-## 3:         4 1015.1939    2    999.9759            20.00497
-## 4:         3 1011.7917    1    999.9809            20.00681
-## 5:         4  997.0488    1    999.9759            20.00497
-## 6:         1  997.0743    2   1000.0350            20.00017
+## 1:         4 1006.5045    2    999.9855            19.99456
+## 2:         4  999.9418    2    999.9855            19.99456
+## 3:         2  984.4775    2    999.9867            20.00855
+## 4:         1 1030.6272    2   1000.0115            20.00871
+## 5:         1  995.2280    1   1000.0115            20.00871
+## 6:         2 1000.1660    1    999.9867            20.00855
 ```
 
 
@@ -583,14 +583,14 @@ dados[, .(media_valor         = mean(valor),
 
 ```
 ##    categoria sexo media_valor desvio_padrao_valor
-## 1:         4    2    999.9684            20.00190
-## 2:         3    1    999.9766            19.98753
-## 3:         4    1    999.9834            20.00804
-## 4:         1    2   1000.0374            19.99195
-## 5:         2    2    999.9741            19.99573
-## 6:         3    2    999.9852            20.02606
-## 7:         2    1   1000.0165            19.99723
-## 8:         1    1   1000.0325            20.00840
+## 1:         4    2    999.9882            19.98116
+## 2:         2    2    999.9859            20.01013
+## 3:         1    2   1000.0132            20.00674
+## 4:         1    1   1000.0099            20.01069
+## 5:         2    1    999.9875            20.00697
+## 6:         4    1    999.9828            20.00795
+## 7:         3    1    999.9711            19.98177
+## 8:         3    2   1000.0192            20.01526
 ```
 
 
@@ -617,8 +617,8 @@ head(A)
 
 ```
 ##    id_A label_A
-## 1:    1       A
-## 2:    2       B
+## 1:    2       B
+## 2:    1       A
 ## 3:    2       B
 ## 4:    1       A
 ## 5:    2       B
@@ -647,8 +647,8 @@ B[A, on =c("id_B" = "id_A")] # LEFT JOIN COM COPIA
 
 ```
 ##        id_B   label_B label_A
-##     1:    1 Masculino       A
-##     2:    2  Feminino       B
+##     1:    2  Feminino       B
+##     2:    1 Masculino       A
 ##     3:    2  Feminino       B
 ##     4:    1 Masculino       A
 ##     5:    2  Feminino       B
@@ -656,8 +656,8 @@ B[A, on =c("id_B" = "id_A")] # LEFT JOIN COM COPIA
 ##  9996:    1 Masculino       A
 ##  9997:    1 Masculino       A
 ##  9998:    1 Masculino       A
-##  9999:    2  Feminino       B
-## 10000:    1 Masculino       A
+##  9999:    1 Masculino       A
+## 10000:    2  Feminino       B
 ```
 
 ```r
@@ -668,8 +668,8 @@ A
 
 ```
 ##        id_A label_A   label_B
-##     1:    1       A Masculino
-##     2:    2       B  Feminino
+##     1:    2       B  Feminino
+##     2:    1       A Masculino
 ##     3:    2       B  Feminino
 ##     4:    1       A Masculino
 ##     5:    2       B  Feminino
@@ -677,8 +677,8 @@ A
 ##  9996:    1       A Masculino
 ##  9997:    1       A Masculino
 ##  9998:    1       A Masculino
-##  9999:    2       B  Feminino
-## 10000:    1       A Masculino
+##  9999:    1       A Masculino
+## 10000:    2       B  Feminino
 ```
 
 ```r
@@ -740,16 +740,16 @@ A
 ```
 ##        id_A label_A   label_B
 ##     1:    2       B  Feminino
-##     2:    2       B  Feminino
+##     2:    1       A Masculino
 ##     3:    2       B  Feminino
-##     4:    1       A Masculino
+##     4:    2       B  Feminino
 ##     5:    1       A Masculino
 ##    ---                       
-##  9996:    2       B  Feminino
+##  9996:    1       A Masculino
 ##  9997:    1       A Masculino
-##  9998:    1       A Masculino
-##  9999:    2       B  Feminino
-## 10000:    1       A Masculino
+##  9998:    2       B  Feminino
+##  9999:    1       A Masculino
+## 10000:    2       B  Feminino
 ```
 
 ### RIGHT JOIN
