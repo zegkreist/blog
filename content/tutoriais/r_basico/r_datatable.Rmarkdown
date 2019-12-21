@@ -1,0 +1,527 @@
+---
+title: R Data Table
+linktitle: R - Data table 
+toc: true
+type: docs
+date: "2019-12-20"
+draft: false
+menu:
+  r_basico:
+    parent: R Básico
+    weight: 2
+
+# Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
+weight: 2
+---
+
+
+```{r,echo = F, include = F}
+library(data.table)
+
+```
+
+
+# R - Data.Table 
+***
+
+O data.table nada mais é do que uma reimaginação do data.frame do R. Ele é escrito primariamente em C. Possui uma série de otimizações focando em velocidade e economia de memória. Temos a liberdade de fazer operações inplace, evitando cópias desnecessárias que agridem a memória e demandam tempo.
+
+Seja `dados` um objeto data.table. Nosso acesso as manipulações ocorrem pela função `[]`, temos a seguinte estrutura:
+
+
+![Slots](data.table.png)
+
+Temos 3 slots:
+
+- Primeiro, `i`: É a região dos filtros
+- Segundo,`j`: É a região do que iremos fazer. Criar colunas? Dropar colunas? Agregação?
+- Terceiro, `by`: É a região dos grupos, mas algumas vezes pode servir como filtro também, como num caso de JOIN.
+
+Seria algo com `dados[where, select|update|do, by]`. Vamos começar com a parte do `where`, para isso vamos introduzir a função `setkey`.
+
+***
+## Filtro
+***
+
+Já que iremos filtrar, vamos filtrar de forma eficiente.
+A função `setkey` tem como objetivo estabelecer um índice. A serventia é a mesma que num banco de dados, isto é feito para que, numa busca seja feito busca binária e não vector scan. **Um ponto de atenção é que o objeto data.table é ordenado de acordo com o índice**, dependendo do que está sendo feito isto pode ser um problema.
+
+Vamos criar um dado sintético para trabalhar de tamanho razoável.
+
+```{r}
+dados <- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+```
+
+
+Temos um conjunto de dados de 10 milhões de linhas. Criamos dados fake, categoria, valor e sexo. Vamos criar um objeto que receba apenas os dados da categoria 1 e 2. Mas primeiro criaremos um índice.
+
+```{r}
+setkey(dados,categoria)
+```
+
+Vamos comparar o filtro utilizando a chave e sem.
+
+```{r}
+rbenchmark::benchmark(
+  "sem_key" = {
+    filtro1 <- dados[categoria == 1 | categoria == 2]
+    },
+  "com_key" ={
+    filtro2 <- dados[.(c(1,2))]
+    },
+  order = "relative",
+  replications = 1,
+  columns = c("test", "replications", "relative", "elapsed")
+  )
+
+```
+São iguais?
+
+```{r}
+all(filtro1 == filtro2)
+```
+
+A versão sem chave é mais lenta. Mas repare a velocidade com que filtramos uma tabela de 10 milhões de linhas e copiamos para um objeto novo em ambas as versões.
+
+**Agora vamos explicar melhor.**
+
+Quando não temos uma chave criada, filtramos o conjunto de dados utilizando vetores lógicos.
+
+```{r}
+dados[categoria == 1]
+```
+
+Perceba que, eu faço referência ao nome da coluna de forma direta internamente. Podemos compor este vetor lógico de outras formas, utilizando outras colunas também, veja.
+
+```{r}
+dados[categoria == 1 & valor >= 1000 & sexo == 1]
+```
+
+Porém, quando assim fazemos, não nos utilizamos da busca binária. Para usá-la precisamos criar as chaves e usar uma lista para passar os argumentos.
+
+```{r}
+setkey(dados, categoria, sexo)
+```
+
+Não irei fazer busca num range de valor na busca binária, mas chegarei no mesmo resultado. Iremos fazer o mesmo filtro.
+
+```{r}
+dados[.(1,1)][valor >= 1000]
+```
+
+Vejamos a diferença:
+
+```{r}
+rbenchmark::benchmark(
+  "sem_key" = {
+    filtro1 <- dados[categoria == 1 & valor >= 1000 & sexo == 1]
+    },
+  "com_key" ={
+    filtro2 <- dados[.(1,1)][valor >= 1000]
+    },
+  order = "relative",
+  replications = 1,
+  columns = c("test", "replications", "relative", "elapsed")
+  )
+
+```
+
+São iguais?
+
+```{r}
+all(filtro1 == filtro2)
+```
+
+Observe que não estamos contando o tempo necessário para se criar as chaves. Porém quase sempre é melhor fazer a chave, pois podemos pensar numa chave que favoreça o maior número possível de filtros que será feito.
+
+***
+## Agregações / Mutate
+***
+
+Agora vamos trabalhar na segunda parte do `data.table`, no "o que iremos fazer". Aqui vamos fazer agregações. Temos 3 colunas, duas que indicam categorias e uma que indica um valor. Então, faremos alguns cálculos utilizando a coluna valor. Vamos crar um novo objeto `data.table` que tenha a média e desvio padrão deste valor.
+
+```{r}
+dados1 <- dados[, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+```
+
+O que vemos nesta expressão?
+
+- `dados[,`: Não queremos fazer nenhum filtro, então deixamos seu respectivo espaço em branco.
+- `.(`: Está função `.` é um alias para a função `list`. Estamos passando uma lista com as expressões que são feitas.
+- `media_valor = mean(valor)`: Aqui nomeio a nova coluna à esquerda da igualdade. No lado direito escrevo a expressão, aqui faço a média da coluna `valor`.
+
+Vamos fazer o mesmo procedimento, só que para valores maiores que 1000.
+
+```{r}
+dados1 <- dados[valor > 1000, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+```
+
+Ao contrário da expressão anterior, adicionamos um filtro no espaço destinado a ele. Podemos reescrever isso de outra forma, já mostrada anteriormente, fazendo primeiro um `data.table` filtrado e continuando os cálculos. Isto pode ser feito com o pipe ou usando a função `[`, a segunda é mais recomendada pois não gera cópias.
+
+```{r}
+# com pipe
+library(magrittr)
+dados1A <- dados[valor > 1000] %>% 
+  .[, .(media_valor         = mean(valor),
+        desvio_padrao_valor = sd(valor)
+        )
+    ]
+
+#Com os []
+
+dados1B <- dados[valor > 1000
+                 ][
+                   , .(media_valor         = mean(valor),
+                       desvio_padrao_valor = sd(valor)
+                       )
+                 ]
+
+all(dados1A == dados1B)
+
+```
+
+
+Perceba que, criamos um novo objeto com o resultado. Porém, muitas vezes, se faz necessário adicionar essa informação como uma nova coluna, mesmo que ela seja redundante. Para isso, utilizaremos um outra função para escrever as expressões, a função `:=`. Veja.
+
+```{r}
+dados[, media_valor := mean(valor)]
+dados[, desvio_padrao_valor := sd(valor)]
+dados
+```
+
+A função `:=` também é utilizada para deleter colunas.
+
+```{r}
+dados[, c("media_valor", "desvio_padrao_valor") := NULL]
+```
+
+Para utilizarmos uma mesma chamada para criar várias colunas novas, devemos utilizar a seguinte forma.
+
+```{r}
+dados[, `:=`(media_valor         = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             )
+      ]
+head(dados)
+```
+
+A função `:=` altera o `data.table` inplace, então tome cuidado quando for alterar colunas já existentes. A exemplo, vamos alterar uma coluna já existente utilizando de filtros.
+
+```{r}
+dados[valor > 1000,
+      `:=`(media_valor         = mean(valor),
+           desvio_padrao_valor = sd(valor)
+           )
+      ]
+head(dados)
+```
+
+Observou que alguns dos dados da coluna alterada aparentam serem os mesmos? A coluna só foi alterada onde a condição do filtro é satisfeita, que é `valor > 1000`. Veja:
+
+```{r}
+setorder(dados, valor)
+dados[c(1:5, (nrow(dados)-5):nrow(dados))]
+```
+
+Vamos criar agora uma label para a variável `sexo`. Veremos o que acontecerá.
+
+```{r}
+setkey(dados, sexo)
+dados[.(sexo = 1), SexoBeneficiario := "Masculino"]
+dados[c(1,500,10000000)]
+```
+
+```{r, echo = F}
+dados[, c("media_valor", "desvio_padrao_valor") := NULL]
+```
+
+
+Eu solicitei a impressão das linhas 1, 500 e 10000000. Veja a variável que criamos, observe que para onde as condições do filtro não foram satisfeitas não foi aplicado nenhum valor para a nova variável `SexoBeneficiario`.
+
+```{r}
+dados[.(sexo = 2), SexoBeneficiario := "Feminino"]
+dados[c(1,500,10000000)]
+```
+
+Pronto, podemos fazer isso de outra forma, veremos qual será mais rápido, para isso iremos deletar esta coluna.
+
+```{r}
+dados[, SexoBeneficiario := NULL]
+
+```
+
+```{r}
+options(datatable.verbose=F, datatable.auto.index = F)
+rbenchmark::benchmark(
+  "sem_key_ifelse" = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1, "Masculino", "Feminino")]
+    },
+  "sem_key_data.table"= {
+    dados[sexo == 1, SexoBeneficiario2 := "Masculino"]
+    dados[sexo == 2, SexoBeneficiario2 := "Feminino"]
+  },
+  "com_key" ={
+    dados[.(sexo = 1), SexoBeneficiario3 := "Masculino"]
+    dados[.(sexo = 2), SexoBeneficiario3 := "Feminino"]
+
+    },
+  order = "relative",
+  replications = 1,
+  columns = c("test", "replications", "relative", "elapsed")
+  )
+
+```
+
+São iguais?
+
+```{r}
+all(dados$SexoBeneficiario2 == dados$SexoBeneficiario3)
+```
+
+
+Agora vamos ativar a função de auto index do `data.table`. O que ela faz? Basicamente observar quais filtros irá fazer e cria um índice por trás dos panos. Porém ele não reordena o objeto em si, é criado uma coluna com esse índice nos atributos do objeto. Ainda é mais lento do que criar uma Chave, mas já ajuda bastante, veja:
+
+```{r}
+options(datatable.verbose=F, datatable.auto.index = T)
+
+rbenchmark::benchmark(
+  "sem_key_ifelse" = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1L, "Masculino", "Feminino")]
+    },
+  "sem_key_data.table"= {
+    dados[sexo == 1L, SexoBeneficiario2 := "Masculino"]
+    dados[sexo == 2L, SexoBeneficiario2 := "Feminino"]
+  },
+  "com_key" ={
+    dados[.(sexo = 1L), SexoBeneficiario3 := "Masculino"]
+    dados[.(sexo = 2L), SexoBeneficiario3 := "Feminino"]
+
+    },
+  order = "relative",
+  replications = 1,
+  columns = c("test", "replications", "relative", "elapsed")
+  )
+
+```
+
+O index apenas funciona para `==` e `%in%`. Uma coisa que devemos ter cuidado é sempre utilizar os tipos certos para se fazer comparação e para atribuir valores, conversões saem caras em questão de performance, assim sempre que possível devemos atribuir as coisas de forma correta, como em `sexo == 1L` aqui eu especifico com o `L` que o número à esquerda é um inteiro.
+
+***
+## Agrupamento
+***
+
+Nós já fizemos agregações na sessão anterior. Iremos fazer a exata mesma coisa, porém agora podemos agrupar os cálculos em grupos (basicamente o `GROUP BY` de qualquer SQL).
+
+Vamos utilizar o mesmo mesmo exemplo anterior, só que agora agrupando por `categoria`
+
+Limpe seus dados (caso ainda o tenha) e libere a memória.
+```{r}
+rm(dados)
+gc(reset = T)
+```
+
+Vamos declarar o dados novamente
+
+```{r}
+dados <- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+```
+
+
+Iremos calcular a média e desvio padrão para cada nível da variável `categoria`
+
+```{r}
+dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria)
+      ]
+```
+
+Esta foi uma agregação, um resumo, vamos criar as mesmas duas métricas para cada categoria, um mutate.
+
+```{r}
+dados[, `:=`(media_valor = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             ),
+      by = .(categoria)
+      ]
+
+head(dados)
+```
+
+
+Também podemos fazer agrupamentos por mais de uma variável. Aqui será feito com `categoria` e `sexo`.
+
+```{r}
+dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria, sexo)
+      ]
+```
+
+
+***
+## JOINss
+***
+
+O `data.table`tem seu modo de realizar JOINS e JOINS inplace. É eficiente, mas pode confundir um pouco.
+
+Primeiro iremos criar as tabelas, `A` será um índice, contendo 1 e 2. `B` será uma índice com uma label.
+
+```{r}
+A <- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := "A"]
+A[id_A == 2, label_A := "B"]
+
+B <- data.table(id_B    = 1:2,
+                label_B = c("Masculino", "Feminino")
+                )
+
+head(A)
+B
+```
+
+Os JOINS podem ser definidos pela seguinte forma
+
+### LEFT JOIN
+
+```{r}
+
+### LEFT JOIN EM A com B
+B[A, on =c("id_B" = "id_A")] # LEFT JOIN COM COPIA
+
+
+
+### LEFT JOIN EM A com B
+A[B, label_B := label_B, on =c("id_A" = "id_B")] # LEFT JOIN SEM COPIA
+A
+
+
+### LEFT JOIN EM B com A
+B[A, label_A := label_A, on =c("id_B" = "id_A")] # LEFT JOIN SEM COPIA
+B
+
+```
+
+Para colocar várias colunas da tabela à direita para a direita num **LEFT JOIN SEM COPIA** é necessário um pouco mais de trabalho. Veja, é só um pouco mais de trabalho.
+
+Primeiro, crio esta função auxiliar, ela irá construir o código responsável pelo `lhs := rhs` de várias colunas e retorno como uma expressão do R. Após isso eu avalio essa expressão dentro do `data.table`
+
+```{r}
+pull_right <- function(columns,exceptions){
+  columns <- columns[!columns %in% exceptions]
+  string <- paste( "`:=`(",paste(columns, columns, sep = "=", collapse = ","), ")")
+ 
+  return(parse(text =string))
+  }
+
+pull_right(columns = c("label_A", "label_B"), exceptions = c("id"))
+```
+
+Vejamos o exemplo anterior, utilizando desta função:
+```{r}
+# DECLARANDO AS MATRIZES NOVAMENTE
+A <- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := "A"]
+A[id_A == 2, label_A := "B"]
+
+B <- data.table(id_B    = 1:2,
+                label_B = c("Masculino", "Feminino")
+                )
+#
+#
+#
+# LEFT JOIN IN PLACE
+A[B,
+  eval(pull_right(columns = "label_B",
+                  exceptions = "id_B")
+       ),
+  on = .(id_A == id_B)
+  ]
+A
+```
+
+### RIGHT JOIN
+
+Reimagine um RIGHT JOIN como um LEFT JOIN e faz como no passo anterior
+
+### INNER JOIN
+
+Vamos criar datasets de exemplo.
+
+```{r}
+A <- data.table(id_A = 1:10,
+                label_A = "alguma coisa"
+                )
+B <- data.table(id_B = 1:4,
+                label_B = "MATCH")
+```
+
+Para o INNER JOIN FAZEMOS
+
+```{r}
+A[B, on = c("id_A" = "id_B"), nomatch = 0]
+```
+
+### NOT JOIN
+
+
+
+Vamos criar datasets de exemplo.
+
+```{r}
+A <- data.table(id_A = 1:10,
+                label_A = "alguma coisa"
+                )
+B <- data.table(id_B = 1:4,
+                label_B = "MATCH")
+```
+
+Para o NOT JOIN temos
+
+```{r}
+A[!B, on = c("id_A" = "id_B")]
+```
+
+### NON EQUI JOIN
+
+Este JOIN serve para quando queremos fazer um match baseado em desigualdade. Vamos a criação do dataset e ao exemplo.
+
+
+```{r}
+A <- data.table(id_A = 1:20,
+                label_A = "alguma coisa"
+                )
+B <- data.table(id_B = 15:25,
+                label_B = "MATCH")
+```
+
+Vejamos A e B
+
+```{r}
+A
+B
+```
+
+Vamos fazer o match onde id_B é menor que id_A
+
+```{r}
+B[A, on = .(id_B < id_A)]
+```
+
+Esse é um JOIN bem confuso e é muito fácil fazer coisa errada. São raros os casos em que ele é necessário. Normalmente preenchimento de alguma coisa relacionada a uma linha temporal. Eu sugiro que tente usar ao máximo outras formas de fazer o que queira antes de tentar o NON EQUI JOINS.

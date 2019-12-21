@@ -1,0 +1,2785 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Navarro Rosa">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="R - Básico Agora que já se sabe como subir imagens de docker, vamos subir uma de R studio server com vários pacotes instalados para poder praticar.
+Primeiro, vamos criar uma pasta de trabalho para o docker-compose.ymlque iremos utilizar.
+mkdir /home/${USER}/docker_compose_rstudio  Vamos viajar lá para dentro.
+cd /home/${USER}/docker_compose_rstudio  Criar uma pasta persistente para montarmos dentro do container
+mkdir /home/${USER}/Projetos_R  Criar um arquivo docker-compose.yml já com tudo dentro (Coloque uma senha melhor para sua pessoa).">
+
+  
+  <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/r_basico/apostila/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="../../../css/academic.min.dd629241ea9333c62c071f4a25f829ff.css">
+
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-148080553-1', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+
+  <link rel="manifest" href="../../../index.webmanifest">
+  <link rel="icon" type="image/png" href="../../../img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../../img/icon-192.png">
+
+  <link rel="canonical" href="../../../tutoriais/r_basico/apostila/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@zegkreist">
+  <meta property="twitter:creator" content="@zegkreist">
+  
+  <meta property="og:site_name" content="Vugudum">
+  <meta property="og:url" content="/tutoriais/r_basico/apostila/">
+  <meta property="og:title" content="R basicão | Vugudum">
+  <meta property="og:description" content="R - Básico Agora que já se sabe como subir imagens de docker, vamos subir uma de R studio server com vários pacotes instalados para poder praticar.
+Primeiro, vamos criar uma pasta de trabalho para o docker-compose.ymlque iremos utilizar.
+mkdir /home/${USER}/docker_compose_rstudio  Vamos viajar lá para dentro.
+cd /home/${USER}/docker_compose_rstudio  Criar uma pasta persistente para montarmos dentro do container
+mkdir /home/${USER}/Projetos_R  Criar um arquivo docker-compose.yml já com tudo dentro (Coloque uma senha melhor para sua pessoa)."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
+  
+    
+      <meta property="article:published_time" content="2019-12-20T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-12-20T00:00:00&#43;00:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>R basicão | Vugudum</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="../../../">Vugudum</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="../../../tutoriais/"><span>Tutoriais</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#contact"><span>contato</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../tutoriais/r_basico/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../tutoriais/r_basico/r_init/">R Básico</a>
+    <ul class="nav docs-sidenav">
+      
+      <li >
+        <a href="../../../tutoriais/r_basico/r_init/">R para padawans</a>
+      </li>
+      
+      <li >
+        <a href="../../../tutoriais/r_basico/r_data.table/">Data table para padawans</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#r-básico">R - Básico</a>
+<ul>
+<li><a href="#objetos">Objetos</a>
+<ul>
+<li><a href="#vetores">Vetores</a></li>
+<li><a href="#matrizes">Matrizes</a></li>
+<li><a href="#data-frame">Data-frame</a></li>
+<li><a href="#listas">Listas</a></li>
+</ul></li>
+<li><a href="#tipos">Tipos</a></li>
+<li><a href="#operações">Operações</a>
+<ul>
+<li><a href="#hail-to-all-mighty-pipe">HAIL to all mighty PIPE</a></li>
+<li><a href="#filtros-e-subsets">Filtros e subsets</a></li>
+</ul></li>
+<li><a href="#laços">Laços</a>
+<ul>
+<li><a href="#for">For</a></li>
+<li><a href="#while">While</a></li>
+</ul></li>
+<li><a href="#if-or-else">IF &hellip; or ELSE!!</a></li>
+<li><a href="#funções">Funções</a></li>
+<li><a href="#loading-75">Loading |======&mdash;| 75%</a>
+<ul>
+<li><a href="#csv-e-txt">CSV e TXT</a></li>
+<li><a href="#leitura-do-banco-de-dados">Leitura do banco de dados</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#r-data-table">R - Data.Table</a>
+<ul>
+<li><a href="#filtro">Filtro</a></li>
+<li><a href="#agregações-mutate">Agregações / Mutate</a></li>
+<li><a href="#agrupamento">Agrupamento</a></li>
+<li><a href="#joinss">JOINss</a>
+<ul>
+<li><a href="#left-join">LEFT JOIN</a></li>
+<li><a href="#right-join">RIGHT JOIN</a></li>
+<li><a href="#inner-join">INNER JOIN</a></li>
+<li><a href="#not-join">NOT JOIN</a></li>
+<li><a href="#non-equi-join">NON EQUI JOIN</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        <div class="docs-article-container">
+          <h1 itemprop="name">R basicão</h1>
+
+          <div class="article-style" itemprop="articleBody">
+            
+
+<h1 id="r-básico">R - Básico</h1>
+
+<hr />
+
+<p>Agora que já se sabe como subir imagens de docker, vamos subir uma de R studio server com vários pacotes instalados para poder praticar.</p>
+
+<p>Primeiro, vamos criar uma pasta de trabalho para o <code>docker-compose.yml</code>que iremos utilizar.</p>
+
+<pre><code class="language-sh">mkdir /home/${USER}/docker_compose_rstudio
+</code></pre>
+
+<p>Vamos viajar lá para dentro.</p>
+
+<pre><code class="language-sh">cd /home/${USER}/docker_compose_rstudio
+</code></pre>
+
+<p>Criar uma pasta persistente para montarmos dentro do container</p>
+
+<pre><code class="language-sh">mkdir /home/${USER}/Projetos_R
+</code></pre>
+
+<p>Criar um arquivo <code>docker-compose.yml</code> já com tudo dentro <strong>(Coloque uma senha melhor para sua pessoa).</strong></p>
+
+<pre><code class="language-sh">echo &quot;
+version: '2'
+services:
+  r-dl-cpu_teste:
+    image: zegkreist/r-dl-cpu
+    container_name: r_server_1
+    restart: always
+    environment:
+     - USER=$USER
+     - USERID=1000
+     - PASSWORD=facil123
+    ports:
+     - &quot;8787:8787&quot;
+    volumes:
+     - /home/${USER}/Projetos_R:/home/teste/Projetos_R:rw &quot; &gt; /home/${USER}/docker_compose_rstudio/docker-compose.yml
+</code></pre>
+
+<p>Suba o serviço do rstudio server</p>
+
+<pre><code class="language-sh">docker-compose up -d
+</code></pre>
+
+<p>Acesse em <a href="http://127.0.0.1:8787" target="_blank">http://127.0.0.1:8787</a> se for na sua máquina local ou <a href="http://ip_da_sua_instancia:8787" target="_blank">http://ip_da_sua_instancia:8787</a>. O login será seu usuário (rode <code>echo $USER</code> no console para descobrir) e a senha será a que você escolheu.</p>
+
+<p>Sua pessoa chegará numa tela parecida com essa.</p>
+
+<p><img src="apostila/rstudio_server_entrada.png" alt="GUI do Rstudio" /></p>
+
+<p>Observe que há 4 áreas principais</p>
+
+<ul>
+<li>Source: onde se está o editor de códigos e arquivos txt</li>
+<li>Environment/History/Conn/Git: Onde mostra os objetos declarados (há também outras abas, como history dos comandos rodados, connections, git, etc)</li>
+<li>Console: Onde os script é executado (há também outras abas, como terminal em que você pode executar comandos no console do linux, <strong>como estamos dentro de um serviço em container este terminal é sobre o OS do container, um Debian</strong>)</li>
+<li>Files/Packages/Plot/Help: Aqui está uma espécie de &lsquo;navegador&rsquo;, você pode olhar os arquivos nas pastas vizinhas, olhar as figuras geradas pelo R, usar o Help para pesquisa de comandos, etc.</li>
+</ul>
+
+<p>Antes de começarmos a praticar vamos criar um projeto. Um projeto no R possui um work directory, seta o &ldquo;home&rdquo; do projeto como este work directory, salva o histórico de códigos rodados neste projeto, facilita commit utilizando o git, assim como o push para o repositório. Então, <strong>SEMPRE</strong> faça as coisas dentro de um projeto, melhor organização melhor código.</p>
+
+<p>Vamos criar uma pasta para o projeto, navegue para dentro da pasta <code>Projetos_R</code> clique em <code>New Folder</code> e crie uma nova paste com o nome do projeto, pode ser <code>inicio</code>.</p>
+
+<p><img src="new_folder.png" alt="Local para criar a nova pasta" /></p>
+
+<p><img src="nome_folder.png" alt="Nome do folder" /></p>
+
+<p>Agora vamos criar um novo projeto nesta pasta, para isso vá no canto direito superior em:</p>
+
+<p><img src="novo_projeto.png" alt="E clique new project" /></p>
+
+<p>Clique em diretório já existente e selecione a pasta
+<img src="novo_projeto_2.png" alt="" /></p>
+
+<p>E CRIE SEU PROJETOOO!</p>
+
+<p><img src="novo_projeto_3.png" alt="" />
+<br></p>
+
+<p>Pronto, estamos dentro de um projeto mais organizado e controlado, todo script que salvar será nessa sua pasta criada. Vamos iniciar um novo script, no canto esquerdo superior há um sinal de positivo em verde sobre uma folha branca, clique nele e vá em Rscript.</p>
+
+<p><img src="novo_script.png" alt="" /></p>
+
+<p>Agora podemos começar a brincar com o R!!!!</p>
+
+<hr />
+
+<h2 id="objetos">Objetos</h2>
+
+<hr />
+
+<p>O R é uma linguagem funcional, tudo e qualquer coisa no R é uma função, porém algumas coisas podem ser vistas como objetos, são elas:</p>
+
+<ul>
+<li>Vetor</li>
+<li>Matriz</li>
+<li>Data-frame</li>
+<li>Lista</li>
+</ul>
+
+<p>Há pacotes que possuem versões alternativas desses objetos como veremos mais a frente, mas veremos o que está no base por enquanto.</p>
+
+<hr />
+
+<h3 id="vetores">Vetores</h3>
+
+<hr />
+
+<p>O vetor é um array de uma dimensão, ou uma matriz <code>\(1 \times n\)</code>, há várias formas de declarar um vetor. Podemos declarar numeric, integer, character, date, int64, etc, veja algumas delas:</p>
+
+<p>Diretamente.</p>
+
+<pre><code class="language-r">a &lt;- c(1,2,3,4)
+a
+</code></pre>
+
+<pre><code>## [1] 1 2 3 4
+</code></pre>
+
+<p>Usando uma sequência que pula de um em um.</p>
+
+<pre><code class="language-r">a &lt;- 1:4
+a
+</code></pre>
+
+<pre><code>## [1] 1 2 3 4
+</code></pre>
+
+<p>Usando a função de sequência informando a quantidade que deve ser pulado.</p>
+
+<pre><code class="language-r">a &lt;- seq(1, 4, by = 1)
+a
+</code></pre>
+
+<pre><code>## [1] 1 2 3 4
+</code></pre>
+
+<p>Usando uma função que repete um determinado valor <code>\(n\)</code> vezes.</p>
+
+<pre><code class="language-r">a &lt;- rep(1, 10)
+a
+</code></pre>
+
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1
+</code></pre>
+
+<pre><code class="language-r">b &lt;- rep(&quot;eita&quot;, 3)
+b
+</code></pre>
+
+<pre><code>## [1] &quot;eita&quot; &quot;eita&quot; &quot;eita&quot;
+</code></pre>
+
+<p>A primeira posição do vetor é <code>1</code> e usamos a função <code>[</code>.</p>
+
+<pre><code class="language-r">a &lt;- 1:10
+
+#primeira posicao
+a[1]
+</code></pre>
+
+<pre><code>## [1] 1
+</code></pre>
+
+<pre><code class="language-r">#ultima posicao
+a[length(a)]
+</code></pre>
+
+<pre><code>## [1] 10
+</code></pre>
+
+<pre><code class="language-r">#as primeiras 4 posicoes
+a[1:4]
+</code></pre>
+
+<pre><code>## [1] 1 2 3 4
+</code></pre>
+
+<pre><code class="language-r">b &lt;- LETTERS
+b[1:10]
+</code></pre>
+
+<pre><code>##  [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;
+</code></pre>
+
+<pre><code class="language-r">#output de length(a)
+length(a)
+</code></pre>
+
+<pre><code>## [1] 10
+</code></pre>
+
+<hr />
+
+<h3 id="matrizes">Matrizes</h3>
+
+<hr />
+
+<p>Assim como no C++ uma matriz pode ser vista como um vetor de vetores de mesmo tamanho. No R a matriz deve ser apenas de um tipo, ou seja, todas as colunas devem ser do mesmo tipo, como numeric, character, etc. Para declarar uma matriz primeiro e necessário declarar um vetor e reposicioná-lo com a função matrix. Por exemplo:</p>
+
+<pre><code class="language-r">vetor_inicial &lt;- 1:9
+
+matriz &lt;- matrix(data = vetor_inicial,
+                 ncol = 3,
+                 byrow = T
+                 )
+
+matriz
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+</code></pre>
+
+<ul>
+<li><code>data</code>: Informo o vetor que será reposicionado</li>
+<li><code>ncol</code>: informo quantas colunas a matriz terá</li>
+<li><code>byrow</code>: informo como será a distribuição</li>
+</ul>
+
+<p>Se fizermos com <code>byrow = F</code> temos:</p>
+
+<pre><code class="language-r">matriz &lt;- matrix(data = vetor_inicial,
+                 ncol = 3,
+                 byrow = F
+                 )
+
+matriz
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9
+</code></pre>
+
+<p>Para sabermos a dimensão da matriz basta utilizar <code>dim(matriz)</code>.
+O modo de acesso é semelhante ao vetor, utilizando a função <code>[</code>.</p>
+
+<pre><code class="language-r">#primeira posicao
+matriz[1,1]
+</code></pre>
+
+<pre><code>## [1] 1
+</code></pre>
+
+<pre><code class="language-r">#segunda posicao
+matriz[1,2]
+</code></pre>
+
+<pre><code>## [1] 4
+</code></pre>
+
+<pre><code class="language-r">#primeira linha
+matriz[1,]
+</code></pre>
+
+<pre><code>## [1] 1 4 7
+</code></pre>
+
+<pre><code class="language-r">#primeira coluna
+matriz[,1]
+</code></pre>
+
+<pre><code>## [1] 1 2 3
+</code></pre>
+
+<p>Podemos ainda nomear as colunas ou linhas e chamá-las pelo nome, veja:</p>
+
+<pre><code class="language-r">colnames(matriz) &lt;- c(&quot;primeira&quot;, &quot;segunda&quot;, &quot;terceira&quot;)
+
+matriz[,&quot;primeira&quot;]
+</code></pre>
+
+<pre><code>## [1] 1 2 3
+</code></pre>
+
+<pre><code class="language-r">#ou ainda um conjunto de colunas
+
+matriz[, c(&quot;primeira&quot;, &quot;segunda&quot;)]
+</code></pre>
+
+<pre><code>##      primeira segunda
+## [1,]        1       4
+## [2,]        2       5
+## [3,]        3       6
+</code></pre>
+
+<p>Repare que, eu declarei um vetor de nomes <code>c(&quot;primeira&quot;, &quot;segunda&quot;)</code> dentro do local de definição das colunas, eu poderia ter feito anteriormente, veja:</p>
+
+<pre><code class="language-r">subset_c &lt;- c(&quot;primeira&quot;, &quot;segunda&quot;)
+matriz[, subset_c]
+</code></pre>
+
+<pre><code>##      primeira segunda
+## [1,]        1       4
+## [2,]        2       5
+## [3,]        3       6
+</code></pre>
+
+<hr />
+
+<h3 id="data-frame">Data-frame</h3>
+
+<hr />
+
+<p>O data-frame é um &lsquo;objeto&rsquo; semelhante à uma matriz, porém necessita de ter as colunas nomeadas. Cada coluna é um vetor independente do outro, podendo assim ser de tipos diferentes. Há também formas diferentes de acesso ao data-frame.</p>
+
+<p>Vamos declarar um data-frame para podermos explorá-lo.</p>
+
+<pre><code class="language-r">dados &lt;- data.frame(id      = 1:10, #integer
+                    letras  = LETTERS[1:10], #character factor
+                    numeros = runif(n = 10, min = 1, max = 100) #numeric
+                    )
+head(dados)
+</code></pre>
+
+<pre><code>##   id letras   numeros
+## 1  1      A  7.793619
+## 2  2      B 87.309782
+## 3  3      C  2.206599
+## 4  4      D 75.845074
+## 5  5      E 80.070019
+## 6  6      F 82.648533
+</code></pre>
+
+<p>Podemos acessar o data-frame de forma semelhante à matriz, veja:</p>
+
+<pre><code class="language-r">dados[1,] # Primeira linha
+</code></pre>
+
+<pre><code>##   id letras  numeros
+## 1  1      A 7.793619
+</code></pre>
+
+<pre><code class="language-r">dados[,1] # Primeira coluna
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<pre><code class="language-r">dados[, &quot;letras&quot;] #coluna letras
+</code></pre>
+
+<pre><code>##  [1] A B C D E F G H I J
+## Levels: A B C D E F G H I J
+</code></pre>
+
+<pre><code class="language-r">#podemos acessar ainda utilizando o operador $, veja:
+
+dados$letras # Desta forma acessamos o vetor diretamente
+</code></pre>
+
+<pre><code>##  [1] A B C D E F G H I J
+## Levels: A B C D E F G H I J
+</code></pre>
+
+<hr />
+
+<h3 id="listas">Listas</h3>
+
+<hr />
+
+<p>As listas são contêineres que podem guardar qualquer tipo de objeto do R em seus slots, seria quase uma espécie de JSON. Veja a seguinte declaração:</p>
+
+<pre><code class="language-r">lista &lt;- list(
+  primeira_pos = 1:3,
+  segunda_pos  = data.frame(col_1 = 1:10),
+  terceira_pos = list(
+    inception = &quot;YEAH&quot;
+  )
+)
+</code></pre>
+
+<p>Vamos acessar seus conteúdos. Basicamente utilizaremos a função <code>[[</code> e o operador (que também é uma função) <code>$</code>.</p>
+
+<pre><code class="language-r">lista[&quot;primeira_pos&quot;]
+</code></pre>
+
+<pre><code>## $primeira_pos
+## [1] 1 2 3
+</code></pre>
+
+<pre><code class="language-r"># os seguintes abaixo sao equivalentes
+lista[[1]] # vetor de fato
+</code></pre>
+
+<pre><code>## [1] 1 2 3
+</code></pre>
+
+<pre><code class="language-r">lista$primeira_pos # vetor de fato
+</code></pre>
+
+<pre><code>## [1] 1 2 3
+</code></pre>
+
+<p>Agora, navegando pelo data.frame da segunda posição.</p>
+
+<pre><code class="language-r">#acessando primeira coluna do data.frame armazenado na lista
+lista[[2]]$col_1
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<pre><code class="language-r">lista[[&quot;segunda_pos&quot;]]# data.frame
+</code></pre>
+
+<pre><code>##    col_1
+## 1      1
+## 2      2
+## 3      3
+## 4      4
+## 5      5
+## 6      6
+## 7      7
+## 8      8
+## 9      9
+## 10    10
+</code></pre>
+
+<pre><code class="language-r">lista$segunda_pos # data.frame
+</code></pre>
+
+<pre><code>##    col_1
+## 1      1
+## 2      2
+## 3      3
+## 4      4
+## 5      5
+## 6      6
+## 7      7
+## 8      8
+## 9      9
+## 10    10
+</code></pre>
+
+<pre><code class="language-r">lista$segunda_pos$col_1 # primeira coluna do data.frame
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<pre><code class="language-r">lista$segunda_pos$col_1 # primeira coluna do data.frame
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<p>Agora acessando a lista dentro da lista.</p>
+
+<pre><code class="language-r">lista$terceira_pos # lista segundo nivel
+</code></pre>
+
+<pre><code>## $inception
+## [1] &quot;YEAH&quot;
+</code></pre>
+
+<pre><code class="language-r">lista[[&quot;terceira_pos&quot;]][[&quot;inception&quot;]] # resultado da lista segundo nivel
+</code></pre>
+
+<pre><code>## [1] &quot;YEAH&quot;
+</code></pre>
+
+<pre><code class="language-r">lista[[&quot;terceira_pos&quot;]]$inception # resultado da lista segundo nivel
+</code></pre>
+
+<pre><code>## [1] &quot;YEAH&quot;
+</code></pre>
+
+<pre><code class="language-r">lista$terceira_pos$inception # resultado da lista segundo nivel
+</code></pre>
+
+<pre><code>## [1] &quot;YEAH&quot;
+</code></pre>
+
+<hr />
+
+<h2 id="tipos">Tipos</h2>
+
+<hr />
+
+<p>No R temos basicamente <code>numeric</code> (seria um float), <code>integer</code>, <code>character</code>, <code>factor</code> (um tipo especial de <code>character</code>), <code>posix</code>/ <code>date</code> (um tipo especial de <code>character</code>), <code>logical</code>, <code>complex</code>. Existem alguns pacotes do R que expandem os tipos, adicionando coisas como <code>int64</code> por exemplo. Com a função <code>class</code> é possível observar o tipo de variáveis, vejamos alguns exemplos:</p>
+
+<pre><code class="language-r">require(lubridate) # pacote que adiciona tipo date
+</code></pre>
+
+<pre><code>## Loading required package: lubridate
+</code></pre>
+
+<pre><code>## 
+## Attaching package: 'lubridate'
+</code></pre>
+
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     date
+</code></pre>
+
+<pre><code class="language-r">a &lt;- .1
+b &lt;- 1L
+c &lt;- 'eita'
+d &lt;- &quot;Eita&quot;
+e &lt;- factor(c('a','b',&quot;c&quot;,&quot;D&quot;))
+f &lt;- Sys.time()
+g &lt;- 1+1i
+h &lt;- c(T,F, TRUE, FALSE)
+i &lt;- c(1,2,&quot;a&quot;,T) # CUIDADO PARA NÃO MISTURAR OS TIPOS
+j &lt;- c(1,2,T,F)   # CUIDADO PARA NÃO MISTURAR OS TIPOS
+l &lt;- lubridate::as_date(Sys.time())
+
+
+ cat(paste0(c(&quot;Tipo: a &quot;, class(a), &quot;\n&quot;, 
+              &quot;Tipo: b &quot;, class(b), &quot;\n&quot;, 
+              &quot;Tipo: c &quot;, class(c), &quot;\n&quot;, 
+              &quot;Tipo: d &quot;, class(d), &quot;\n&quot;, 
+              &quot;Tipo: e &quot;, class(e), &quot;\n&quot;, 
+              &quot;Tipo: f &quot;, class(f), &quot;\n&quot;, 
+              &quot;Tipo: g &quot;, class(g), &quot;\n&quot;, 
+              &quot;Tipo: h &quot;, class(h), &quot;\n&quot;,
+              &quot;Tipo: i &quot;, class(i), &quot;\n&quot;,
+              &quot;Tipo: j &quot;, class(j), &quot;\n&quot;,
+              &quot;Tipo: l &quot;, class(l), &quot;\n&quot;
+              ),
+            collapse = &quot; &quot;
+            )
+     )
+</code></pre>
+
+<pre><code>## Tipo: a  numeric 
+##  Tipo: b  integer 
+##  Tipo: c  character 
+##  Tipo: d  character 
+##  Tipo: e  factor 
+##  Tipo: f  POSIXct POSIXt 
+##  Tipo: g  complex 
+##  Tipo: h  logical 
+##  Tipo: i  character 
+##  Tipo: j  numeric 
+##  Tipo: l  Date
+</code></pre>
+
+<hr />
+
+<h2 id="operações">Operações</h2>
+
+<hr />
+
+<p>No R podemos fazer as operações básicas <code>+-*/^</code>, mas também há outras como <code>%*%</code>, <code>%%</code> e <code>%in%</code> e até mesmo filtros (que aqui estou chamando de operações).</p>
+
+<p>Os seguintes <code>+-*/^</code> tem caráter de operação escalar, veja os exemplos:</p>
+
+<pre><code class="language-r">a &lt;- c(1,2,3,4)
+b &lt;- c(2,2,2,2)
+
+1+1 # escalar 
+</code></pre>
+
+<pre><code>## [1] 2
+</code></pre>
+
+<pre><code class="language-r">10*5 # escalar
+</code></pre>
+
+<pre><code>## [1] 50
+</code></pre>
+
+<pre><code class="language-r">2^4 #escalar
+</code></pre>
+
+<pre><code>## [1] 16
+</code></pre>
+
+<pre><code class="language-r">a*2 # escalar
+</code></pre>
+
+<pre><code>## [1] 2 4 6 8
+</code></pre>
+
+<pre><code class="language-r">a/2 # escalar
+</code></pre>
+
+<pre><code>## [1] 0.5 1.0 1.5 2.0
+</code></pre>
+
+<pre><code class="language-r">a^2 # escalar
+</code></pre>
+
+<pre><code>## [1]  1  4  9 16
+</code></pre>
+
+<pre><code class="language-r">a*b #escalar
+</code></pre>
+
+<pre><code>## [1] 2 4 6 8
+</code></pre>
+
+<pre><code class="language-r">a+b #escalar
+</code></pre>
+
+<pre><code>## [1] 3 4 5 6
+</code></pre>
+
+<pre><code class="language-r">a^2 # escalar
+</code></pre>
+
+<pre><code>## [1]  1  4  9 16
+</code></pre>
+
+<p>O operador <code>%%</code> é o resto de uma divisão, e <code>%/%</code> a parte inteira de uma divisão, então:</p>
+
+<pre><code class="language-r">4%%3
+</code></pre>
+
+<pre><code>## [1] 1
+</code></pre>
+
+<pre><code class="language-r">4%%2
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<pre><code class="language-r">7%/%2
+</code></pre>
+
+<pre><code>## [1] 3
+</code></pre>
+
+<pre><code class="language-r">10%/%2
+</code></pre>
+
+<pre><code>## [1] 5
+</code></pre>
+
+<p>O operador <code>%*%</code> é a multiplicação de matrizes.</p>
+
+<pre><code class="language-r">A &lt;- matrix(c(1:9), ncol = 3, byrow = T)
+B &lt;- matrix(c(1:9), ncol = 3, byrow = F)
+
+A%*%B # Multiplicacao de matriz
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   14   32   50
+## [2,]   32   77  122
+## [3,]   50  122  194
+</code></pre>
+
+<pre><code class="language-r">A+B # soma escalar
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    2    6   10
+## [2,]    6   10   14
+## [3,]   10   14   18
+</code></pre>
+
+<pre><code class="language-r">A*B # multiplicacao escalar
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    8   21
+## [2,]    8   25   48
+## [3,]   21   48   81
+</code></pre>
+
+<pre><code class="language-r">A^2 # potencia escalar
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    9
+## [2,]   16   25   36
+## [3,]   49   64   81
+</code></pre>
+
+<pre><code class="language-r">A%*%A #potencia matricial
+</code></pre>
+
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   30   36   42
+## [2,]   66   81   96
+## [3,]  102  126  150
+</code></pre>
+
+<hr />
+
+<h3 id="hail-to-all-mighty-pipe">HAIL to all mighty PIPE</h3>
+
+<hr />
+
+<p>O R possui um operador peculiar provindo de um pacote chamado <code>magrittr</code>. Ele oferece uma facilidade viciante, por isso ficou tão popular que é comum quando um novo pacote está sendo feito para o R os autores implementam as features necessárias para que o pipe também seja utilizado em conjunto com suas funções. Como dito anteriormente, tudo no R é uma função, e estas funções podem ser redefinidas, podemos inclusive trocar os significados dos operados <code>+-*/</code>, mas isto seria besteira.</p>
+
+<p>O pipe é um operador que faz o seguinte: <code>lhs %&gt;%  lhs</code>, seu comportamento é passar o <code>lhs</code> para ser avaliado em <code>lhs</code>. Então, seja <code>x</code> algum objeto e <code>foo</code> uma função, assim <code>x %&gt;% f</code> é equivalente a <code>f(x)</code>. Caso <code>f</code> necessite múltiplos argumentos, o comportamento padrão é que o objeto <code>x</code> seja colocado na primeira posição de <code>f</code>, ou seja, <code>x %&gt;% f(y)</code> é equivalente a <code>f(x,y)</code>. Podemos escolher a posição que será inserido da seguinte forma <code>x %&gt;% f(y, .)</code> é equivalente a <code>f(y,x)</code>.</p>
+
+<p>Mas por que o pipe é tão utilizado? Imagine que tenhamos um objeto <code>x</code>e necessitamos de fazer várias operações encadeadas, o pipe permite que o código fique mais organizado. EXEMPLO:</p>
+
+<p>Vamos criar um vetor <code>x</code>, calcular seu comprimento e calcular a média de uma amostra aleatória de mesmo tamanho. É um exemplo bobo, mas já ilustra o potencial da criança.</p>
+
+<pre><code class="language-r">x &lt;- 1:100
+
+#modo 1
+n &lt;- length(x)
+result &lt;- sample(1000, size = n)
+result &lt;- mean(result)
+
+#modo 2
+result &lt;- sample(1000, size = length(x))
+result &lt;- mean(result)
+
+#modo 3
+result &lt;- mean(sample(1000, size = length(x)))
+# THE KING
+
+result &lt;- x %&gt;% 
+  length() %&gt;% 
+  sample(1000, size = .) %&gt;% 
+  mean()
+</code></pre>
+
+<p>Observe que utilizando o pipe, o código basicamente vira uma bullet de uma apresentação de slide, a leitura é direta. Vou colocar um exemplo de código aqui embaixo, veja que não explicarei nada do código, esta apostila é para iniciante na linguagem (então suponho que não está familiarizado com o R) e mesmo assim terá uma capacidade alta de compreensão do que está sendo feito.</p>
+
+<p>Seja <code>dados</code> um conjunto de dados qualquer.</p>
+
+<pre><code class="language-r">result &lt;- dados %&gt;% 
+  dplyr::filter(ano &gt;= &quot;2018-01-01&quot;) %&gt;% 
+  dplyr::group_by(CodProcedimento) %&gt;% 
+  dplyr::summarise(media = mean(ValorUtilizacao))
+</code></pre>
+
+<p>Apenas leia, é literalmente uma receita de bolo.</p>
+
+<ul>
+<li><p>Pegue dados</p></li>
+
+<li><p>Filtre para ano &gt;= &ldquo;2018-01-01&rdquo;</p></li>
+
+<li><p>Agrupe por CodProcedimento</p></li>
+
+<li><p>Calcule a média do Valor Utilização</p></li>
+</ul>
+
+<p>Vamos reescrever isso de um jeito <strong>nojento</strong>.</p>
+
+<pre><code class="language-r">result &lt;- dplyr::summarise(dplyr::group_by(dplyr::filter(dados,
+                                                         ano &gt;= &quot;2018-01-01&quot;),
+                                           CodProcedimento),
+                           media = mean(ValorUtilizacao)
+                           )
+</code></pre>
+
+<p>É bem fácil de entender até a parte do <code>dplyr::summarise</code>, depois disso&hellip;</p>
+
+<p>Porém não iremos utilizar o pacote <code>dplyr</code> para fazer manipulações, é bonitinho porém não performa bem.</p>
+
+<hr />
+
+<h3 id="filtros-e-subsets">Filtros e subsets</h3>
+
+<hr />
+
+<p>No R devemos evitar o máximo possível fazer laços (<code>for</code> ou <code>while</code>). Temos outras ferramentas para busca e para aplicar funções repetidamente, como as funções da família <code>apply</code>.</p>
+
+<p>Abaixo mostrarei como fazer subsets e filtros.</p>
+
+<p>Image que tenhamos um vetor que gostaríamos de selecionar todos os número maior que um threshold. Podemos utilizar vetores lógicos para fazer essa seleção. Primeiro, vamos demonstrar a criação de um vetor lógico.</p>
+
+<p>Suponha o seguinte vetor:</p>
+
+<pre><code class="language-r">a &lt;- runif(20,1,10)
+</code></pre>
+
+<p>Podemos criar um vetor lógico indicador, vamos supor que gostaríamos de marcar todo número menor que 5.</p>
+
+<pre><code class="language-r">vetor_logico &lt;- a &lt; 5
+vetor_logico
+</code></pre>
+
+<pre><code>##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE
+## [12] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE
+</code></pre>
+
+<p>Agora podemos selecionar posições em <code>a</code> informando quem &lsquo;desligar&rsquo; e a quem retornar, veja:</p>
+
+<pre><code class="language-r">a[vetor_logico]
+</code></pre>
+
+<pre><code>## [1] 2.947267 4.987799 4.496597 4.253590 3.534849 1.903499 1.214148
+</code></pre>
+
+<pre><code class="language-r"># podemos escrever diretamente
+a[a &lt; 5] # quero a, onde a é menor que 5
+</code></pre>
+
+<pre><code>## [1] 2.947267 4.987799 4.496597 4.253590 3.534849 1.903499 1.214148
+</code></pre>
+
+<p>Agora queremos as posições de <code>a</code> que são menores que 5</p>
+
+<pre><code class="language-r">which(a &lt; 5 )
+</code></pre>
+
+<pre><code>## [1]  2  6  7  8 15 17 20
+</code></pre>
+
+<pre><code class="language-r">pos &lt;- which(a &lt; 5)
+
+a[pos]
+</code></pre>
+
+<pre><code>## [1] 2.947267 4.987799 4.496597 4.253590 3.534849 1.903499 1.214148
+</code></pre>
+
+<p>Podemos também negar um vetor lógico (basicamente pegando o contrário)</p>
+
+<pre><code class="language-r">a[!vetor_logico]
+</code></pre>
+
+<pre><code>##  [1] 5.664271 6.219281 5.971404 7.610048 8.389524 8.152576 8.706654
+##  [8] 7.384512 9.801927 5.480521 9.039884 6.312777 7.851309
+</code></pre>
+
+<p>Os vetores lógicos possuem algumas propriedades, por exemplo <code>TRUE = 1</code> e <code>FALSE = 0</code>, então podemos fazer operações com isso. Queremos saber quantos números em <code>a</code> são menores que 5, então podemos fazer assim:</p>
+
+<pre><code class="language-r">sum(a &lt; 5)
+</code></pre>
+
+<pre><code>## [1] 7
+</code></pre>
+
+<pre><code class="language-r"># ou assim
+length(a[a &lt; 5])
+</code></pre>
+
+<pre><code>## [1] 7
+</code></pre>
+
+<p>Vamos zerar os números menores que 5:</p>
+
+<pre><code class="language-r">a*!vetor_logico
+</code></pre>
+
+<pre><code>##  [1] 5.664271 0.000000 6.219281 5.971404 7.610048 0.000000 0.000000
+##  [8] 0.000000 8.389524 8.152576 8.706654 7.384512 9.801927 5.480521
+## [15] 0.000000 9.039884 0.000000 6.312777 7.851309 0.000000
+</code></pre>
+
+<pre><code class="language-r"># ou podemos trocar no proprio objeto
+
+a[a &lt; 5] &lt;- 0 
+a
+</code></pre>
+
+<pre><code>##  [1] 5.664271 0.000000 6.219281 5.971404 7.610048 0.000000 0.000000
+##  [8] 0.000000 8.389524 8.152576 8.706654 7.384512 9.801927 5.480521
+## [15] 0.000000 9.039884 0.000000 6.312777 7.851309 0.000000
+</code></pre>
+
+<p>Podemos utilizar outros vetores de mesmo tamanho para fazer esse filtro, caso as informações sejam casadas. Vamos supor um <code>data.frame</code> e trabalhar com ele para esses filtros</p>
+
+<pre><code class="language-r">dados &lt;- data.frame(id      = 1:20, #integer
+                    letras  = LETTERS[1:20], #character factor
+                    numeros = runif(n = 20, min = 1, max = 100) #numeric
+                    )
+</code></pre>
+
+<p>Queremos as letras da coluna <code>letras</code> que possuam um número da coluna <code>numeros</code> menor que 50.</p>
+
+<pre><code class="language-r">dados$letras[dados$numeros &lt; 50]
+</code></pre>
+
+<pre><code>## [1] D H L T
+## Levels: A B C D E F G H I J K L M N O P Q R S T
+</code></pre>
+
+<p>Podemos definir um outro <code>data.frame</code> com esse filtro</p>
+
+<pre><code class="language-r">dados1 &lt;- dados[dados$numeros &lt; 50, ]
+head(dados1)
+</code></pre>
+
+<pre><code>##    id letras   numeros
+## 4   4      D 20.773105
+## 8   8      H 45.155234
+## 12 12      L  7.785939
+## 20 20      T 26.317238
+</code></pre>
+
+<p>Nós usamos muito os vetores lógicos, em todos os lugares. Porém não vou me prolongar aqui, farei isso quando estivermos falando de <code>data.table</code> que é redesenho do <code>data.frame</code>. É utilizando ele que faremos todas as manipulações alá banco de dados, por que ele? por isso:</p>
+
+<p><strong>Máquina do benchmark.</strong></p>
+
+<hr />
+
+<p>Intel&reg; Xeon&reg; CPU E5-2660 v3 @ 2.60GHz</p>
+
+<p>20 CPU CORE</p>
+
+<p>125.8 GB RAM</p>
+
+<hr />
+
+<p><br>
+<img src="DT_POWER.png" alt="DT POWER" /></p>
+
+<hr />
+
+<h2 id="laços">Laços</h2>
+
+<hr />
+
+<p>Como disse antes, é bom que evitemos laços ao máximo, mas há momentos que não tem tal possibilidade. Utilizando as funções da família <code>apply</code> podemos substitui praticamente qualquer laço sem o overhead gigantesco (se comparado a outras linguagens) que ele causa. Porém o código fica confuso, é mais complicado pensar na arquitetura da operação, etc. Então há lugares que de fato é proveitoso usar um laço, normalmente quando os planetas se alinham da seguinte forma:</p>
+
+<ul>
+<li><p>O passeio é curto: quando é necessário poucas iterações ( menor que 1000).</p></li>
+
+<li><p>A carga é pesada: quando se está calculando em seu interior é pesado a tal ponto que o overhead gerado pelo loop em si seja irrelevante.</p></li>
+</ul>
+
+<p>Por que o número 1000 em poucas iterações? Normalmente quando se precisa de mais iterações do que isso significa que o processo interno é leve, feito em batchs, há outras formas ( e muito melhores) para se lidar com isso do que um loop. Sua pessoa deve usar e abusar da vetorização que o R oferece. Sempre que criar uma função, pense em aplicá-la para o vetor ou matriz inteiro e não de forma escalar.</p>
+
+<hr />
+
+<h3 id="for">For</h3>
+
+<hr />
+
+<p>O exemplo que usarei aqui é simples, lembre-se que contas leves não deve ser feito num loop.</p>
+
+<pre><code class="language-r">result &lt;- numeric(20) # sempre que possível pre aloque o vetor de resultados
+for(i in 1:20){
+  result[i] &lt;- i^2
+}
+result
+</code></pre>
+
+<pre><code>##  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196 225 256 289
+## [18] 324 361 400
+</code></pre>
+
+<p>Vamos testar uns tempos?</p>
+
+<pre><code class="language-r">rbenchmark::benchmark(
+  &quot;sem_alocar&quot; = {
+    result &lt;- c()
+    for(i in 1:2000){
+      result[i] &lt;- i^2
+      }
+    },
+  &quot;pre_alocado&quot; = {
+    result &lt;- numeric(2000) # sempre que possível pre aloque o vetor de resultados
+    for(i in 1:2000){
+      result[i] &lt;- i^2
+      }
+    },
+  &quot;vetorizado&quot; ={
+    (1:2000)^2
+    },
+  order = &quot;relative&quot;,
+  replications = 100,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##          test replications relative elapsed
+## 3  vetorizado          100        1   0.001
+## 2 pre_alocado          100      210   0.210
+## 1  sem_alocar          100      256   0.256
+</code></pre>
+
+<p>Observe a velocidade relativa, o método <strong>vetorizado</strong> é a base, observe que o método <strong>sem_alocar</strong> é o mais demorado, quantas vezes mais lento? Muito não?!? Agora observe que caso o tamanho do <code>result</code> seja pré alocado é um pouco mais rápido, mas nem de longe comparado com a versão vetorizada.</p>
+
+<p>Temos também as condições que podem ser inseridas num <code>for</code> para quando satisfeita alguma condição específica:</p>
+
+<ul>
+<li><p><code>break</code>: Para o loop, saindo dele</p></li>
+
+<li><p><code>next</code>: Pula essa iteração indo para a próxima</p></li>
+</ul>
+
+<hr />
+
+<h3 id="while">While</h3>
+
+<hr />
+
+<p>Particularmente acho que da para contar nos dedos de uma mão as vezes em que utilizei o <code>while</code>, acredito que apenas em simulações, esperando algo convergir, etc. Segue o exemplo:</p>
+
+<pre><code class="language-r">result &lt;- numeric(20)
+i &lt;- 1
+while(i &lt;= 20){
+  result[i] &lt;- i
+  i &lt;- i+1
+}
+</code></pre>
+
+<p>As condições <code>next</code>e <code>break</code> também funcionam para o <code>while</code>.</p>
+
+<hr />
+
+<h2 id="if-or-else">IF &hellip; or ELSE!!</h2>
+
+<hr />
+
+<p>A lógica para esses caras é como para qualquer outra linguagem, tem apenas um porém em relação à uma função em específico <code>ifelse</code> que pode facilitar algumas coisas.</p>
+
+<p>A estrutura se inicia por um <code>if</code> com uma determinada condição e logo depois um <code>else</code> opcional. Lembrando que esta condição deve ter comprimento 1, não podendo ser um vetor lógico.</p>
+
+<pre><code class="language-r">a &lt;- 1
+if(a == 1){
+  &quot;EITA PORRA&quot;
+}else{
+  &quot;Eita nada&quot;
+}
+</code></pre>
+
+<pre><code>## [1] &quot;EITA PORRA&quot;
+</code></pre>
+
+<pre><code class="language-r">a &lt;- 0
+if(a == 1){
+  &quot;EITA PORRA&quot;
+}else{
+  &quot;Eita nada&quot;
+}
+</code></pre>
+
+<pre><code>## [1] &quot;Eita nada&quot;
+</code></pre>
+
+<pre><code class="language-r">a &lt;- 0
+if(a != 1){
+  &quot;EITA PORRA&quot;
+}
+</code></pre>
+
+<pre><code>## [1] &quot;EITA PORRA&quot;
+</code></pre>
+
+<pre><code class="language-r">a &lt;- 0
+if(a &gt; 1){
+  &quot;EITA PORRA&quot;
+} # nao retorna nada
+</code></pre>
+
+<p>A função <code>ifelse</code> permite ser aplicada num vetor lógico.</p>
+
+<pre><code class="language-r">a &lt;- c(T,T,F,T,F,F)
+
+result &lt;- ifelse(test = a,
+                 yes  = &quot;EITAAAA&quot;,
+                 no   = &quot;EITA NAAOO&quot;
+                 )
+
+result
+</code></pre>
+
+<pre><code>## [1] &quot;EITAAAA&quot;    &quot;EITAAAA&quot;    &quot;EITA NAAOO&quot; &quot;EITAAAA&quot;    &quot;EITA NAAOO&quot;
+## [6] &quot;EITA NAAOO&quot;
+</code></pre>
+
+<p>Onde o <code>test</code> é uma condição ou um vetor de condições, como embaixo:</p>
+
+<pre><code class="language-r">a &lt;- runif(10,1,10)
+
+result &lt;- ifelse(test = a &lt; 5,
+                 yes  = &quot;EITAAAA&quot;,
+                 no   = &quot;EITA NAAOO&quot;
+                 )
+dados &lt;- data.frame(A         = a,
+                    condicoes = a &lt; 5,
+                    saida     = result
+                    )
+dados
+</code></pre>
+
+<pre><code>##           A condicoes      saida
+## 1  4.459566      TRUE    EITAAAA
+## 2  2.995140      TRUE    EITAAAA
+## 3  4.522557      TRUE    EITAAAA
+## 4  1.923736      TRUE    EITAAAA
+## 5  4.307086      TRUE    EITAAAA
+## 6  8.366936     FALSE EITA NAAOO
+## 7  4.487048      TRUE    EITAAAA
+## 8  9.490049     FALSE EITA NAAOO
+## 9  6.977262     FALSE EITA NAAOO
+## 10 1.262913      TRUE    EITAAAA
+</code></pre>
+
+<hr />
+
+<h2 id="funções">Funções</h2>
+
+<hr />
+
+<p>No R tudo são funções, então também temos que fazer nossas próprias funções. Para declarar uma função podemos deixar sem argumentos ou quantos quisermos. Eles podem ter valores default ou não. O ultimo valor a ser retornado que a função irá retornar</p>
+
+<pre><code class="language-r">foo &lt;- function(){
+  &quot;eita&quot;
+}
+
+foo1 &lt;- function(){
+  &quot;eita&quot;
+  &quot;eita_porra&quot;
+}
+
+foo()
+</code></pre>
+
+<pre><code>## [1] &quot;eita&quot;
+</code></pre>
+
+<pre><code class="language-r">foo1()
+</code></pre>
+
+<pre><code>## [1] &quot;eita_porra&quot;
+</code></pre>
+
+<p>Ou ainda podemos deixar explicitado o que será retornado:</p>
+
+<pre><code class="language-r">foo2 &lt;- function(){
+  &quot;eita&quot;
+  &quot;eita_porra&quot;
+  return(&quot;isso aqui sera retornado&quot;)
+}
+
+foo2()
+</code></pre>
+
+<pre><code>## [1] &quot;isso aqui sera retornado&quot;
+</code></pre>
+
+<p>Vamos colocar um argumento e com alguma &ldquo;mastigação&rdquo;:</p>
+
+<pre><code class="language-r">foo3 &lt;- function(argumento){
+  result &lt;- paste0(&quot;Mastigando: &quot;, argumento)
+  return(result)
+}
+
+foo3(argumento = &quot;E I T A !1&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;Mastigando: E I T A !1&quot;
+</code></pre>
+
+<p>Mas se tentarmos rodar sem especificar um argumento um erro é retornado. Tente rodar o seguinte comando no seu console.</p>
+
+<pre><code class="language-r">foo3()
+</code></pre>
+
+<p>Podemos definir um valor default para este argumento:</p>
+
+<pre><code class="language-r">foo4 &lt;- function(argumento = &quot;Valor Default&quot;){
+    result &lt;- paste0(&quot;Mastigando: &quot;, argumento)
+    return(result)
+}
+
+foo4()
+</code></pre>
+
+<pre><code>## [1] &quot;Mastigando: Valor Default&quot;
+</code></pre>
+
+<p>NÃO RECOMENDO, mas podemos utilizar uma função para alterar um valor no enviroment global do R. Semelhante a usar uma função que retorna <code>void</code> no c++ e usar ponteiros para alterar informações &ldquo;in place&rdquo;.</p>
+
+<pre><code class="language-r">a &lt;- 1:10
+foo5 &lt;- function(){
+  a[a &lt; 5] &lt;&lt;- 100
+}
+</code></pre>
+
+<p>Veja o vetor <code>a</code> como ele é:</p>
+
+<pre><code class="language-r">a
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<p>Vamos rodar a função que modifica inplace por referência.</p>
+
+<pre><code class="language-r">foo5()
+</code></pre>
+
+<p>Agora vejamos <code>a</code> novamente.</p>
+
+<pre><code class="language-r">a
+</code></pre>
+
+<pre><code>##  [1] 100 100 100 100   5   6   7   8   9  10
+</code></pre>
+
+<hr />
+
+<h2 id="loading-75">Loading |======&mdash;| 75%</h2>
+
+<hr />
+
+<p>Dados, vamos aprender a carregar dados. O R tem vários pacotes que nos permitem carregar praticamente qualquer tipo de dado, JSON, csv, txt, Rdata, RDS, até aqueles vindo de programas como excel, stata, access, SPSS, etc. Basta procurar, porém inicialmente nos preocupemos apenas com arquivos csv/txt e dados provindo de bancos.</p>
+
+<hr />
+
+<h3 id="csv-e-txt">CSV e TXT</h3>
+
+<hr />
+
+<p>Temos uma função milagrosa que consegue fazer o parse do arquivo texto e carregar em velocidades astronômicas, esta função também é proveniente do nosso querido e amado <code>data.table</code>. Ele também fornece uma função estupidamente rápida para escrever esses dados em csv ou txt.</p>
+
+<p>Vamos primeiro criar um arquivo txt para podermos treinar os carregamentos, isto implica que primeiro iremos aprender a escrever para depois ler. Já vamos iniciando no <code>data.table</code>.</p>
+
+<pre><code class="language-r">library(data.table) # No R devemos carregar as bibliotecas que iremos utilizar previamente
+</code></pre>
+
+<pre><code>## 
+## Attaching package: 'data.table'
+</code></pre>
+
+<pre><code>## The following objects are masked from 'package:lubridate':
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday,
+##     week, yday, year
+</code></pre>
+
+<pre><code class="language-r">#####
+# Observe que, além de ter carregado a blibioteca,
+# eu tambem indiquei na funcao abaixo de qual biblioteca ela provem (utilizando data.table:: antes da funcao)
+# este e um passo opcional, mas acredito que para um codigo em producao isso deve ser feito
+#####
+
+dados &lt;- data.table::data.table(id      = 1:50000,
+                                numeros = runif(50000, 1, 100),
+                                letras  = sample(LETTERS, 50000, replace = T)
+                                )
+
+## vamos escrever
+data.table::fwrite(dados, &quot;dados_example.txt&quot;)
+## Vamos rodar um comando  no bash do linux para compactar o arquivo
+system(&quot;gzip &lt; dados_example.txt &gt; dados_example.txt.gz&quot;)
+</code></pre>
+
+<p>A função <code>fwrite</code> se diz respeito à escrita de um arquivo texto no filesystem. Estou utilizando as configurações default, em que basicamente seleciona-se separador de campos como vírgula, strings que possuem o separador contido nelas estão entre aspas, e a primeira linha se trata do nome das colunas.</p>
+
+<p>Explicando a compressão. A função <code>system</code> executa a string no console bash do linux. O que lemos nessa string? Eu aponto o arquivo .txt para o programa gzip da seguinte forma <code>gzip &lt; dados_example.txt</code> e pego o resultado disso e coloco para o arquivo <code>dados_example.txt.gz</code> usando o apontamento <code>&gt;</code></p>
+
+<p>Vamos verificar os tamanhos dos arquivos.</p>
+
+<pre><code class="language-r">file.size(&quot;dados_example.txt.gz&quot;)/1000000 #mb
+</code></pre>
+
+<pre><code>## [1] 0.586648
+</code></pre>
+
+<pre><code class="language-r">file.size(&quot;dados_example.txt&quot;)/1000000 #mb
+</code></pre>
+
+<pre><code>## [1] 1.233404
+</code></pre>
+
+<p>Vamos carregar o arquivo original utilizando a função <code>fread</code> do <code>data.table</code>.</p>
+
+<pre><code class="language-r">dados &lt;- data.table::fread(&quot;dados_example.txt&quot;)
+</code></pre>
+
+<p>Carregando pelo arquivo comprimido</p>
+
+<pre><code class="language-r">dados &lt;- data.table::fread(&quot;zcat dados_example.txt.gz&quot;)
+</code></pre>
+
+<p>A função <code>fread</code> faz o parse automático do arquivo. Porém é possível adicionar argumentos a mais como qual string é responsável pela separação <code>sep</code>, qual o padrão de decimal utilizado no arquivo <code>dec</code>, e inúmeros outros. Para ver todos os argumentos procure pelo nome da função na aba de <code>help</code> do canto direito da IDE do Rstudio.</p>
+
+<hr />
+
+<h3 id="leitura-do-banco-de-dados">Leitura do banco de dados</h3>
+
+<hr />
+
+<p>Para se ler do banco de dados é necessário primeiramente criar uma conexão com o banco. Esta conexão pode ser feita de várias formas diferentes e cada banco de dados possui uma forma diferente. Para o SQL SERVER utilizaremos o driver ODBC oficial da Microsoft (que já se encontra nessa imagem de docker). Porém não temos um banco de testes aqui, farei um exemplo se conectando ao MySQL de um dos nosso servidores (mas mostrando um código dummy).</p>
+
+<p>É necessário a criação de um objeto de conexão com o banco. Este objeto pode ser criado por inúmeros pacotes diferentes, aqui irei utilizar uma combinação do pacote <code>DBI</code> e <code>RMariaDB</code>. O MariaDB é um fork do próprio MySQL, dos mesmos criadores, que ocorreu quando este foi comprado. O conector do <code>RMariaDB</code> é eficiente e funciona bem com o MySQL.</p>
+
+<pre><code class="language-r">## Carregando pacotes necessarios
+library(DBI)
+library(RMariaDB)
+
+## Criando objeto de conexao
+con &lt;- DBI::dbConnect(RMariaDB::MariaDB(),
+                      user='SUPER USUARIO', 
+                      password='SENHA FODA BAGARAI',
+                      #dbname= database.,
+                      dbname='DW_GestaoIntegrada_Funcional_dbo',
+                      host='192.168.134.63',
+                      encoding = &quot;latin1&quot;,
+                      bigint = &quot;character&quot;
+                      )
+</code></pre>
+
+<p>Agora que temos o objeto de conexão <code>con</code>, iremos utilizá-lo como operador para passar requisições para o banco. Vamos mudar uma configuração do banco, aumentar o limite de tempo para que ele corte o nossa conexão inexplicável.</p>
+
+<pre><code class="language-r">DBI::dbExecute(con, 
+               paste0(&quot;SET GLOBAL connect_timeout = 600000;&quot;)
+               )
+</code></pre>
+
+<p>O que fazemos? Utilizamos a função <code>dbExecute</code> e passamos o objeto de conexão com o qual ela irá lidar. Após isso passamos uma string que será executada, apesar de eu ter me utilizado da função <code>paste0</code>, poderíamos ter passado a string diretamente. A função <code>paste0</code> nos permite compor strings utilizando valores de outros objetos.</p>
+
+<p>Vamos agora executar uma query para puxar os dados para um objeto do R.</p>
+
+<pre><code class="language-r">query &lt;- &quot;SELECT  *
+          FROM  T_FatoUtilizacao WHERE DtUtilizacao &gt;= '2018-01-01' AND DtUtilizacao &lt;= '2018-12-31';&quot;
+
+dados &lt;- DBI::dbGetQuery(con, query) %&gt;% 
+  data.table::setDT()
+</code></pre>
+
+<p>Primeiro, crio um objeto com a consulta que será aplicada, depois utilizo da função <code>dbGetQuery</code> que executará a query armazenada no objeto <code>query</code> na conexão <code>con</code>. Após isso, redireciono a saída delas função com o operador <code>%&gt;%</code> para a função <code>setDT</code> que irá transformar este objeto, in-place, num objeto data.table.</p>
+
+<hr />
+
+<h1 id="r-data-table">R - Data.Table</h1>
+
+<hr />
+
+<p>O data.table nada mais é do que uma reimaginação do data.frame do R. Ele é escrito primariamente em C++. Possui uma série de otimizações focando em velocidade e economia de memória. Temos a liberdade de fazer operações inplace, evitando cópias desnecessárias que agridem a memória e demandam tempo.</p>
+
+<p>Seja <code>dados</code> um objeto data.table. Nosso acesso as manipulações ocorrem pela função <code>[]</code>, temos a seguinte estrutura:</p>
+
+<p><img src="data.table.png" alt="" /></p>
+
+<p>Temos 3 slots:</p>
+
+<ul>
+<li>Primeiro, <code>i</code>: É a região dos filtros</li>
+<li>Segundo,<code>j</code>: É a região do que iremos fazer. Criar colunas? Dropar colunas? Agregação?</li>
+<li>Terceiro, <code>by</code>: É a região dos grupos, mas algumas vezes pode servir como filtro também, como num caso de JOIN.</li>
+</ul>
+
+<p>Seria algo com <code>dados[where, select|update|do, by]</code>. Vamos começar com a parte do <code>where</code>, para isso vamos introduzir a função <code>setkey</code>.</p>
+
+<hr />
+
+<h2 id="filtro">Filtro</h2>
+
+<hr />
+
+<p>Já que iremos filtrar, vamos filtrar de forma eficiente.
+A função <code>setkey</code> tem como objetivo estabelecer um índice. A serventia é a mesma que num banco de dados, isto é feito para que, numa busca seja feito busca binária e não vector scan. <strong>Um ponto de atenção é que o objeto data.table é ordenado de acordo com o índice</strong>, dependendo do que está sendo feito isto pode ser um problema.</p>
+
+<p>Vamos criar um dado sintético para trabalhar de tamanho razoável.</p>
+
+<pre><code class="language-r">dados &lt;- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+</code></pre>
+
+<p>Temos um conjunto de dados de 10 milhões de linhas. Criamos dados fake, categoria, valor e sexo. Vamos criar um objeto que receba apenas os dados da categoria 1 e 2. Mas primeiro criaremos um índice.</p>
+
+<pre><code class="language-r">setkey(dados,categoria)
+</code></pre>
+
+<p>Vamos comparar o filtro utilizando a chave e sem.</p>
+
+<pre><code class="language-r">rbenchmark::benchmark(
+  &quot;sem_key&quot; = {
+    filtro1 &lt;- dados[categoria == 1 | categoria == 2]
+    },
+  &quot;com_key&quot; ={
+    filtro2 &lt;- dados[.(c(1,2))]
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##      test replications relative elapsed
+## 2 com_key            1    1.000   0.087
+## 1 sem_key            1    1.506   0.131
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(filtro1 == filtro2)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>A versão sem chave é mais lenta. Mas repare a velocidade com que filtramos uma tabela de 10 milhões de linhas e copiamos para um objeto novo em ambas as versões.</p>
+
+<p><strong>Agora vamos explicar melhor.</strong></p>
+
+<p>Quando não temos uma chave criada, filtramos o conjunto de dados utilizando vetores lógicos.</p>
+
+<pre><code class="language-r">dados[categoria == 1]
+</code></pre>
+
+<pre><code>##          categoria     valor sexo
+##       1:         1  990.1920    1
+##       2:         1 1021.3330    2
+##       3:         1 1033.7910    2
+##       4:         1  995.7060    1
+##       5:         1 1020.1839    2
+##      ---                         
+## 2502944:         1 1014.3649    2
+## 2502945:         1  987.6785    2
+## 2502946:         1  987.2773    2
+## 2502947:         1 1002.1548    2
+## 2502948:         1 1001.9480    2
+</code></pre>
+
+<p>Perceba que, eu faço referência ao nome da coluna de forma direta internamente. Podemos compor este vetor lógico de outras formas, utilizando outras colunas também, veja.</p>
+
+<pre><code class="language-r">dados[categoria == 1 &amp; valor &gt;= 1000 &amp; sexo == 1]
+</code></pre>
+
+<pre><code>##         categoria    valor sexo
+##      1:         1 1013.679    1
+##      2:         1 1004.776    1
+##      3:         1 1028.593    1
+##      4:         1 1013.564    1
+##      5:         1 1000.208    1
+##     ---                        
+## 626625:         1 1009.183    1
+## 626626:         1 1028.860    1
+## 626627:         1 1021.829    1
+## 626628:         1 1009.888    1
+## 626629:         1 1005.596    1
+</code></pre>
+
+<p>Porém, quando assim fazemos, não nos utilizamos da busca binária. Para usá-la precisamos criar as chaves e usar uma lista para passar os argumentos.</p>
+
+<pre><code class="language-r">setkey(dados, categoria, sexo)
+</code></pre>
+
+<p>Não irei fazer busca num range de valor na busca binária, mas chegarei no mesmo resultado. Iremos fazer o mesmo filtro.</p>
+
+<pre><code class="language-r">dados[.(1,1)][valor &gt;= 1000]
+</code></pre>
+
+<pre><code>##         categoria    valor sexo
+##      1:         1 1013.679    1
+##      2:         1 1004.776    1
+##      3:         1 1028.593    1
+##      4:         1 1013.564    1
+##      5:         1 1000.208    1
+##     ---                        
+## 626625:         1 1009.183    1
+## 626626:         1 1028.860    1
+## 626627:         1 1021.829    1
+## 626628:         1 1009.888    1
+## 626629:         1 1005.596    1
+</code></pre>
+
+<p>Vejamos a diferença:</p>
+
+<pre><code class="language-r">rbenchmark::benchmark(
+  &quot;sem_key&quot; = {
+    filtro1 &lt;- dados[categoria == 1 &amp; valor &gt;= 1000 &amp; sexo == 1]
+    },
+  &quot;com_key&quot; ={
+    filtro2 &lt;- dados[.(1,1)][valor &gt;= 1000]
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##      test replications relative elapsed
+## 2 com_key            1    1.000   0.028
+## 1 sem_key            1    6.286   0.176
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(filtro1 == filtro2)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Observe que não estamos contando o tempo necessário para se criar as chaves. Porém quase sempre é melhor fazer a chave, pois podemos pensar numa chave que favoreça o maior número possível de filtros que será feito.</p>
+
+<hr />
+
+<h2 id="agregações-mutate">Agregações / Mutate</h2>
+
+<hr />
+
+<p>Agora vamos trabalhar na segunda parte do <code>data.table</code>, no &ldquo;o que iremos fazer&rdquo;. Aqui vamos fazer agregações. Temos 3 colunas, duas que indicam categorias e uma que indica um valor. Então, faremos alguns cálculos utilizando a coluna valor. Vamos crar um novo objeto <code>data.table</code> que tenha a média e desvio padrão deste valor.</p>
+
+<pre><code class="language-r">dados1 &lt;- dados[, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+</code></pre>
+
+<pre><code>##    media_valor desvio_padrao_valor
+## 1:    999.9922            19.99979
+</code></pre>
+
+<p>O que vemos nesta expressão?</p>
+
+<ul>
+<li><code>dados[,</code>: Não queremos fazer nenhum filtro, então deixamos seu respectivo espaço em branco.</li>
+<li><code>.(</code>: Está função <code>.</code> é um alias para a função <code>list</code>. Estamos passando uma lista com as expressões que são feitas.</li>
+<li><code>media_valor = mean(valor)</code>: Aqui nomeio a nova coluna à esquerda da igualdade. No lado direito escrevo a expressão, aqui faço a média da coluna <code>valor</code>.</li>
+</ul>
+
+<p>Vamos fazer o mesmo procedimento, só que para valores maiores que 1000.</p>
+
+<pre><code class="language-r">dados1 &lt;- dados[valor &gt; 1000, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+</code></pre>
+
+<pre><code>##    media_valor desvio_padrao_valor
+## 1:    1015.957             12.0549
+</code></pre>
+
+<p>Ao contrário da expressão anterior, adicionamos um filtro no espaço destinado a ele. Podemos reescrever isso de outra forma, já mostrada anteriormente, fazendo primeiro um <code>data.table</code> filtrado e continuando os cálculos. Isto pode ser feito com o pipe ou usando a função <code>[</code>, a segunda é mais recomendada pois não gera cópias.</p>
+
+<pre><code class="language-r"># com pipe
+library(magrittr)
+dados1A &lt;- dados[valor &gt; 1000] %&gt;% 
+  .[, .(media_valor         = mean(valor),
+        desvio_padrao_valor = sd(valor)
+        )
+    ]
+
+#Com os []
+
+dados1B &lt;- dados[valor &gt; 1000
+                 ][
+                   , .(media_valor         = mean(valor),
+                       desvio_padrao_valor = sd(valor)
+                       )
+                 ]
+
+all(dados1A == dados1B)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Perceba que, criamos um novo objeto com o resultado. Porém, muitas vezes, se faz necessário adicionar essa informação como uma nova coluna, mesmo que ela seja redundante. Para isso, utilizaremos um outra função para escrever as expressões, a função <code>:=</code>. Veja.</p>
+
+<pre><code class="language-r">dados[, media_valor := mean(valor)]
+dados[, desvio_padrao_valor := sd(valor)]
+dados
+</code></pre>
+
+<pre><code>##           categoria     valor sexo media_valor desvio_padrao_valor
+##        1:         1  990.1920    1    999.9922            19.99979
+##        2:         1  995.7060    1    999.9922            19.99979
+##        3:         1 1013.6787    1    999.9922            19.99979
+##        4:         1  963.3648    1    999.9922            19.99979
+##        5:         1 1004.7759    1    999.9922            19.99979
+##       ---                                                         
+##  9999996:         4 1009.6082    2    999.9922            19.99979
+##  9999997:         4  993.1204    2    999.9922            19.99979
+##  9999998:         4  978.1307    2    999.9922            19.99979
+##  9999999:         4  981.7922    2    999.9922            19.99979
+## 10000000:         4 1010.5924    2    999.9922            19.99979
+</code></pre>
+
+<p>A função <code>:=</code> também é utilizada para deleter colunas.</p>
+
+<pre><code class="language-r">dados[, c(&quot;media_valor&quot;, &quot;desvio_padrao_valor&quot;) := NULL]
+</code></pre>
+
+<p>Para utilizarmos uma mesma chamada para criar várias colunas novas, devemos utilizar a seguinte forma.</p>
+
+<pre><code class="language-r">dados[, `:=`(media_valor         = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             )
+      ]
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         1  990.1920    1    999.9922            19.99979
+## 2:         1  995.7060    1    999.9922            19.99979
+## 3:         1 1013.6787    1    999.9922            19.99979
+## 4:         1  963.3648    1    999.9922            19.99979
+## 5:         1 1004.7759    1    999.9922            19.99979
+## 6:         1  995.3706    1    999.9922            19.99979
+</code></pre>
+
+<p>A função <code>:=</code> altera o <code>data.table</code> inplace, então tome cuidado quando for alterar colunas já existentes. A exemplo, vamos alterar uma coluna já existente utilizando de filtros.</p>
+
+<pre><code class="language-r">dados[valor &gt; 1000,
+      `:=`(media_valor         = mean(valor),
+           desvio_padrao_valor = sd(valor)
+           )
+      ]
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         1  990.1920    1    999.9922            19.99979
+## 2:         1  995.7060    1    999.9922            19.99979
+## 3:         1 1013.6787    1   1015.9567            12.05490
+## 4:         1  963.3648    1    999.9922            19.99979
+## 5:         1 1004.7759    1   1015.9567            12.05490
+## 6:         1  995.3706    1    999.9922            19.99979
+</code></pre>
+
+<p>Observou que alguns dos dados da coluna alterada aparentam serem os mesmos? A coluna só foi alterada onde a condição do filtro é satisfeita, que é <code>valor &gt; 1000</code>. Veja:</p>
+
+<pre><code class="language-r">setorder(dados, valor)
+dados[c(1:5, (nrow(dados)-5):nrow(dados))]
+</code></pre>
+
+<pre><code>##     categoria     valor sexo media_valor desvio_padrao_valor
+##  1:         3  898.6576    1    999.9922            19.99979
+##  2:         3  898.8790    2    999.9922            19.99979
+##  3:         2  900.3612    2    999.9922            19.99979
+##  4:         4  901.9122    1    999.9922            19.99979
+##  5:         4  902.3919    2    999.9922            19.99979
+##  6:         2 1097.5617    1   1015.9567            12.05490
+##  7:         4 1099.5424    2   1015.9567            12.05490
+##  8:         1 1102.0577    2   1015.9567            12.05490
+##  9:         4 1103.7621    1   1015.9567            12.05490
+## 10:         1 1103.9531    2   1015.9567            12.05490
+## 11:         1 1112.0415    1   1015.9567            12.05490
+</code></pre>
+
+<p>Vamos criar agora uma label para a variável <code>sexo</code>. Veremos o que acontecerá.</p>
+
+<pre><code class="language-r">setkey(dados, sexo)
+dados[.(sexo = 1), SexoBeneficiario := &quot;Masculino&quot;]
+dados[c(1,500,10000000)]
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         3  898.6576    1    999.9922            19.99979
+## 2:         2  925.6484    1    999.9922            19.99979
+## 3:         1 1103.9531    2   1015.9567            12.05490
+##    SexoBeneficiario
+## 1:        Masculino
+## 2:        Masculino
+## 3:             &lt;NA&gt;
+</code></pre>
+
+<p>Eu solicitei a impressão das linhas 1, 500 e 10000000. Veja a variável que criamos, observe que para onde as condições do filtro não foram satisfeitas não foi aplicado nenhum valor para a nova variável <code>SexoBeneficiario</code>.</p>
+
+<pre><code class="language-r">dados[.(sexo = 2), SexoBeneficiario := &quot;Feminino&quot;]
+dados[c(1,500,10000000)]
+</code></pre>
+
+<pre><code>##    categoria     valor sexo SexoBeneficiario
+## 1:         3  898.6576    1        Masculino
+## 2:         2  925.6484    1        Masculino
+## 3:         1 1103.9531    2         Feminino
+</code></pre>
+
+<p>Pronto, podemos fazer isso de outra forma, veremos qual será mais rápido, para isso iremos deletar esta coluna.</p>
+
+<pre><code class="language-r">dados[, SexoBeneficiario := NULL]
+</code></pre>
+
+<pre><code class="language-r">options(datatable.verbose=F, datatable.auto.index = F)
+rbenchmark::benchmark(
+  &quot;sem_key_ifelse&quot; = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1, &quot;Masculino&quot;, &quot;Feminino&quot;)]
+    },
+  &quot;sem_key_data.table&quot;= {
+    dados[sexo == 1, SexoBeneficiario2 := &quot;Masculino&quot;]
+    dados[sexo == 2, SexoBeneficiario2 := &quot;Feminino&quot;]
+  },
+  &quot;com_key&quot; ={
+    dados[.(sexo = 1), SexoBeneficiario3 := &quot;Masculino&quot;]
+    dados[.(sexo = 2), SexoBeneficiario3 := &quot;Feminino&quot;]
+
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##                 test replications relative elapsed
+## 3            com_key            1    1.000   0.164
+## 2 sem_key_data.table            1    1.055   0.173
+## 1     sem_key_ifelse            1    9.067   1.487
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(dados$SexoBeneficiario2 == dados$SexoBeneficiario3)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Agora vamos ativar a função de auto index do <code>data.table</code>. O que ela faz? Basicamente observar quais filtros irá fazer e cria um índice por trás dos panos. Porém ele não reordena o objeto em si, é criado uma coluna com esse índice nos atributos do objeto. Ainda é mais lento do que criar uma Chave, mas já ajuda bastante, veja:</p>
+
+<pre><code class="language-r">options(datatable.verbose=F, datatable.auto.index = T)
+
+rbenchmark::benchmark(
+  &quot;sem_key_ifelse&quot; = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1L, &quot;Masculino&quot;, &quot;Feminino&quot;)]
+    },
+  &quot;sem_key_data.table&quot;= {
+    dados[sexo == 1L, SexoBeneficiario2 := &quot;Masculino&quot;]
+    dados[sexo == 2L, SexoBeneficiario2 := &quot;Feminino&quot;]
+  },
+  &quot;com_key&quot; ={
+    dados[.(sexo = 1L), SexoBeneficiario3 := &quot;Masculino&quot;]
+    dados[.(sexo = 2L), SexoBeneficiario3 := &quot;Feminino&quot;]
+
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##                 test replications relative elapsed
+## 2 sem_key_data.table            1    1.000   0.179
+## 3            com_key            1    1.207   0.216
+## 1     sem_key_ifelse            1    8.296   1.485
+</code></pre>
+
+<p>O index apenas funciona para <code>==</code> e <code>%in%</code>. Uma coisa que devemos ter cuidado é sempre utilizar os tipos certos para se fazer comparação e para atribuir valores, conversões saem caras em questão de performance, assim sempre que possível devemos atribuir as coisas de forma correta, como em <code>sexo == 1L</code> aqui eu especifico com o <code>L</code> que o número à esquerda é um inteiro.</p>
+
+<hr />
+
+<h2 id="agrupamento">Agrupamento</h2>
+
+<hr />
+
+<p>Nós já fizemos agregações na sessão anterior. Iremos fazer a exata mesma coisa, porém agora podemos agrupar os cálculos em grupos (basicamente o <code>GROUP BY</code> de qualquer SQL).</p>
+
+<p>Vamos utilizar o mesmo mesmo exemplo anterior, só que agora agrupando por <code>categoria</code></p>
+
+<p>Limpe seus dados (caso ainda o tenha) e libere a memória.</p>
+
+<pre><code class="language-r">rm(dados)
+gc(reset = T)
+</code></pre>
+
+<pre><code>##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells  700306 37.5    1201768  64.2   700306 37.5
+## Vcells 3909868 29.9   91635072 699.2  3909868 29.9
+</code></pre>
+
+<p>Vamos declarar o dados novamente</p>
+
+<pre><code class="language-r">dados &lt;- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+</code></pre>
+
+<p>Iremos calcular a média e desvio padrão para cada nível da variável <code>categoria</code></p>
+
+<pre><code class="language-r">dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria)
+      ]
+</code></pre>
+
+<pre><code>##    categoria media_valor desvio_padrao_valor
+## 1:         1    1000.011            20.00678
+## 2:         4    1000.011            19.99811
+## 3:         3    1000.012            19.97820
+## 4:         2    1000.007            20.01047
+</code></pre>
+
+<p>Esta foi uma agregação, um resumo, vamos criar as mesmas duas métricas para cada categoria, um mutate.</p>
+
+<pre><code class="language-r">dados[, `:=`(media_valor = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             ),
+      by = .(categoria)
+      ]
+
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         1  983.5383    1    1000.011            20.00678
+## 2:         1 1013.9976    2    1000.011            20.00678
+## 3:         4 1006.9255    2    1000.011            19.99811
+## 4:         3 1018.8164    1    1000.012            19.97820
+## 5:         3  991.1623    2    1000.012            19.97820
+## 6:         1 1008.9619    2    1000.011            20.00678
+</code></pre>
+
+<p>Também podemos fazer agrupamentos por mais de uma variável. Aqui será feito com <code>categoria</code> e <code>sexo</code>.</p>
+
+<pre><code class="language-r">dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria, sexo)
+      ]
+</code></pre>
+
+<pre><code>##    categoria sexo media_valor desvio_padrao_valor
+## 1:         1    1    999.9917            20.00505
+## 2:         1    2   1000.0300            20.00851
+## 3:         4    2    999.9988            20.00552
+## 4:         3    1   1000.0127            19.97943
+## 5:         3    2   1000.0109            19.97697
+## 6:         2    1   1000.0163            20.00434
+## 7:         4    1   1000.0234            19.99071
+## 8:         2    2    999.9975            20.01661
+</code></pre>
+
+<hr />
+
+<h2 id="joinss">JOINss</h2>
+
+<hr />
+
+<p>O <code>data.table</code>tem seu modo de realizar JOINS e JOINS inplace. É eficiente, mas pode confundir um pouco.</p>
+
+<p>Primeiro iremos criar as tabelas, <code>A</code> será um índice, contendo 1 e 2. <code>B</code> será uma índice com uma label.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := &quot;A&quot;]
+A[id_A == 2, label_A := &quot;B&quot;]
+
+B &lt;- data.table(id_B    = 1:2,
+                label_B = c(&quot;Masculino&quot;, &quot;Feminino&quot;)
+                )
+
+head(A)
+</code></pre>
+
+<pre><code>##    id_A label_A
+## 1:    2       B
+## 2:    1       A
+## 3:    2       B
+## 4:    1       A
+## 5:    2       B
+## 6:    2       B
+</code></pre>
+
+<pre><code class="language-r">B
+</code></pre>
+
+<pre><code>##    id_B   label_B
+## 1:    1 Masculino
+## 2:    2  Feminino
+</code></pre>
+
+<p>Os JOINS podem ser definidos pela seguinte forma</p>
+
+<h3 id="left-join">LEFT JOIN</h3>
+
+<pre><code class="language-r">### LEFT JOIN EM A com B
+B[A, on =c(&quot;id_B&quot; = &quot;id_A&quot;)] # LEFT JOIN COM COPIA
+</code></pre>
+
+<pre><code>##        id_B   label_B label_A
+##     1:    2  Feminino       B
+##     2:    1 Masculino       A
+##     3:    2  Feminino       B
+##     4:    1 Masculino       A
+##     5:    2  Feminino       B
+##    ---                       
+##  9996:    1 Masculino       A
+##  9997:    1 Masculino       A
+##  9998:    2  Feminino       B
+##  9999:    1 Masculino       A
+## 10000:    2  Feminino       B
+</code></pre>
+
+<pre><code class="language-r">### LEFT JOIN EM A com B
+A[B, label_B := label_B, on =c(&quot;id_A&quot; = &quot;id_B&quot;)] # LEFT JOIN SEM COPIA
+A
+</code></pre>
+
+<pre><code>##        id_A label_A   label_B
+##     1:    2       B  Feminino
+##     2:    1       A Masculino
+##     3:    2       B  Feminino
+##     4:    1       A Masculino
+##     5:    2       B  Feminino
+##    ---                       
+##  9996:    1       A Masculino
+##  9997:    1       A Masculino
+##  9998:    2       B  Feminino
+##  9999:    1       A Masculino
+## 10000:    2       B  Feminino
+</code></pre>
+
+<pre><code class="language-r">### LEFT JOIN EM B com A
+B[A, label_A := label_A, on =c(&quot;id_B&quot; = &quot;id_A&quot;)] # LEFT JOIN SEM COPIA
+B
+</code></pre>
+
+<pre><code>##    id_B   label_B label_A
+## 1:    1 Masculino       A
+## 2:    2  Feminino       B
+</code></pre>
+
+<p>Para colocar várias colunas da tabela à direita para a direita num <strong>LEFT JOIN SEM COPIA</strong> é necessário um pouco mais de trabalho. Veja, é só um pouco mais de trabalho.</p>
+
+<p>Primeiro, crio esta função auxiliar, ela irá construir o código responsável pelo <code>lhs := rhs</code> de várias colunas e retorno como uma expressão do R. Após isso eu avalio essa expressão dentro do <code>data.table</code></p>
+
+<pre><code class="language-r">pull_right &lt;- function(columns,exceptions){
+  columns &lt;- columns[!columns %in% exceptions]
+  string &lt;- paste( &quot;`:=`(&quot;,paste(columns, columns, sep = &quot;=&quot;, collapse = &quot;,&quot;), &quot;)&quot;)
+ 
+  return(parse(text =string))
+  }
+
+pull_right(columns = c(&quot;label_A&quot;, &quot;label_B&quot;), exceptions = c(&quot;id&quot;))
+</code></pre>
+
+<pre><code>## expression(`:=`(label_A = label_A, label_B = label_B))
+</code></pre>
+
+<p>Vejamos o exemplo anterior, utilizando desta função:</p>
+
+<pre><code class="language-r"># DECLARANDO AS MATRIZES NOVAMENTE
+A &lt;- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := &quot;A&quot;]
+A[id_A == 2, label_A := &quot;B&quot;]
+
+B &lt;- data.table(id_B    = 1:2,
+                label_B = c(&quot;Masculino&quot;, &quot;Feminino&quot;)
+                )
+#
+#
+#
+# LEFT JOIN IN PLACE
+A[B,
+  eval(pull_right(columns = &quot;label_B&quot;,
+                  exceptions = &quot;id_B&quot;)
+       ),
+  on = .(id_A == id_B)
+  ]
+A
+</code></pre>
+
+<pre><code>##        id_A label_A   label_B
+##     1:    2       B  Feminino
+##     2:    1       A Masculino
+##     3:    2       B  Feminino
+##     4:    1       A Masculino
+##     5:    1       A Masculino
+##    ---                       
+##  9996:    1       A Masculino
+##  9997:    2       B  Feminino
+##  9998:    2       B  Feminino
+##  9999:    1       A Masculino
+## 10000:    1       A Masculino
+</code></pre>
+
+<h3 id="right-join">RIGHT JOIN</h3>
+
+<p>Reimagine um RIGHT JOIN como um LEFT JOIN e faz como no passo anterior</p>
+
+<h3 id="inner-join">INNER JOIN</h3>
+
+<p>Vamos criar datasets de exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:10,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 1:4,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Para o INNER JOIN FAZEMOS</p>
+
+<pre><code class="language-r">A[B, on = c(&quot;id_A&quot; = &quot;id_B&quot;), nomatch = 0]
+</code></pre>
+
+<pre><code>##    id_A      label_A label_B
+## 1:    1 alguma coisa   MATCH
+## 2:    2 alguma coisa   MATCH
+## 3:    3 alguma coisa   MATCH
+## 4:    4 alguma coisa   MATCH
+</code></pre>
+
+<h3 id="not-join">NOT JOIN</h3>
+
+<p>Vamos criar datasets de exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:10,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 1:4,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Para o NOT JOIN temos</p>
+
+<pre><code class="language-r">A[!B, on = c(&quot;id_A&quot; = &quot;id_B&quot;)]
+</code></pre>
+
+<pre><code>##    id_A      label_A
+## 1:    5 alguma coisa
+## 2:    6 alguma coisa
+## 3:    7 alguma coisa
+## 4:    8 alguma coisa
+## 5:    9 alguma coisa
+## 6:   10 alguma coisa
+</code></pre>
+
+<h3 id="non-equi-join">NON EQUI JOIN</h3>
+
+<p>Este JOIN serve para quando queremos fazer um match baseado em desigualdade. Vamos a criação do dataset e ao exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:20,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 15:25,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Vejamos A e B</p>
+
+<pre><code class="language-r">A
+</code></pre>
+
+<pre><code>##     id_A      label_A
+##  1:    1 alguma coisa
+##  2:    2 alguma coisa
+##  3:    3 alguma coisa
+##  4:    4 alguma coisa
+##  5:    5 alguma coisa
+##  6:    6 alguma coisa
+##  7:    7 alguma coisa
+##  8:    8 alguma coisa
+##  9:    9 alguma coisa
+## 10:   10 alguma coisa
+## 11:   11 alguma coisa
+## 12:   12 alguma coisa
+## 13:   13 alguma coisa
+## 14:   14 alguma coisa
+## 15:   15 alguma coisa
+## 16:   16 alguma coisa
+## 17:   17 alguma coisa
+## 18:   18 alguma coisa
+## 19:   19 alguma coisa
+## 20:   20 alguma coisa
+</code></pre>
+
+<pre><code class="language-r">B
+</code></pre>
+
+<pre><code>##     id_B label_B
+##  1:   15   MATCH
+##  2:   16   MATCH
+##  3:   17   MATCH
+##  4:   18   MATCH
+##  5:   19   MATCH
+##  6:   20   MATCH
+##  7:   21   MATCH
+##  8:   22   MATCH
+##  9:   23   MATCH
+## 10:   24   MATCH
+## 11:   25   MATCH
+</code></pre>
+
+<p>Vamos fazer o match onde id_B é menor que id_A</p>
+
+<pre><code class="language-r">B[A, on = .(id_B &lt; id_A)]
+</code></pre>
+
+<pre><code>##     id_B label_B      label_A
+##  1:    1    &lt;NA&gt; alguma coisa
+##  2:    2    &lt;NA&gt; alguma coisa
+##  3:    3    &lt;NA&gt; alguma coisa
+##  4:    4    &lt;NA&gt; alguma coisa
+##  5:    5    &lt;NA&gt; alguma coisa
+##  6:    6    &lt;NA&gt; alguma coisa
+##  7:    7    &lt;NA&gt; alguma coisa
+##  8:    8    &lt;NA&gt; alguma coisa
+##  9:    9    &lt;NA&gt; alguma coisa
+## 10:   10    &lt;NA&gt; alguma coisa
+## 11:   11    &lt;NA&gt; alguma coisa
+## 12:   12    &lt;NA&gt; alguma coisa
+## 13:   13    &lt;NA&gt; alguma coisa
+## 14:   14    &lt;NA&gt; alguma coisa
+## 15:   15    &lt;NA&gt; alguma coisa
+## 16:   16   MATCH alguma coisa
+## 17:   17   MATCH alguma coisa
+## 18:   17   MATCH alguma coisa
+## 19:   18   MATCH alguma coisa
+## 20:   18   MATCH alguma coisa
+## 21:   18   MATCH alguma coisa
+## 22:   19   MATCH alguma coisa
+## 23:   19   MATCH alguma coisa
+## 24:   19   MATCH alguma coisa
+## 25:   19   MATCH alguma coisa
+## 26:   20   MATCH alguma coisa
+## 27:   20   MATCH alguma coisa
+## 28:   20   MATCH alguma coisa
+## 29:   20   MATCH alguma coisa
+## 30:   20   MATCH alguma coisa
+##     id_B label_B      label_A
+</code></pre>
+
+<p>Esse é um JOIN bem confuso e é muito fácil fazer coisa errada. São raros os casos em que ele é necessário. Normalmente preenchimento de alguma coisa relacionada a uma linha temporal. Eu sugiro que tente usar ao máximo outras formas de fazer o que queira antes de tentar o NON EQUI JOINS.</p>
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Previous</div>
+    <a href="../../../tutoriais/r_basico/r_data.table/" rel="next">R Data Table</a>
+  </div>
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Next</div>
+    <a href="../../../tutoriais/r_basico/r_basico/" rel="prev">R basicão</a>
+  </div>
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Dec 20, 2019</p>
+
+          
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="../../../js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

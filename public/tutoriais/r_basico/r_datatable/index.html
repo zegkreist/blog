@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.4.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Navarro Rosa">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="R - Data.Table O data.table nada mais é do que uma reimaginação do data.frame do R. Ele é escrito primariamente em C. Possui uma série de otimizações focando em velocidade e economia de memória. Temos a liberdade de fazer operações inplace, evitando cópias desnecessárias que agridem a memória e demandam tempo.
+Seja dados um objeto data.table. Nosso acesso as manipulações ocorrem pela função [], temos a seguinte estrutura:
+Temos 3 slots:">
+
+  
+  <link rel="alternate" hreflang="pt-br" href="../../../tutoriais/r_basico/r_datatable/">
+
+  
+
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="../../../css/academic.min.dd629241ea9333c62c071f4a25f829ff.css">
+
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-148080553-1', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+
+  <link rel="manifest" href="../../../index.webmanifest">
+  <link rel="icon" type="image/png" href="../../../img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../../img/icon-192.png">
+
+  <link rel="canonical" href="../../../tutoriais/r_basico/r_datatable/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@zegkreist">
+  <meta property="twitter:creator" content="@zegkreist">
+  
+  <meta property="og:site_name" content="Vugudum">
+  <meta property="og:url" content="/tutoriais/r_basico/r_datatable/">
+  <meta property="og:title" content="R Data Table | Vugudum">
+  <meta property="og:description" content="R - Data.Table O data.table nada mais é do que uma reimaginação do data.frame do R. Ele é escrito primariamente em C. Possui uma série de otimizações focando em velocidade e economia de memória. Temos a liberdade de fazer operações inplace, evitando cópias desnecessárias que agridem a memória e demandam tempo.
+Seja dados um objeto data.table. Nosso acesso as manipulações ocorrem pela função [], temos a seguinte estrutura:
+Temos 3 slots:"><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="pt-br">
+  
+    
+      <meta property="article:published_time" content="2019-12-20T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-12-20T00:00:00&#43;00:00">
+  
+
+  
+
+
+  
+
+
+
+
+
+  <title>R Data Table | Vugudum</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="../../../">Vugudum</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="../../../tutoriais/"><span>Tutoriais</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="../../../#contact"><span>contato</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../tutoriais/r_basico/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="../../../tutoriais/r_basico/r_init/">R Básico</a>
+    <ul class="nav docs-sidenav">
+      
+      <li >
+        <a href="../../../tutoriais/r_basico/r_init/">R - Básico (para padawans)</a>
+      </li>
+      
+      <li class="active">
+        <a href="../../../tutoriais/r_basico/r_datatable/">R - Data table</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+<ul>
+<li><a href="#r-data-table">R - Data.Table</a>
+<ul>
+<li><a href="#filtro">Filtro</a></li>
+<li><a href="#agregações-mutate">Agregações / Mutate</a></li>
+<li><a href="#agrupamento">Agrupamento</a></li>
+<li><a href="#joinss">JOINss</a>
+<ul>
+<li><a href="#left-join">LEFT JOIN</a></li>
+<li><a href="#right-join">RIGHT JOIN</a></li>
+<li><a href="#inner-join">INNER JOIN</a></li>
+<li><a href="#not-join">NOT JOIN</a></li>
+<li><a href="#non-equi-join">NON EQUI JOIN</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article" itemscope itemtype="http://schema.org/Article">
+
+        <div class="docs-article-container">
+          <h1 itemprop="name">R Data Table</h1>
+
+          <div class="article-style" itemprop="articleBody">
+            
+
+<h1 id="r-data-table">R - Data.Table</h1>
+
+<hr />
+
+<p>O data.table nada mais é do que uma reimaginação do data.frame do R. Ele é escrito primariamente em C. Possui uma série de otimizações focando em velocidade e economia de memória. Temos a liberdade de fazer operações inplace, evitando cópias desnecessárias que agridem a memória e demandam tempo.</p>
+
+<p>Seja <code>dados</code> um objeto data.table. Nosso acesso as manipulações ocorrem pela função <code>[]</code>, temos a seguinte estrutura:</p>
+
+<p><img src="data.table.png" alt="Slots" /></p>
+
+<p>Temos 3 slots:</p>
+
+<ul>
+<li>Primeiro, <code>i</code>: É a região dos filtros</li>
+<li>Segundo,<code>j</code>: É a região do que iremos fazer. Criar colunas? Dropar colunas? Agregação?</li>
+<li>Terceiro, <code>by</code>: É a região dos grupos, mas algumas vezes pode servir como filtro também, como num caso de JOIN.</li>
+</ul>
+
+<p>Seria algo com <code>dados[where, select|update|do, by]</code>. Vamos começar com a parte do <code>where</code>, para isso vamos introduzir a função <code>setkey</code>.</p>
+
+<hr />
+
+<h2 id="filtro">Filtro</h2>
+
+<hr />
+
+<p>Já que iremos filtrar, vamos filtrar de forma eficiente.
+A função <code>setkey</code> tem como objetivo estabelecer um índice. A serventia é a mesma que num banco de dados, isto é feito para que, numa busca seja feito busca binária e não vector scan. <strong>Um ponto de atenção é que o objeto data.table é ordenado de acordo com o índice</strong>, dependendo do que está sendo feito isto pode ser um problema.</p>
+
+<p>Vamos criar um dado sintético para trabalhar de tamanho razoável.</p>
+
+<pre><code class="language-r">dados &lt;- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+</code></pre>
+
+<p>Temos um conjunto de dados de 10 milhões de linhas. Criamos dados fake, categoria, valor e sexo. Vamos criar um objeto que receba apenas os dados da categoria 1 e 2. Mas primeiro criaremos um índice.</p>
+
+<pre><code class="language-r">setkey(dados,categoria)
+</code></pre>
+
+<p>Vamos comparar o filtro utilizando a chave e sem.</p>
+
+<pre><code class="language-r">rbenchmark::benchmark(
+  &quot;sem_key&quot; = {
+    filtro1 &lt;- dados[categoria == 1 | categoria == 2]
+    },
+  &quot;com_key&quot; ={
+    filtro2 &lt;- dados[.(c(1,2))]
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##      test replications relative elapsed
+## 2 com_key            1    1.000   0.088
+## 1 sem_key            1    1.545   0.136
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(filtro1 == filtro2)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>A versão sem chave é mais lenta. Mas repare a velocidade com que filtramos uma tabela de 10 milhões de linhas e copiamos para um objeto novo em ambas as versões.</p>
+
+<p><strong>Agora vamos explicar melhor.</strong></p>
+
+<p>Quando não temos uma chave criada, filtramos o conjunto de dados utilizando vetores lógicos.</p>
+
+<pre><code class="language-r">dados[categoria == 1]
+</code></pre>
+
+<pre><code>##          categoria     valor sexo
+##       1:         1  975.4248    1
+##       2:         1 1023.0986    1
+##       3:         1 1001.0985    1
+##       4:         1 1005.0957    2
+##       5:         1  976.7483    1
+##      ---                         
+## 2498366:         1 1012.5867    2
+## 2498367:         1  976.4526    1
+## 2498368:         1  992.7365    1
+## 2498369:         1  986.8656    2
+## 2498370:         1  960.7972    2
+</code></pre>
+
+<p>Perceba que, eu faço referência ao nome da coluna de forma direta internamente. Podemos compor este vetor lógico de outras formas, utilizando outras colunas também, veja.</p>
+
+<pre><code class="language-r">dados[categoria == 1 &amp; valor &gt;= 1000 &amp; sexo == 1]
+</code></pre>
+
+<pre><code>##         categoria    valor sexo
+##      1:         1 1023.099    1
+##      2:         1 1001.098    1
+##      3:         1 1002.891    1
+##      4:         1 1007.914    1
+##      5:         1 1003.784    1
+##     ---                        
+## 625109:         1 1050.729    1
+## 625110:         1 1001.734    1
+## 625111:         1 1005.494    1
+## 625112:         1 1009.409    1
+## 625113:         1 1019.553    1
+</code></pre>
+
+<p>Porém, quando assim fazemos, não nos utilizamos da busca binária. Para usá-la precisamos criar as chaves e usar uma lista para passar os argumentos.</p>
+
+<pre><code class="language-r">setkey(dados, categoria, sexo)
+</code></pre>
+
+<p>Não irei fazer busca num range de valor na busca binária, mas chegarei no mesmo resultado. Iremos fazer o mesmo filtro.</p>
+
+<pre><code class="language-r">dados[.(1,1)][valor &gt;= 1000]
+</code></pre>
+
+<pre><code>##         categoria    valor sexo
+##      1:         1 1023.099    1
+##      2:         1 1001.098    1
+##      3:         1 1002.891    1
+##      4:         1 1007.914    1
+##      5:         1 1003.784    1
+##     ---                        
+## 625109:         1 1050.729    1
+## 625110:         1 1001.734    1
+## 625111:         1 1005.494    1
+## 625112:         1 1009.409    1
+## 625113:         1 1019.553    1
+</code></pre>
+
+<p>Vejamos a diferença:</p>
+
+<pre><code class="language-r">rbenchmark::benchmark(
+  &quot;sem_key&quot; = {
+    filtro1 &lt;- dados[categoria == 1 &amp; valor &gt;= 1000 &amp; sexo == 1]
+    },
+  &quot;com_key&quot; ={
+    filtro2 &lt;- dados[.(1,1)][valor &gt;= 1000]
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##      test replications relative elapsed
+## 2 com_key            1    1.000   0.027
+## 1 sem_key            1    5.481   0.148
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(filtro1 == filtro2)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Observe que não estamos contando o tempo necessário para se criar as chaves. Porém quase sempre é melhor fazer a chave, pois podemos pensar numa chave que favoreça o maior número possível de filtros que será feito.</p>
+
+<hr />
+
+<h2 id="agregações-mutate">Agregações / Mutate</h2>
+
+<hr />
+
+<p>Agora vamos trabalhar na segunda parte do <code>data.table</code>, no &ldquo;o que iremos fazer&rdquo;. Aqui vamos fazer agregações. Temos 3 colunas, duas que indicam categorias e uma que indica um valor. Então, faremos alguns cálculos utilizando a coluna valor. Vamos crar um novo objeto <code>data.table</code> que tenha a média e desvio padrão deste valor.</p>
+
+<pre><code class="language-r">dados1 &lt;- dados[, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+</code></pre>
+
+<pre><code>##    media_valor desvio_padrao_valor
+## 1:    1000.005            20.00088
+</code></pre>
+
+<p>O que vemos nesta expressão?</p>
+
+<ul>
+<li><code>dados[,</code>: Não queremos fazer nenhum filtro, então deixamos seu respectivo espaço em branco.</li>
+<li><code>.(</code>: Está função <code>.</code> é um alias para a função <code>list</code>. Estamos passando uma lista com as expressões que são feitas.</li>
+<li><code>media_valor = mean(valor)</code>: Aqui nomeio a nova coluna à esquerda da igualdade. No lado direito escrevo a expressão, aqui faço a média da coluna <code>valor</code>.</li>
+</ul>
+
+<p>Vamos fazer o mesmo procedimento, só que para valores maiores que 1000.</p>
+
+<pre><code class="language-r">dados1 &lt;- dados[valor &gt; 1000, .(media_valor         = mean(valor),
+                    desvio_padrao_valor = sd(valor)
+                    )
+                ]
+dados1
+</code></pre>
+
+<pre><code>##    media_valor desvio_padrao_valor
+## 1:    1015.958            12.05815
+</code></pre>
+
+<p>Ao contrário da expressão anterior, adicionamos um filtro no espaço destinado a ele. Podemos reescrever isso de outra forma, já mostrada anteriormente, fazendo primeiro um <code>data.table</code> filtrado e continuando os cálculos. Isto pode ser feito com o pipe ou usando a função <code>[</code>, a segunda é mais recomendada pois não gera cópias.</p>
+
+<pre><code class="language-r"># com pipe
+library(magrittr)
+dados1A &lt;- dados[valor &gt; 1000] %&gt;% 
+  .[, .(media_valor         = mean(valor),
+        desvio_padrao_valor = sd(valor)
+        )
+    ]
+
+#Com os []
+
+dados1B &lt;- dados[valor &gt; 1000
+                 ][
+                   , .(media_valor         = mean(valor),
+                       desvio_padrao_valor = sd(valor)
+                       )
+                 ]
+
+all(dados1A == dados1B)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Perceba que, criamos um novo objeto com o resultado. Porém, muitas vezes, se faz necessário adicionar essa informação como uma nova coluna, mesmo que ela seja redundante. Para isso, utilizaremos um outra função para escrever as expressões, a função <code>:=</code>. Veja.</p>
+
+<pre><code class="language-r">dados[, media_valor := mean(valor)]
+dados[, desvio_padrao_valor := sd(valor)]
+dados
+</code></pre>
+
+<pre><code>##           categoria     valor sexo media_valor desvio_padrao_valor
+##        1:         1  975.4248    1    1000.005            20.00088
+##        2:         1 1023.0986    1    1000.005            20.00088
+##        3:         1 1001.0985    1    1000.005            20.00088
+##        4:         1  976.7483    1    1000.005            20.00088
+##        5:         1  982.0134    1    1000.005            20.00088
+##       ---                                                         
+##  9999996:         4  952.9602    2    1000.005            20.00088
+##  9999997:         4 1008.7344    2    1000.005            20.00088
+##  9999998:         4  988.2921    2    1000.005            20.00088
+##  9999999:         4 1017.5209    2    1000.005            20.00088
+## 10000000:         4  965.8441    2    1000.005            20.00088
+</code></pre>
+
+<p>A função <code>:=</code> também é utilizada para deleter colunas.</p>
+
+<pre><code class="language-r">dados[, c(&quot;media_valor&quot;, &quot;desvio_padrao_valor&quot;) := NULL]
+</code></pre>
+
+<p>Para utilizarmos uma mesma chamada para criar várias colunas novas, devemos utilizar a seguinte forma.</p>
+
+<pre><code class="language-r">dados[, `:=`(media_valor         = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             )
+      ]
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         1  975.4248    1    1000.005            20.00088
+## 2:         1 1023.0986    1    1000.005            20.00088
+## 3:         1 1001.0985    1    1000.005            20.00088
+## 4:         1  976.7483    1    1000.005            20.00088
+## 5:         1  982.0134    1    1000.005            20.00088
+## 6:         1 1002.8910    1    1000.005            20.00088
+</code></pre>
+
+<p>A função <code>:=</code> altera o <code>data.table</code> inplace, então tome cuidado quando for alterar colunas já existentes. A exemplo, vamos alterar uma coluna já existente utilizando de filtros.</p>
+
+<pre><code class="language-r">dados[valor &gt; 1000,
+      `:=`(media_valor         = mean(valor),
+           desvio_padrao_valor = sd(valor)
+           )
+      ]
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         1  975.4248    1    1000.005            20.00088
+## 2:         1 1023.0986    1    1015.958            12.05815
+## 3:         1 1001.0985    1    1015.958            12.05815
+## 4:         1  976.7483    1    1000.005            20.00088
+## 5:         1  982.0134    1    1000.005            20.00088
+## 6:         1 1002.8910    1    1015.958            12.05815
+</code></pre>
+
+<p>Observou que alguns dos dados da coluna alterada aparentam serem os mesmos? A coluna só foi alterada onde a condição do filtro é satisfeita, que é <code>valor &gt; 1000</code>. Veja:</p>
+
+<pre><code class="language-r">setorder(dados, valor)
+dados[c(1:5, (nrow(dados)-5):nrow(dados))]
+</code></pre>
+
+<pre><code>##     categoria     valor sexo media_valor desvio_padrao_valor
+##  1:         4  895.2639    1    1000.005            20.00088
+##  2:         3  898.6232    2    1000.005            20.00088
+##  3:         1  899.5407    1    1000.005            20.00088
+##  4:         3  902.9212    1    1000.005            20.00088
+##  5:         2  903.0805    2    1000.005            20.00088
+##  6:         4 1097.1874    1    1015.958            12.05815
+##  7:         2 1097.6480    2    1015.958            12.05815
+##  8:         3 1097.8430    2    1015.958            12.05815
+##  9:         1 1098.4183    1    1015.958            12.05815
+## 10:         1 1099.5458    2    1015.958            12.05815
+## 11:         1 1100.1758    1    1015.958            12.05815
+</code></pre>
+
+<p>Vamos criar agora uma label para a variável <code>sexo</code>. Veremos o que acontecerá.</p>
+
+<pre><code class="language-r">setkey(dados, sexo)
+dados[.(sexo = 1), SexoBeneficiario := &quot;Masculino&quot;]
+dados[c(1,500,10000000)]
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         4  895.2639    1    1000.005            20.00088
+## 2:         1  925.2515    1    1000.005            20.00088
+## 3:         1 1099.5458    2    1015.958            12.05815
+##    SexoBeneficiario
+## 1:        Masculino
+## 2:        Masculino
+## 3:             &lt;NA&gt;
+</code></pre>
+
+<p>Eu solicitei a impressão das linhas 1, 500 e 10000000. Veja a variável que criamos, observe que para onde as condições do filtro não foram satisfeitas não foi aplicado nenhum valor para a nova variável <code>SexoBeneficiario</code>.</p>
+
+<pre><code class="language-r">dados[.(sexo = 2), SexoBeneficiario := &quot;Feminino&quot;]
+dados[c(1,500,10000000)]
+</code></pre>
+
+<pre><code>##    categoria     valor sexo SexoBeneficiario
+## 1:         4  895.2639    1        Masculino
+## 2:         1  925.2515    1        Masculino
+## 3:         1 1099.5458    2         Feminino
+</code></pre>
+
+<p>Pronto, podemos fazer isso de outra forma, veremos qual será mais rápido, para isso iremos deletar esta coluna.</p>
+
+<pre><code class="language-r">dados[, SexoBeneficiario := NULL]
+</code></pre>
+
+<pre><code class="language-r">options(datatable.verbose=F, datatable.auto.index = F)
+rbenchmark::benchmark(
+  &quot;sem_key_ifelse&quot; = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1, &quot;Masculino&quot;, &quot;Feminino&quot;)]
+    },
+  &quot;sem_key_data.table&quot;= {
+    dados[sexo == 1, SexoBeneficiario2 := &quot;Masculino&quot;]
+    dados[sexo == 2, SexoBeneficiario2 := &quot;Feminino&quot;]
+  },
+  &quot;com_key&quot; ={
+    dados[.(sexo = 1), SexoBeneficiario3 := &quot;Masculino&quot;]
+    dados[.(sexo = 2), SexoBeneficiario3 := &quot;Feminino&quot;]
+
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##                 test replications relative elapsed
+## 3            com_key            1    1.000   0.154
+## 2 sem_key_data.table            1    1.078   0.166
+## 1     sem_key_ifelse            1   10.143   1.562
+</code></pre>
+
+<p>São iguais?</p>
+
+<pre><code class="language-r">all(dados$SexoBeneficiario2 == dados$SexoBeneficiario3)
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<p>Agora vamos ativar a função de auto index do <code>data.table</code>. O que ela faz? Basicamente observar quais filtros irá fazer e cria um índice por trás dos panos. Porém ele não reordena o objeto em si, é criado uma coluna com esse índice nos atributos do objeto. Ainda é mais lento do que criar uma Chave, mas já ajuda bastante, veja:</p>
+
+<pre><code class="language-r">options(datatable.verbose=F, datatable.auto.index = T)
+
+rbenchmark::benchmark(
+  &quot;sem_key_ifelse&quot; = {
+    dados[, SexoBeneficiario1 := ifelse(sexo == 1L, &quot;Masculino&quot;, &quot;Feminino&quot;)]
+    },
+  &quot;sem_key_data.table&quot;= {
+    dados[sexo == 1L, SexoBeneficiario2 := &quot;Masculino&quot;]
+    dados[sexo == 2L, SexoBeneficiario2 := &quot;Feminino&quot;]
+  },
+  &quot;com_key&quot; ={
+    dados[.(sexo = 1L), SexoBeneficiario3 := &quot;Masculino&quot;]
+    dados[.(sexo = 2L), SexoBeneficiario3 := &quot;Feminino&quot;]
+
+    },
+  order = &quot;relative&quot;,
+  replications = 1,
+  columns = c(&quot;test&quot;, &quot;replications&quot;, &quot;relative&quot;, &quot;elapsed&quot;)
+  )
+</code></pre>
+
+<pre><code>##                 test replications relative elapsed
+## 3            com_key            1    1.000   0.156
+## 2 sem_key_data.table            1    1.051   0.164
+## 1     sem_key_ifelse            1    9.449   1.474
+</code></pre>
+
+<p>O index apenas funciona para <code>==</code> e <code>%in%</code>. Uma coisa que devemos ter cuidado é sempre utilizar os tipos certos para se fazer comparação e para atribuir valores, conversões saem caras em questão de performance, assim sempre que possível devemos atribuir as coisas de forma correta, como em <code>sexo == 1L</code> aqui eu especifico com o <code>L</code> que o número à esquerda é um inteiro.</p>
+
+<hr />
+
+<h2 id="agrupamento">Agrupamento</h2>
+
+<hr />
+
+<p>Nós já fizemos agregações na sessão anterior. Iremos fazer a exata mesma coisa, porém agora podemos agrupar os cálculos em grupos (basicamente o <code>GROUP BY</code> de qualquer SQL).</p>
+
+<p>Vamos utilizar o mesmo mesmo exemplo anterior, só que agora agrupando por <code>categoria</code></p>
+
+<p>Limpe seus dados (caso ainda o tenha) e libere a memória.</p>
+
+<pre><code class="language-r">rm(dados)
+gc(reset = T)
+</code></pre>
+
+<pre><code>##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells  599594 32.1    1069260  57.2   599594 32.1
+## Vcells 3695540 28.2   90653403 691.7  3695540 28.2
+</code></pre>
+
+<p>Vamos declarar o dados novamente</p>
+
+<pre><code class="language-r">dados &lt;- data.table(categoria = sample.int(4, 10000000, replace = T),
+                    valor     = rnorm(10000000, mean = 1000, sd = 20),
+                    sexo      = sample.int(2, 10000000, replace = T)
+                    )
+</code></pre>
+
+<p>Iremos calcular a média e desvio padrão para cada nível da variável <code>categoria</code></p>
+
+<pre><code class="language-r">dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria)
+      ]
+</code></pre>
+
+<pre><code>##    categoria media_valor desvio_padrao_valor
+## 1:         4    999.9759            20.00497
+## 2:         3    999.9809            20.00681
+## 3:         1   1000.0350            20.00017
+## 4:         2    999.9953            19.99649
+</code></pre>
+
+<p>Esta foi uma agregação, um resumo, vamos criar as mesmas duas métricas para cada categoria, um mutate.</p>
+
+<pre><code class="language-r">dados[, `:=`(media_valor = mean(valor),
+             desvio_padrao_valor = sd(valor)
+             ),
+      by = .(categoria)
+      ]
+
+head(dados)
+</code></pre>
+
+<pre><code>##    categoria     valor sexo media_valor desvio_padrao_valor
+## 1:         4  944.6925    2    999.9759            20.00497
+## 2:         3 1012.5386    1    999.9809            20.00681
+## 3:         4 1015.1939    2    999.9759            20.00497
+## 4:         3 1011.7917    1    999.9809            20.00681
+## 5:         4  997.0488    1    999.9759            20.00497
+## 6:         1  997.0743    2   1000.0350            20.00017
+</code></pre>
+
+<p>Também podemos fazer agrupamentos por mais de uma variável. Aqui será feito com <code>categoria</code> e <code>sexo</code>.</p>
+
+<pre><code class="language-r">dados[, .(media_valor         = mean(valor),
+          desvio_padrao_valor = sd(valor)
+          ),
+      by = .(categoria, sexo)
+      ]
+</code></pre>
+
+<pre><code>##    categoria sexo media_valor desvio_padrao_valor
+## 1:         4    2    999.9684            20.00190
+## 2:         3    1    999.9766            19.98753
+## 3:         4    1    999.9834            20.00804
+## 4:         1    2   1000.0374            19.99195
+## 5:         2    2    999.9741            19.99573
+## 6:         3    2    999.9852            20.02606
+## 7:         2    1   1000.0165            19.99723
+## 8:         1    1   1000.0325            20.00840
+</code></pre>
+
+<hr />
+
+<h2 id="joinss">JOINss</h2>
+
+<hr />
+
+<p>O <code>data.table</code>tem seu modo de realizar JOINS e JOINS inplace. É eficiente, mas pode confundir um pouco.</p>
+
+<p>Primeiro iremos criar as tabelas, <code>A</code> será um índice, contendo 1 e 2. <code>B</code> será uma índice com uma label.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := &quot;A&quot;]
+A[id_A == 2, label_A := &quot;B&quot;]
+
+B &lt;- data.table(id_B    = 1:2,
+                label_B = c(&quot;Masculino&quot;, &quot;Feminino&quot;)
+                )
+
+head(A)
+</code></pre>
+
+<pre><code>##    id_A label_A
+## 1:    1       A
+## 2:    2       B
+## 3:    2       B
+## 4:    1       A
+## 5:    2       B
+## 6:    1       A
+</code></pre>
+
+<pre><code class="language-r">B
+</code></pre>
+
+<pre><code>##    id_B   label_B
+## 1:    1 Masculino
+## 2:    2  Feminino
+</code></pre>
+
+<p>Os JOINS podem ser definidos pela seguinte forma</p>
+
+<h3 id="left-join">LEFT JOIN</h3>
+
+<pre><code class="language-r">### LEFT JOIN EM A com B
+B[A, on =c(&quot;id_B&quot; = &quot;id_A&quot;)] # LEFT JOIN COM COPIA
+</code></pre>
+
+<pre><code>##        id_B   label_B label_A
+##     1:    1 Masculino       A
+##     2:    2  Feminino       B
+##     3:    2  Feminino       B
+##     4:    1 Masculino       A
+##     5:    2  Feminino       B
+##    ---                       
+##  9996:    1 Masculino       A
+##  9997:    1 Masculino       A
+##  9998:    1 Masculino       A
+##  9999:    2  Feminino       B
+## 10000:    1 Masculino       A
+</code></pre>
+
+<pre><code class="language-r">### LEFT JOIN EM A com B
+A[B, label_B := label_B, on =c(&quot;id_A&quot; = &quot;id_B&quot;)] # LEFT JOIN SEM COPIA
+A
+</code></pre>
+
+<pre><code>##        id_A label_A   label_B
+##     1:    1       A Masculino
+##     2:    2       B  Feminino
+##     3:    2       B  Feminino
+##     4:    1       A Masculino
+##     5:    2       B  Feminino
+##    ---                       
+##  9996:    1       A Masculino
+##  9997:    1       A Masculino
+##  9998:    1       A Masculino
+##  9999:    2       B  Feminino
+## 10000:    1       A Masculino
+</code></pre>
+
+<pre><code class="language-r">### LEFT JOIN EM B com A
+B[A, label_A := label_A, on =c(&quot;id_B&quot; = &quot;id_A&quot;)] # LEFT JOIN SEM COPIA
+B
+</code></pre>
+
+<pre><code>##    id_B   label_B label_A
+## 1:    1 Masculino       A
+## 2:    2  Feminino       B
+</code></pre>
+
+<p>Para colocar várias colunas da tabela à direita para a direita num <strong>LEFT JOIN SEM COPIA</strong> é necessário um pouco mais de trabalho. Veja, é só um pouco mais de trabalho.</p>
+
+<p>Primeiro, crio esta função auxiliar, ela irá construir o código responsável pelo <code>lhs := rhs</code> de várias colunas e retorno como uma expressão do R. Após isso eu avalio essa expressão dentro do <code>data.table</code></p>
+
+<pre><code class="language-r">pull_right &lt;- function(columns,exceptions){
+  columns &lt;- columns[!columns %in% exceptions]
+  string &lt;- paste( &quot;`:=`(&quot;,paste(columns, columns, sep = &quot;=&quot;, collapse = &quot;,&quot;), &quot;)&quot;)
+ 
+  return(parse(text =string))
+  }
+
+pull_right(columns = c(&quot;label_A&quot;, &quot;label_B&quot;), exceptions = c(&quot;id&quot;))
+</code></pre>
+
+<pre><code>## expression(`:=`(label_A = label_A, label_B = label_B))
+</code></pre>
+
+<p>Vejamos o exemplo anterior, utilizando desta função:</p>
+
+<pre><code class="language-r"># DECLARANDO AS MATRIZES NOVAMENTE
+A &lt;- data.table(id_A = sample.int(2, size = 10000,replace = T))
+A[id_A == 1, label_A := &quot;A&quot;]
+A[id_A == 2, label_A := &quot;B&quot;]
+
+B &lt;- data.table(id_B    = 1:2,
+                label_B = c(&quot;Masculino&quot;, &quot;Feminino&quot;)
+                )
+#
+#
+#
+# LEFT JOIN IN PLACE
+A[B,
+  eval(pull_right(columns = &quot;label_B&quot;,
+                  exceptions = &quot;id_B&quot;)
+       ),
+  on = .(id_A == id_B)
+  ]
+A
+</code></pre>
+
+<pre><code>##        id_A label_A   label_B
+##     1:    2       B  Feminino
+##     2:    2       B  Feminino
+##     3:    2       B  Feminino
+##     4:    1       A Masculino
+##     5:    1       A Masculino
+##    ---                       
+##  9996:    2       B  Feminino
+##  9997:    1       A Masculino
+##  9998:    1       A Masculino
+##  9999:    2       B  Feminino
+## 10000:    1       A Masculino
+</code></pre>
+
+<h3 id="right-join">RIGHT JOIN</h3>
+
+<p>Reimagine um RIGHT JOIN como um LEFT JOIN e faz como no passo anterior</p>
+
+<h3 id="inner-join">INNER JOIN</h3>
+
+<p>Vamos criar datasets de exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:10,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 1:4,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Para o INNER JOIN FAZEMOS</p>
+
+<pre><code class="language-r">A[B, on = c(&quot;id_A&quot; = &quot;id_B&quot;), nomatch = 0]
+</code></pre>
+
+<pre><code>##    id_A      label_A label_B
+## 1:    1 alguma coisa   MATCH
+## 2:    2 alguma coisa   MATCH
+## 3:    3 alguma coisa   MATCH
+## 4:    4 alguma coisa   MATCH
+</code></pre>
+
+<h3 id="not-join">NOT JOIN</h3>
+
+<p>Vamos criar datasets de exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:10,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 1:4,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Para o NOT JOIN temos</p>
+
+<pre><code class="language-r">A[!B, on = c(&quot;id_A&quot; = &quot;id_B&quot;)]
+</code></pre>
+
+<pre><code>##    id_A      label_A
+## 1:    5 alguma coisa
+## 2:    6 alguma coisa
+## 3:    7 alguma coisa
+## 4:    8 alguma coisa
+## 5:    9 alguma coisa
+## 6:   10 alguma coisa
+</code></pre>
+
+<h3 id="non-equi-join">NON EQUI JOIN</h3>
+
+<p>Este JOIN serve para quando queremos fazer um match baseado em desigualdade. Vamos a criação do dataset e ao exemplo.</p>
+
+<pre><code class="language-r">A &lt;- data.table(id_A = 1:20,
+                label_A = &quot;alguma coisa&quot;
+                )
+B &lt;- data.table(id_B = 15:25,
+                label_B = &quot;MATCH&quot;)
+</code></pre>
+
+<p>Vejamos A e B</p>
+
+<pre><code class="language-r">A
+</code></pre>
+
+<pre><code>##     id_A      label_A
+##  1:    1 alguma coisa
+##  2:    2 alguma coisa
+##  3:    3 alguma coisa
+##  4:    4 alguma coisa
+##  5:    5 alguma coisa
+##  6:    6 alguma coisa
+##  7:    7 alguma coisa
+##  8:    8 alguma coisa
+##  9:    9 alguma coisa
+## 10:   10 alguma coisa
+## 11:   11 alguma coisa
+## 12:   12 alguma coisa
+## 13:   13 alguma coisa
+## 14:   14 alguma coisa
+## 15:   15 alguma coisa
+## 16:   16 alguma coisa
+## 17:   17 alguma coisa
+## 18:   18 alguma coisa
+## 19:   19 alguma coisa
+## 20:   20 alguma coisa
+</code></pre>
+
+<pre><code class="language-r">B
+</code></pre>
+
+<pre><code>##     id_B label_B
+##  1:   15   MATCH
+##  2:   16   MATCH
+##  3:   17   MATCH
+##  4:   18   MATCH
+##  5:   19   MATCH
+##  6:   20   MATCH
+##  7:   21   MATCH
+##  8:   22   MATCH
+##  9:   23   MATCH
+## 10:   24   MATCH
+## 11:   25   MATCH
+</code></pre>
+
+<p>Vamos fazer o match onde id_B é menor que id_A</p>
+
+<pre><code class="language-r">B[A, on = .(id_B &lt; id_A)]
+</code></pre>
+
+<pre><code>##     id_B label_B      label_A
+##  1:    1    &lt;NA&gt; alguma coisa
+##  2:    2    &lt;NA&gt; alguma coisa
+##  3:    3    &lt;NA&gt; alguma coisa
+##  4:    4    &lt;NA&gt; alguma coisa
+##  5:    5    &lt;NA&gt; alguma coisa
+##  6:    6    &lt;NA&gt; alguma coisa
+##  7:    7    &lt;NA&gt; alguma coisa
+##  8:    8    &lt;NA&gt; alguma coisa
+##  9:    9    &lt;NA&gt; alguma coisa
+## 10:   10    &lt;NA&gt; alguma coisa
+## 11:   11    &lt;NA&gt; alguma coisa
+## 12:   12    &lt;NA&gt; alguma coisa
+## 13:   13    &lt;NA&gt; alguma coisa
+## 14:   14    &lt;NA&gt; alguma coisa
+## 15:   15    &lt;NA&gt; alguma coisa
+## 16:   16   MATCH alguma coisa
+## 17:   17   MATCH alguma coisa
+## 18:   17   MATCH alguma coisa
+## 19:   18   MATCH alguma coisa
+## 20:   18   MATCH alguma coisa
+## 21:   18   MATCH alguma coisa
+## 22:   19   MATCH alguma coisa
+## 23:   19   MATCH alguma coisa
+## 24:   19   MATCH alguma coisa
+## 25:   19   MATCH alguma coisa
+## 26:   20   MATCH alguma coisa
+## 27:   20   MATCH alguma coisa
+## 28:   20   MATCH alguma coisa
+## 29:   20   MATCH alguma coisa
+## 30:   20   MATCH alguma coisa
+##     id_B label_B      label_A
+</code></pre>
+
+<p>Esse é um JOIN bem confuso e é muito fácil fazer coisa errada. São raros os casos em que ele é necessário. Normalmente preenchimento de alguma coisa relacionada a uma linha temporal. Eu sugiro que tente usar ao máximo outras formas de fazer o que queira antes de tentar o NON EQUI JOINS.</p>
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Previous</div>
+    <a href="../../../tutoriais/r_basico/r_init/" rel="next">R basicão</a>
+  </div>
+  
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Dec 20, 2019</p>
+
+          
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="../../../js/academic.min.16bbb3750feb7244c9bc409a5a4fe678.js"></script>
+
+    
+
+
+
+
+
+
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

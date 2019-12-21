@@ -29,5 +29,22 @@
 </description>
     </item>
     
+    <item>
+      <title>Overview</title>
+      <link>/tutoriais/r_basico/</link>
+      <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
+      <guid>/tutoriais/r_basico/</guid>
+      <description>&lt;p&gt;Tutorialzinho de R para dar um empurrão inicial na manipulação de dados, se você precisar é claro!&lt;/p&gt;
+
+&lt;p&gt;Aqui temos basicamente duas sessões. Será acrescentado mais no futuro talvez próximo, talvez não.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;R basicão: Um overview do bagulho de modo geral, também ensina levantar um container de Rstudio Server.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;R Data Table: Ensinamentos básicos nos spells arcanos do Data Table. Manipulação de dados de uma forma eficiente em memória e rápido&amp;hellip; RÁPIDO&amp;hellip;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
